@@ -28,29 +28,31 @@ function addRandomGreeting() {
 }
 
 /**
- * Cycles through images automatically
+ * Cycles through images automatically.
  */
-function slideShow(ind = 0) {
+function slideShow(imgIndex = 0) {
 
-  if (ind > 6) {
-      ind = 0;
+  var slides = document.getElementsByClassName('mySlides');
+  
+  for (let i = 0; i < slides.length; i++) {
+    slides[i].style.display = 'none';
+  }
+  
+  // If there are no images, end function.
+  if (slides.length === 0) {
+    return;
   } 
+  
+  // Ensure image index is in bounds.
+  if (imgIndex > slides.length - 1) {
+    imgIndex = 0;
+  }
+  
+  slides[imgIndex].style.display = '';
 
-  // Choose image based on index
-  const imgUrl = '/images/places-' + ind + '.jpg';
-  const imgElement = document.createElement('img');
-  imgElement.src = imgUrl;
-  imgElement.style.width = '400px';
-  imgElement.style.height = '300px';
-
-  // Remove existing image and add new image to page
-  const imgContainer = document.getElementById('image-slideshow-container');
-  imgContainer.innerHTML = '';
-  imgContainer.appendChild(imgElement);
-
-  // Delay next function call so image is displayed for 5 seconds
-  ind++;
+  // Delay next function call so image is displayed for 5 seconds.
+  imgIndex++;
   setTimeout(function() {
-      slideShow(ind);
+    slideShow(imgIndex);
   }, 5000);
 }
