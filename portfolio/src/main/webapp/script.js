@@ -26,3 +26,31 @@ function addRandomGreeting() {
   const greetingContainer = document.getElementById('greeting-container');
   greetingContainer.innerText = greeting;
 }
+
+/**
+ * Cycles through images automatically
+ */
+function slideShow(ind = 0) {
+
+  if (ind > 6) {
+      ind = 0;
+  } 
+
+  // Choose image based on index
+  const imgUrl = '/images/places-' + ind + '.jpg';
+  const imgElement = document.createElement('img');
+  imgElement.src = imgUrl;
+  imgElement.style.width = '400px';
+  imgElement.style.height = '300px';
+  
+  // Remove existing image and add new image to page
+  const imgContainer = document.getElementById('image-slideshow-container');
+  imgContainer.innerHTML = '';
+  imgContainer.appendChild(imgElement);
+
+  // Delay next function call so image is displayed for 5 seconds
+  ind++;
+  setTimeout(function() {
+      slideShow(ind);
+  }, 5000);
+}
