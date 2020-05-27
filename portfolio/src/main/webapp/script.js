@@ -17,7 +17,7 @@
  */
 function slideShow(imgIndex = 0) {
 
-  const slides = document.getElementsByClassName('mySlides');
+  const slides = document.getElementsByClassName('my-slides');
   
   for (let i = 0; i < slides.length; i++) {
     slides[i].style.display = 'none';
