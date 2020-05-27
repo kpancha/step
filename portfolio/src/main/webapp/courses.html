@@ -30,7 +30,66 @@
 
   <body>
     <div id="content">
-      <h1>College-Level Courses Taken</h1>
+      <h1>College-Level STEM Courses</h1>
+      
+      <!--Display buttons indicating category of course.-->
+      <div class="btn-group" role="group" aria-label="Course category">
+        <button type="button" class="btn btn-secondary" onclick="filterCourseDisplay()">All</button>
+        <button type="button" class="btn btn-secondary" onclick="filterCourseDisplay('cs')">CS</button>
+        <button type="button" class="btn btn-secondary" onclick="filterCourseDisplay('math')">Math</button>
+        <button type="button" class="btn btn-secondary" onclick="filterCourseDisplay('physics')">Physics</button>
+        <button type="button" class="btn btn-secondary" onclick="filterCourseDisplay('spring-20')">Spring 2020</button>
+        <button type="button" class="btn btn-secondary" onclick="filterCourseDisplay('fall-19')">Fall 2019</button>
+        <button type="button" class="btn btn-secondary" onclick="filterCourseDisplay('spring-19')">Spring 2019</button>
+        <button type="button" class="btn btn-secondary" onclick="filterCourseDisplay('fall-18')">Fall 2018</button>
+      </div>
+      
+      <!--Unordered list of all courses.-->
+      <ul>
+        <li class="course cs spring-20">
+          <h4>Intro to Artificial Intelligence CS 3600</h4>
+        </li>
+        <li class="course cs spring-20">
+          <h4>Computer Organization and Programming CS 2110</h4>
+        </li>
+        <li class="course cs spring-20">
+          <h4>UI Design CS 3750</h4>
+        </li>
+        <li class="course cs spring-20">
+          <h4>Design and Analysis of Algorithms CS 3510</h4>
+        </li>
+        <li class="course cs fall-19">
+          <h4>Data Structures and Algorithms CS 1332</h4>
+        </li>
+        <li class="course cs fall-19">
+          <h4>Objects and Design CS 2340</h4>
+        </li>
+        <li class="course math fall-19">
+          <h4>Discrete Math CS 2050</h4>
+        </li>
+        <li class="course math fall-19">
+         <h4>Statistics and Applications ISYE 3770</h4>
+        </li>
+        <li class="course cs spring-19">
+          <h4>Intro to OOP CS 1331</h4>
+        </li>
+        <li class="course physics spring-19">
+          <h4>Intro Physics II PHYS 2212</h4>
+        </li>
+        <li class="course math spring-19">
+          <h4>Multivariable Calculus MATH 2251</h4>
+        </li>
+        <li class="course cs fall-18">
+          <h4>Intro to Computing CS 1301</h4>
+        </li>
+        <li class="course math fall-18">
+          <h4>Linear Algebra MATH 1553</h4>
+        </li>
+        <li class="course physics fall-18">
+          <h4>Intro Physics I PHYS 2211</h4>
+        </li>
+      </ul>
+
     </div>
   </body>
 </html>

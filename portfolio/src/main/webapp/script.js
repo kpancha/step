@@ -26,3 +26,21 @@ function addRandomGreeting() {
   const greetingContainer = document.getElementById('greeting-container');
   greetingContainer.innerText = greeting;
 }
+
+/**
+ * Displays only courses that are part of a specified class.
+ */
+function filterCourseDisplay(courseType = 'course') {
+
+  // Clear all courses from the display.
+  const allCourses = document.getElementsByClassName('course');
+  for (let i = 0; i < allCourses.length; i++) {
+    allCourses[i].style.display = 'none';
+  }
+
+  // Display courses that are part of the class passed in as an arg.
+  const relevantCourses = document.getElementsByClassName(courseType);
+  for (let i = 0; i < relevantCourses.length; i++) {
+    relevantCourses[i].style.display = '';
+  }
+}
