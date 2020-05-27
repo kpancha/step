@@ -4,13 +4,65 @@
     <meta charset="UTF-8">
     <title>My Portfolio</title>
     <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="bootstrap.min.css">
     <script src="script.js"></script>
   </head>
-  <body>
+  
+  <!--Display Nav Bar at top of page.-->
+  <nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <div class="collapse navbar-collapse" id="navbarColor03">
+      <ul class="navbar-nav mr-auto">
+        <li class="nav-item active">
+          <a class="nav-link" href="#">HOME</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="about.html">ABOUT</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="projects.html">PROJECTS</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="courses.html">COURSES</a>
+        </li>
+      </ul>
+    </div>
+  </nav>
+
+  <body onpageshow="slideShow()">
     <div id="content">
+
+      <h1>Kira Pancha</h1>
+      <img src="/images/me.jpg" alt="Picture of Kira" width="150px">
+      <p>Hi there! My name is Kira, and I'm pursuing a B.S. in Computer Science at Georgia Tech.</p>
       <p>Read more about me <a href="about.html">here</a>.</p>      
       <p>Click <a href="projects.html">here</a> to explore my work!</p>
       <p>Visit <a href="courses.html">this page</a> to view my college coursework</p>
+
+      <!--Display slideshow.-->
+      <div id="image-slideshow-container">
+        <div class="my-slides">
+          <img src="/images/places-0.jpg" alt="Philadelphia, PA" width="400px">
+        </div>
+        <div class="my-slides">
+          <img src="/images/places-1.jpg" alt="Lewes, DE" width="400px">
+        </div>
+        <div class="my-slides">
+          <img src="/images/places-2.jpg" alt="Golden Gate Bridge" width="400px">
+        </div>
+        <div class="my-slides">
+          <img src="/images/places-3.jpg" alt="Fort Mason" width="400px">
+        </div>
+        <div class="my-slides">
+          <img src="/images/places-4.jpg" alt="Oracle Park" width="400px">
+        </div>
+        <div class="my-slides">
+          <img src="/images/places-5.jpg" alt="Monte Cristi, Dominican Republic" width="400px">
+        </div>
+        <div class="my-slides">
+          <img src="/images/places-6.jpg" alt="Avienda El Morro, Dominican Republic" width="400px">
+        </div>
+      </div>
+
     </div>
   </body>
 </html>

@@ -13,18 +13,34 @@
 // limitations under the License.
 
 /**
- * Adds a random greeting to the page.
+ * Cycles through images automatically.
  */
-function addRandomGreeting() {
-  const greetings =
-      ['Hello world!', '¡Hola Mundo!', '你好，世界！', 'Bonjour le monde!'];
+function slideShow(imgIndex = 0) {
 
-  // Pick a random greeting.
-  const greeting = greetings[Math.floor(Math.random() * greetings.length)];
+  const slides = document.getElementsByClassName('my-slides');
+  
+  // If there are no images, end function.
+  if (slides.length === 0) {
+    return;
+  }
+  
+  for (let i = 0; i < slides.length; i++) {
+    slides[i].style.display = 'none';
+  }
+  
+  // Ensure image index is in bounds.
+  if (imgIndex > slides.length - 1) {
+    imgIndex = 0;
+  }
+  
+  slides[imgIndex].style.display = '';
 
-  // Add it to the page.
-  const greetingContainer = document.getElementById('greeting-container');
-  greetingContainer.innerText = greeting;
+  // Delay next function call so image is displayed for 5 seconds.
+  imgIndex++;
+  setTimeout(function() {
+    slideShow(imgIndex);
+  }, 5000);
+
 }
 
 /**
@@ -43,4 +59,5 @@ function filterCourseDisplay(courseType = 'course') {
   for (let i = 0; i < relevantCourses.length; i++) {
     relevantCourses[i].style.display = '';
   }
+
 }
