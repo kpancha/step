@@ -19,14 +19,14 @@ function slideShow(imgIndex = 0) {
 
   const slides = document.getElementsByClassName('my-slides');
   
-  for (let i = 0; i < slides.length; i++) {
-    slides[i].style.display = 'none';
-  }
-  
   // If there are no images, end function.
   if (slides.length === 0) {
     return;
-  } 
+  }
+  
+  for (let i = 0; i < slides.length; i++) {
+    slides[i].style.display = 'none';
+  }
   
   // Ensure image index is in bounds.
   if (imgIndex > slides.length - 1) {
