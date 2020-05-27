@@ -32,7 +32,7 @@ function addRandomGreeting() {
  */
 function slideShow(imgIndex = 0) {
 
-  var slides = document.getElementsByClassName('mySlides');
+  const slides = document.getElementsByClassName('mySlides');
   
   for (let i = 0; i < slides.length; i++) {
     slides[i].style.display = 'none';
