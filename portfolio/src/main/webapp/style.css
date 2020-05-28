@@ -7,3 +7,12 @@
 #greeting-container {
   margin-top: 20px;
 }
+
+.icon-bar a {
+  padding: 10px;
+  color: gray;
+}
+
+.icon-bar a:hover {
+    color: black;
+}
