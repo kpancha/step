@@ -7,3 +7,23 @@
 #greeting-container {
   margin-top: 20px;
 }
+
+.column {
+  width: 50%;
+  padding: 20px;
+}
+
+.grid-container {
+  display: grid;
+  grid-gap: 50px;
+  grid-template-columns: 50% 50%;
+}
+
+.grid-item {
+  background-color: gainsboro;
+  padding: 20px;
+}
+
+.grid-item:hover {
+  background-color: whitesmoke;
+}
