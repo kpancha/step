@@ -56,3 +56,18 @@ img.fade-in {
     opacity: 1; 
   } 
 }
+
+.my-slides .caption {
+  position: relative;
+  bottom: 30px;
+  left: 15px;
+  opacity: 0;
+}
+
+.my-slides:hover img {
+  opacity: 0.5;
+}
+
+.my-slides:hover .caption {
+  opacity: 1;
+}
