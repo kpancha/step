@@ -1,9 +1,36 @@
 #content {
   margin-left: auto;
   margin-right: auto;
+  padding-top: 75px;
   width: 650px;
 }
 
-#greeting-container {
-  margin-top: 20px;
+.icon-bar a {
+  padding: 10px;
+  color: gray;
 }
+
+.icon-bar a:hover {
+  color: black;
+}
+
+.navbar ul {
+  position: fixed;
+  padding-top: 25px;
+  padding-left: 25px;
+}
+
+.navbar .icon-bar {
+  position: fixed;
+  padding-top: 25px;
+  right: 0;
+}
+
+.bg-light {
+  position: fixed;
+  padding-top: 50px;
+  padding-bottom: 50px;
+  left: 0;
+  width: 100%;
+}
+
