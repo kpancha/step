@@ -16,20 +16,20 @@
 
 .navbar ul {
   position: fixed;
-  padding-left: 25px;
   padding-top: 25px;
+  padding-left: 25px;
 }
 
 .navbar .icon-bar {
   position: fixed;
-  right: 0;
   padding-top: 25px;
+  right: 0;
 }
 
 .bg-light {
+  position: fixed;
   padding-top: 50px;
   padding-bottom: 50px;
-  position: fixed;
   left: 0;
   width: 100%;
 }
