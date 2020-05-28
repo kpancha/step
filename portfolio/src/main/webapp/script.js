@@ -24,8 +24,8 @@ function slideShow(imgIndex = 0) {
     return;
   }
   
-  for (let i = 0; i < slides.length; i++) {
-    slides[i].style.display = 'none';
+  for (let slide of slides) {
+    slide.style.display = 'none';
   }
   
   // Ensure image index is in bounds.
@@ -51,11 +51,11 @@ function filterCourseDisplay(courseType = 'course') {
   const allCourses = document.getElementsByClassName('course');
 
   // Display courses in courseType class and hide the rest.
-  for (let i = 0; i < allCourses.length; i++) {
-    if (allCourses[i].classList.contains(courseType)) {
-        allCourses[i].style.display = '';
+  for (let course of allCourses) {
+    if (course.classList.contains(courseType)) {
+        course.style.display = '';
     } else {
-        allCourses[i].style.display = 'none';
+        course.style.display = 'none';
     }
   }
 }
