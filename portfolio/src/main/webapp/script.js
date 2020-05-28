@@ -48,16 +48,14 @@ function slideShow(imgIndex = 0) {
  */
 function filterCourseDisplay(courseType = 'course') {
 
-  // Clear all courses from the display.
   const allCourses = document.getElementsByClassName('course');
+
+  // Display courses in courseType class and hide the rest.
   for (let i = 0; i < allCourses.length; i++) {
-    allCourses[i].style.display = 'none';
+    if (allCourses[i].classList.contains(courseType)) {
+        allCourses[i].style.display = '';
+    } else {
+        allCourses[i].style.display = 'none';
+    }
   }
-
-  // Display courses that are part of the class passed in as an arg.
-  const relevantCourses = document.getElementsByClassName(courseType);
-  for (let i = 0; i < relevantCourses.length; i++) {
-    relevantCourses[i].style.display = '';
-  }
-
 }
