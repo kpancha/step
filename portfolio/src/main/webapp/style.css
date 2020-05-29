@@ -76,7 +76,8 @@
 .my-slides .caption {
   position: relative;
   bottom: 30px;
-  left: 15px;
+  right: 40px;
+  text-align: right;
   opacity: 0;
 }
 
