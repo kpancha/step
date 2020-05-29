@@ -70,11 +70,7 @@
 .center {
   display: block;
   margin: 0 auto; 
-}
-
-button.center {
-  display: block;
-  margin: 0 auto;
+  text-align: center;
 }
 
 .my-slides .caption {
