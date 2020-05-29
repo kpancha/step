@@ -5,6 +5,39 @@
   width: 650px;
 }
 
+#content.fade-in {
+  animation: fadeInAnimation ease 1s;
+}
+
+@keyframes fadeInAnimation { 
+  0% { 
+    opacity: 0; 
+  } 
+  100% { 
+    opacity: 1; 
+  } 
+}
+
+.column {
+  padding: 20px;
+  width: 50%;
+}
+
+.grid-container {
+  display: grid;
+  grid-gap: 50px;
+  grid-template-columns: 50% 50%;
+}
+
+.grid-item {
+  padding: 20px;
+  background-color: gainsboro;
+}
+
+.grid-item:hover {
+  background-color: whitesmoke;
+}
+
 .icon-bar a {
   padding: 10px;
   color: gray;
