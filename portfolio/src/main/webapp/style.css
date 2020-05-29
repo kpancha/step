@@ -34,3 +34,15 @@
   width: 100%;
 }
 
+#content.fade-in {
+  animation: fadeInAnimation ease 1s;
+}
+
+@keyframes fadeInAnimation { 
+  0% { 
+    opacity: 0; 
+  } 
+  100% { 
+    opacity: 1; 
+  } 
+}
