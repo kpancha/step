@@ -59,3 +59,14 @@ function filterCourseDisplay(courseType = 'course') {
     }
   }
 }
+
+/**
+ * Fetch message from server and display on DOM.
+ */
+function getAndDisplayMessage() {
+  fetch('/data')
+  .then(response => response.text())
+  .then((message) => {
+    document.getElementById('greeting-container').innerText = message;
+  });
+}
