@@ -64,8 +64,11 @@ function filterCourseDisplay(courseType = 'course') {
  * Fetch message from server and display on DOM.
  */
 function getAndDisplayMessage() {
+  // Make request to server
   fetch('/data')
+  // Return response as text
   .then(response => response.text())
+  // Add text to container to display on page
   .then((message) => {
     document.getElementById('greeting-container').innerText = message;
   });
