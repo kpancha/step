@@ -2,7 +2,7 @@
 <html>
   <head>
     <meta charset="UTF-8">
-    <title>My Portfolio</title>
+    <title>Courses</title>
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="bootstrap.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
@@ -37,7 +37,75 @@
 
   <body>
     <div id="content">
-      <h1>College-Level Courses Taken</h1>
+      <h1>College-Level STEM Courses</h1>
+      
+      <!--Display buttons indicating category to filter by.-->
+      <div class="btn-toolbar" role="toolbar" aria-label="Course filters">
+        <div class="btn-group" role="group" aria-label="Subject">
+          <button type="button" class="btn btn-secondary" onclick="filterCourseDisplay()">All</button>
+          <button type="button" class="btn btn-secondary" onclick="filterCourseDisplay('cs')">CS</button>
+          <button type="button" class="btn btn-secondary" onclick="filterCourseDisplay('math')">Math</button>
+          <button type="button" class="btn btn-secondary" onclick="filterCourseDisplay('physics')">Physics</button>
+        </div>
+        <div class="btn-group" role="group" aria-label="Semester">
+          <button type="button" class="btn btn-secondary" onclick="filterCourseDisplay('spring-20')">Spring 2020</button>
+          <button type="button" class="btn btn-secondary" onclick="filterCourseDisplay('fall-19')">Fall 2019</button>
+          <button type="button" class="btn btn-secondary" onclick="filterCourseDisplay('spring-19')">Spring 2019</button>
+          <button type="button" class="btn btn-secondary" onclick="filterCourseDisplay('fall-18')">Fall 2018</button>
+        </div>
+        <div class="btn-group" role="group" aria-label="Programming language">
+          <button type="button" class="btn btn-secondary" onclick="filterCourseDisplay('java')">Java</button>
+          <button type="button" class="btn btn-secondary" onclick="filterCourseDisplay('python')">Python</button>
+          <button type="button" class="btn btn-secondary" onclick="filterCourseDisplay('c')">C</button>
+        </div>
+      </div>
+      
+      <!--Unordered list of all courses.-->
+      <ul>
+        <li class="course cs spring-20 python">
+          <h4>Intro to Artificial Intelligence <small class="text-muted">CS 3600</small></h4>
+        </li>
+        <li class="course cs spring-20 c">
+          <h4>Computer Organization and Programming <small class="text-muted">CS 2110</small></h4>
+        </li>
+        <li class="course cs spring-20">
+          <h4>UI Design <small class="text-muted">CS 3750</small></h4>
+        </li>
+        <li class="course cs spring-20">
+          <h4>Design and Analysis of Algorithms <small class="text-muted">CS 3510</small></h4>
+        </li>
+        <li class="course cs fall-19 java">
+          <h4>Data Structures and Algorithms <small class="text-muted">CS 1332</small></h4>
+        </li>
+        <li class="course cs fall-19 java">
+          <h4>Objects and Design <small class="text-muted">CS 2340</small></h4>
+        </li>
+        <li class="course math fall-19">
+          <h4>Discrete Math <small class="text-muted">CS 2050</small></h4>
+        </li>
+        <li class="course math fall-19">
+         <h4>Statistics and Applications <small class="text-muted">ISYE 3770</small></h4>
+        </li>
+        <li class="course cs spring-19 java">
+          <h4>Intro to OOP <small class="text-muted">CS 1331</small></h4>
+        </li>
+        <li class="course physics spring-19">
+          <h4>Intro Physics II <small class="text-muted">PHYS 2212</small></h4>
+        </li>
+        <li class="course math spring-19">
+          <h4>Multivariable Calculus <small class="text-muted">MATH 2251</small></h4>
+        </li>
+        <li class="course cs fall-18 python">
+          <h4>Intro to Computing <small class="text-muted">CS 1301</small></h4>
+        </li>
+        <li class="course math fall-18">
+          <h4>Linear Algebra <small class="text-muted">MATH 1553</small></h4>
+        </li>
+        <li class="course physics fall-18">
+          <h4>Intro Physics I <small class="text-muted">PHYS 2211</small></h4>
+        </li>
+      </ul>
+
     </div>
   </body>
 </html>
