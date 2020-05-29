@@ -5,6 +5,19 @@
   width: 650px;
 }
 
+#content.fade-in {
+  animation: fadeInAnimation ease 1s;
+}
+
+@keyframes fadeInAnimation { 
+  0% { 
+    opacity: 0; 
+  } 
+  100% { 
+    opacity: 1; 
+  } 
+}
+
 .column {
   padding: 20px;
   width: 50%;
@@ -54,15 +67,23 @@
   width: 100%;
 }
 
-#content.fade-in {
-  animation: fadeInAnimation ease 1s;
+.center {
+  display: block;
+  margin: 0 auto; 
+  text-align: center;
 }
 
-@keyframes fadeInAnimation { 
-  0% { 
-    opacity: 0; 
-  } 
-  100% { 
-    opacity: 1; 
-  } 
+.my-slides .caption {
+  position: relative;
+  bottom: 30px;
+  left: 15px;
+  opacity: 0;
+}
+
+.my-slides:hover img {
+  opacity: 0.5;
+}
+
+.my-slides:hover .caption {
+  opacity: 1;
 }
