@@ -43,11 +43,13 @@ public class DataServlet extends HttpServlet {
   public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
 
     String content = request.getParameter("comment");
-    if (content != null) {
-      Comment comment = new Comment(content);
+    String name = request.getParameter("name");
+
+    if (content.length() != 0) {
+      Comment comment = name.length() == 0 ? new Comment(content) : new Comment(name, content);
       commentsList.add(comment);
     }
     response.sendRedirect("/comments.html");
-
+    
   }
 }

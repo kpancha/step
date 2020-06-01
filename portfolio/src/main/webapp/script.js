@@ -74,7 +74,7 @@ function getAndDisplayComments() {
 
     // Display each comment on a new line.
     for (let comment of data) {
-      commentContainer.innerText += 'Left by: ' + comment.name + '\n';
+      commentContainer.innerText += 'Posted by: ' + comment.name + '\n';
       commentContainer.innerText += comment.content + '\n';
       commentContainer.innerText += comment.numLikes + ' likes\n';
       commentContainer.innerText += 'Posted at ' + comment.timestamp + '\n';
