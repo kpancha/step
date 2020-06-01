@@ -51,7 +51,7 @@ public class DataServlet extends HttpServlet {
       commentsList.add(recentComment);
     }
 
-    // Redirect back to main page.
-    response.sendRedirect("/index.html");
+    // Redirect back to comments page.
+    response.sendRedirect("/comments.html");
   }
 }

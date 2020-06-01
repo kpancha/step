@@ -64,7 +64,7 @@ function filterCourseDisplay(courseType = 'course') {
  * Fetch data from server and display on DOM.
  */
 function getAndDisplayComments() {
-    
+
   // Make request to server
   fetch('/data')
 
@@ -78,7 +78,7 @@ function getAndDisplayComments() {
 
     // Display each comment on a new line.
     for (let comment of data) {
-      commentContainer.innerText += comment + '\n';
+      commentContainer.innerText += comment + '\n\n';
     }
   });
 }

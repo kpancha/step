@@ -5,6 +5,7 @@
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="bootstrap.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <script src="script.js"></script>
   </head>
 
   <!--TODO: Extract and fetch nav bar html at top of each page.-->
@@ -36,8 +37,21 @@
     </div>
   </nav>
 
-  <body>
+  <body onpageshow="getAndDisplayComments()">
     <div  id="content" class="fade-in">
+
+      <!--Display form to leave a comment.-->
+      <form class="center" action="/data" method="POST">
+        Leave a comment!
+        <br>
+        <textarea name="comment" rows="3"></textarea>
+        <br>
+        <input type="submit" class="btn btn-outline-secondary" />
+      </form>
+
+      <!--Display comments.-->
+      <div id="data-container"></div>
+
     </div>
   </body>
 
