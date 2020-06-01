@@ -59,3 +59,20 @@ function filterCourseDisplay(courseType = 'course') {
     }
   }
 }
+
+/**
+ * Fetch data from server and display on DOM.
+ */
+function getAndDisplayComments() {
+  fetch('/data')
+  .then(response => response.json())
+  .then((data) => {
+    const commentContainer = document.getElementById('data-container');
+    commentContainer.innerText = "";
+
+    // Display each comment on a new line.
+    for (let comment of data) {
+      commentContainer.innerText += comment + '\n';
+    }
+  });
+}
