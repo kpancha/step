@@ -73,12 +73,17 @@ function getAndDisplayComments() {
 
   // Add response to container to display on page
   .then((data) => {
+    //console.log(data);
     const commentContainer = document.getElementById('data-container');
     commentContainer.innerText = "";
 
     // Display each comment on a new line.
     for (let comment of data) {
-      commentContainer.innerText += comment + '\n\n';
+      commentContainer.innerText += 'Left by: ' + comment.name + '\n';
+      commentContainer.innerText += comment.content + '\n';
+      commentContainer.innerText += comment.numLikes + ' likes\n';
+      commentContainer.innerText += 'Posted at ' + comment.timestamp + '\n';
+      commentContainer.innerText += '\n';
     }
   });
 }

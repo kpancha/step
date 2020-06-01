@@ -15,19 +15,21 @@
 package com.google.sps.servlets;
 
 import com.google.gson.Gson;
+import com.google.sps.data.Comment;
 import java.io.IOException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.ArrayList;
-import java.util.Arrays;
+import java.util.List;
+
 
 /** Servlet that returns some example content. TODO: modify this file to handle comments data */
 @WebServlet("/data")
 public class DataServlet extends HttpServlet {
 
-  private ArrayList<String> commentsList = new ArrayList<>();
+  private List<Comment> commentsList = new ArrayList<>();
 
   @Override
   public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
@@ -44,11 +46,12 @@ public class DataServlet extends HttpServlet {
   public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
 
     // Get input from the form.
-    String recentComment = request.getParameter("comment");
+    String content = request.getParameter("comment");
 
     // If there is input, add it to comments list.
-    if (recentComment != null) {
-      commentsList.add(recentComment);
+    if (content != null) {
+      Comment comment = new Comment(content);
+      commentsList.add(comment);
     }
 
     // Redirect back to comments page.
