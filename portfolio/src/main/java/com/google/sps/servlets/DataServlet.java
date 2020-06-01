@@ -21,17 +21,16 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.ArrayList;
-import java.util.Arrays;
+import java.util.List;
 
 /** Servlet that returns some example content. TODO: modify this file to handle comments data */
 @WebServlet("/data")
 public class DataServlet extends HttpServlet {
 
-  private ArrayList<String> commentsList = new ArrayList<>();
+  private List<String> commentsList = new ArrayList<>();
 
   @Override
   public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
-    
     String jsonComments = new Gson().toJson(commentsList);
     response.setContentType("application/json;");
     response.getWriter().println(jsonComments);
@@ -39,7 +38,6 @@ public class DataServlet extends HttpServlet {
 
   @Override
   public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
-
     String recentComment = request.getParameter("comment");
     if (recentComment != null) {
       commentsList.add(recentComment);
