@@ -4,20 +4,20 @@ import java.util.Date;
 
 public class Comment {
   
-  private String name;
-  private String content;
+  private final String NAME;
+  private final String CONTENT;
   private int numLikes;
-  private Date timestamp;
+  private final Date TIMESTAMP;
 
   public Comment(String name, String content) {
-    this.name = name;
-    this.content = content;
+    NAME = name;
+    CONTENT = content;
     numLikes = 0;
-    timestamp = new Date();
+    TIMESTAMP = new Date();
   }
 
   public Comment(String content) {
-    this("anonymous", content);
+    this(/* name= */"anonymous", content);
   }
 
   public void addLike() {

@@ -73,10 +73,10 @@ function getAndDisplayComments() {
 
     // Display each comment on a new line.
     for (let comment of data) {
-      commentContainer.innerText += 'Posted by: ' + comment.name + '\n';
-      commentContainer.innerText += comment.content + '\n';
+      commentContainer.innerText += 'Posted by: ' + comment.NAME + '\n';
+      commentContainer.innerText += comment.CONTENT + '\n';
       commentContainer.innerText += comment.numLikes + ' likes\n';
-      commentContainer.innerText += 'Posted at ' + comment.timestamp + '\n';
+      commentContainer.innerText += 'Posted at ' + comment.TIMESTAMP + '\n';
       commentContainer.innerText += '\n';
     }
   });
