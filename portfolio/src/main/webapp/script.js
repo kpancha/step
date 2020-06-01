@@ -64,14 +64,11 @@ function filterCourseDisplay(courseType = 'course') {
  * Fetch data from server and display on DOM.
  */
 function getAndDisplayComments() {
-    
-  // Make request to server
+
   fetch('/data')
 
-  // Return response as JSON object
   .then(response => response.json())
 
-  // Add response to container to display on page
   .then((data) => {
     const commentContainer = document.getElementById('data-container');
     commentContainer.innerText = "";
