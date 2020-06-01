@@ -34,10 +34,7 @@ public class DataServlet extends HttpServlet {
   @Override
   public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
     
-    // Stringify the list of comments.
     String jsonComments = new Gson().toJson(commentsList);
-
-    // Write all comments to the response.
     response.setContentType("application/json;");
     response.getWriter().println(jsonComments);
   }
@@ -45,16 +42,12 @@ public class DataServlet extends HttpServlet {
   @Override
   public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
 
-    // Get input from the form.
     String content = request.getParameter("comment");
-
-    // If there is input, add it to comments list.
     if (content != null) {
       Comment comment = new Comment(content);
       commentsList.add(comment);
     }
-
-    // Redirect back to comments page.
     response.sendRedirect("/comments.html");
+
   }
 }
