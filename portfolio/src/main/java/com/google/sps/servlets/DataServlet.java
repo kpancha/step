@@ -14,6 +14,9 @@
 
 package com.google.sps.servlets;
 
+import com.google.appengine.api.datastore.DatastoreService;
+import com.google.appengine.api.datastore.DatastoreServiceFactory;
+import com.google.appengine.api.datastore.Entity;
 import com.google.gson.Gson;
 import com.google.sps.data.Comment;
 import java.io.IOException;
@@ -41,8 +44,16 @@ public class DataServlet extends HttpServlet {
   public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
     String content = request.getParameter("comment");
     String name = request.getParameter("name");
+    
     if (content != null && name != null && content.length() != 0) {
       Comment comment = name.length() == 0 ? new Comment(content) : new Comment(name, content);
+      Entity commentEntity = new Entity("Comment");
+      commentEntity.setProperty("name", comment.getNAME());
+      commentEntity.setProperty("content", comment.getCONTENT());
+      commentEntity.setProperty("numLikes", comment.getNumLikes());
+      commentEntity.setProperty("timestamp", comment.getTIMESTAMP());
+      DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
+      datastore.put(commentEntity);
       commentsList.add(comment);
     } else {
       // Patch for numLikes (executes when comment is liked).
