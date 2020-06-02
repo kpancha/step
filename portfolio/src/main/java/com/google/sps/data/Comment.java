@@ -5,11 +5,11 @@ import java.util.Date;
 /** Class containing information about a comment left on the site. */
 public class Comment {
   
-  private final String NAME;
-  private final String CONTENT;
+  private final String name;
+  private final String content;
   private int numLikes;
-  private final Date TIMESTAMP;
-  private final int ID;
+  private final Date timestamp;
+  private final int id;
   private static int numComments = 0;
 
   /**
@@ -19,11 +19,11 @@ public class Comment {
   * @param content message left in the comment
   */
   public Comment(String name, String content) {
-    NAME = name;
-    CONTENT = content;
+    this.name = name;
+    this.content = content;
     numLikes = 0;
-    TIMESTAMP = new Date();
-    ID = numComments++;
+    timestamp = new Date();
+    id = numComments++;
   }
 
   /**
@@ -40,7 +40,7 @@ public class Comment {
     numLikes++;
   }
   
-  public int getID() {
+  public int getId() {
     return ID;
   }
 }

@@ -57,7 +57,7 @@ public class DataServlet extends HttpServlet {
 
   private int getObjectIndex(int id) {
     for (int i = 0; i < commentsList.size(); i++) {
-      if (commentsList.get(i).getID() == id) {
+      if (commentsList.get(i).getId() == id) {
         return i;
       }
     }

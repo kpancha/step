@@ -72,12 +72,12 @@ function getAndDisplayComments() {
       const commentContainer = document.createElement('div');
       commentContainer.class = 'comment-container';
       commentContainer.innerHTML = '';
-      commentContainer.innerHTML += 'Posted by: ' + comment.NAME + '<br>';
-      commentContainer.innerHTML += comment.CONTENT + '<br>';
+      commentContainer.innerHTML += 'Posted by: ' + comment.name + '<br>';
+      commentContainer.innerHTML += comment.content + '<br>';
       commentContainer.innerHTML += comment.numLikes + ' likes<br>';
-      commentContainer.innerHTML += 'Posted at ' + comment.TIMESTAMP + '<br>';
+      commentContainer.innerHTML += 'Posted at ' + comment.timestamp + '<br>';
       const likeButtonHTML = '<form action="/data" method="POST">' + 
-        '<input type="hidden" name="comment-id" value="' + comment.ID + '" />' + 
+        '<input type="hidden" name="comment-id" value="' + comment.id + '" />' + 
         '<input type="submit" value="Like" class="btn btn-danger btn-sm" /></form>';
       commentContainer.innerHTML += likeButtonHTML;
       commentContainer.innerHTML += '<br><br>';
