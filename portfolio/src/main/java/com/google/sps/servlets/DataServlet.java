@@ -33,12 +33,15 @@ import javax.servlet.http.HttpServletResponse;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /** Servlet that returns some example content. TODO: modify this file to handle comments data */
 @WebServlet("/data")
 public class DataServlet extends HttpServlet {
 
   private final DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
+  private static final Logger LOGGER = Logger.getLogger(DataServlet.class.getName());
 
   @Override
   public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
@@ -92,7 +95,7 @@ public class DataServlet extends HttpServlet {
         retrievedComment.setProperty("numLikes", numLikes);
         datastore.put(retrievedComment);
       } catch (EntityNotFoundException e) {
-        System.out.println("Exception: " + e.getMessage());
+        LOGGER.log(Level.WARNING, "Entity could not be found in datastore: " + e.getMessage());
       }
     }
     response.sendRedirect("/comments.html");
