@@ -7,7 +7,7 @@ public class Comment {
   
   private final String name;
   private final String content;
-  private long numLikes;
+  private int numLikes;
   private final Date timestamp;
   private final String key;
 
@@ -21,7 +21,7 @@ public class Comment {
   * @param key unique identifier for the comment
   */
 
-  public Comment(String name, String content, long numLikes, Date timestamp, String key) {
+  public Comment(String name, String content, int numLikes, Date timestamp, String key) {
     this.name = name;
     this.content = content;
     this.numLikes = numLikes;

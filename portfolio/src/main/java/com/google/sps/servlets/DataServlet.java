@@ -38,7 +38,7 @@ import java.util.List;
 @WebServlet("/data")
 public class DataServlet extends HttpServlet {
 
-  private DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
+  private final DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
 
   @Override
   public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
@@ -51,7 +51,7 @@ public class DataServlet extends HttpServlet {
       Key key = entity.getKey();
       String name = (String) entity.getProperty("name");
       String content = (String) entity.getProperty("content");
-      long numLikes = (long) entity.getProperty("numLikes");
+      int numLikes = (int)(long) entity.getProperty("numLikes");
       Date timestamp = (Date) entity.getProperty("timestamp");
 
       Comment comment = new Comment(name, content, numLikes, timestamp, KeyFactory.keyToString(key));
