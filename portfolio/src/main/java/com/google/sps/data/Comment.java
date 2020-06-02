@@ -9,6 +9,8 @@ public class Comment {
   private final String CONTENT;
   private int numLikes;
   private final Date TIMESTAMP;
+  private final int ID;
+  private static int numComments = 0;
 
   /**
   * Constructs a Comment with a specified name and message.
@@ -21,6 +23,7 @@ public class Comment {
     CONTENT = content;
     numLikes = 0;
     TIMESTAMP = new Date();
+    ID = numComments++;
   }
 
   /**
