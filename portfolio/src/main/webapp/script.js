@@ -67,6 +67,7 @@ function getAndDisplayComments() {
   fetch('/data')
   .then(response => response.json())
   .then((data) => {
+    console.log(data);
     // Display each comment in a block with a like button .
     for (let comment of data) {
       const commentContainer = document.createElement('div');
@@ -77,7 +78,7 @@ function getAndDisplayComments() {
       commentContainer.innerHTML += comment.numLikes + ' likes<br>';
       commentContainer.innerHTML += 'Posted at ' + comment.TIMESTAMP + '<br>';
       const likeButtonHTML = '<form action="/data" method="POST">' + 
-        '<input type="hidden" name="comment-id" value="' + comment.ID + '" />' + 
+        '<input type="hidden" name="comment-key" value="' + comment.KEY + '" />' + 
         '<input type="submit" value="Like" class="btn btn-danger btn-sm" /></form>';
       commentContainer.innerHTML += likeButtonHTML;
       commentContainer.innerHTML += '<br><br>';

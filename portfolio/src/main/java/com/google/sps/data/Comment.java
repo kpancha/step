@@ -7,40 +7,26 @@ public class Comment {
   
   private final String NAME;
   private final String CONTENT;
-  private int numLikes;
+  private long numLikes;
   private final Date TIMESTAMP;
-  private final int ID;
-  private static int numComments = 0;
+  private final String KEY;
 
   /**
-  * Constructs a Comment with a specified name and message.
+  * Constructs a Comment.
   * 
   * @param name name of person who posted comment
   * @param content message left in the comment
   */
-  public Comment(String name, String content) {
+  public Comment(String name, String content, long numLikes, Date timestamp, String key) {
     NAME = name;
     CONTENT = content;
-    numLikes = 0;
-    TIMESTAMP = new Date();
-    ID = numComments++;
-  }
-
-  /**
-  * Constructs an anonymous Comment with a specified message.
-  * 
-  * @param content message left in the comment
-  */
-  public Comment(String content) {
-    this(/* name= */"anonymous", content);
+    this.numLikes = numLikes;
+    TIMESTAMP = timestamp;
+    KEY = key;
   }
 
   /** Increments number of likes that the comment has. */
   public void addLike() {
     numLikes++;
-  }
-  
-  public int getID() {
-    return ID;
   }
 }
