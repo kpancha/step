@@ -67,7 +67,6 @@ function getAndDisplayComments() {
   fetch('/data')
   .then(response => response.json())
   .then((data) => {
-    console.log(data);
     // Display each comment in a block with a like button .
     for (let comment of data) {
       const commentContainer = document.createElement('div');
