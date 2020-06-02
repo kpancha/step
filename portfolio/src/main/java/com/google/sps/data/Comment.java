@@ -39,5 +39,8 @@ public class Comment {
   public void addLike() {
     numLikes++;
   }
-
+  
+  public int getID() {
+    return ID;
+  }
 }

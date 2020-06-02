@@ -41,10 +41,26 @@ public class DataServlet extends HttpServlet {
   public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
     String content = request.getParameter("comment");
     String name = request.getParameter("name");
-    if (content.length() != 0) {
+    if (content != null && name != null && content.length() != 0) {
       Comment comment = name.length() == 0 ? new Comment(content) : new Comment(name, content);
       commentsList.add(comment);
+    } else {
+      // Patch for numLikes (executes when comment is liked).
+      int id = Integer.parseInt(request.getParameter("comment-id"));
+      int commentInd = getObjectIndex(id);
+      if (commentInd >= 0) {
+        commentsList.get(commentInd).addLike();
+      }
     }
     response.sendRedirect("/comments.html");
+  }
+
+  private int getObjectIndex(int id) {
+    for (int i = 0; i < commentsList.size(); i++) {
+      if (commentsList.get(i).getID() == id) {
+        return i;
+      }
+    }
+    return -1;
   }
 }

@@ -67,7 +67,7 @@ function getAndDisplayComments() {
   fetch('/data')
   .then(response => response.json())
   .then((data) => {
-    // Display each comment on a new line.
+    // Display each comment in a block with a like button .
     for (let comment of data) {
       const commentContainer = document.createElement('div');
       commentContainer.class = 'comment-container';
@@ -76,13 +76,12 @@ function getAndDisplayComments() {
       commentContainer.innerHTML += comment.CONTENT + '<br>';
       commentContainer.innerHTML += comment.numLikes + ' likes<br>';
       commentContainer.innerHTML += 'Posted at ' + comment.TIMESTAMP + '<br>';
-      commentContainer.innerHTML += '<button class="btn btn-danger" onclick="addLike(\'' + comment.ID + '\');">Like</button>';
+      const likeButtonHTML = '<form action="/data" method="POST">' + 
+        '<input type="hidden" name="comment-id" value="' + comment.ID + '" />' + 
+        '<input type="submit" value="Like" class="btn btn-danger btn-sm" /></form>';
+      commentContainer.innerHTML += likeButtonHTML;
       commentContainer.innerHTML += '<br><br>';
       document.getElementById('content').appendChild(commentContainer);
     }
   });
-}
-
-function addLike(id) {
-  console.log('func called with param ' + id);
 }
