@@ -69,6 +69,10 @@ public class DataServlet extends HttpServlet {
     String name = request.getParameter("name");
     String stringifiedKey = request.getParameter("comment-key");
 
+    /* 
+      First block executes when a new comment is posted.
+      Second block updates an existing comment by incrementing the number of likes.
+    */
     if (content != null && name != null && content.length() != 0) {
       name = name.length() == 0 ? "anonymous" : name;
       Date timestamp = new Date();
