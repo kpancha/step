@@ -24,9 +24,4 @@ public class Comment {
     TIMESTAMP = timestamp;
     KEY = key;
   }
-
-  /** Increments number of likes that the comment has. */
-  public void addLike() {
-    numLikes++;
-  }
 }
