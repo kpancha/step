@@ -76,6 +76,7 @@ function getAndDisplayComments() {
       commentContainer.innerHTML += comment.content + '<br>';
       commentContainer.innerHTML += comment.numLikes + ' likes<br>';
       commentContainer.innerHTML += 'Posted at ' + comment.timestamp + '<br>';
+      // TODO: use methods to create button.
       const likeButtonHTML = '<form action="/data" method="POST">' + 
         '<input type="hidden" name="comment-id" value="' + comment.id + '" />' + 
         '<input type="submit" value="Like" class="btn btn-danger btn-sm" /></form>';
