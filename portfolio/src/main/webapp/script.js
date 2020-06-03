@@ -86,3 +86,14 @@ function getAndDisplayComments() {
     }
   });
 }
+
+/**
+ * Fetch and display navigation bar.
+ */
+function getAndDisplayNavBar() {
+  fetch('/navbar')
+  .then(response => response.text())
+  .then((data) => {
+    document.getElementById("navbar").innerHTML = data;
+  });
+}

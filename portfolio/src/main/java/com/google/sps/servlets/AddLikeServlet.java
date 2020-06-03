@@ -33,7 +33,7 @@ import javax.servlet.http.HttpServletResponse;
 public class AddLikeServlet extends HttpServlet {
 
   private final DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
-  private static final Logger LOGGER = Logger.getLogger(DataServlet.class.getName());
+  private static final Logger LOGGER = Logger.getLogger(AddLikeServlet.class.getName());
 
   @Override
   public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
