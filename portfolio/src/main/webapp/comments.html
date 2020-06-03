@@ -4,40 +4,19 @@
     <title>Comments</title>
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="bootstrap.min.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <script src="script.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script> 
+    <script> 
+      $(function(){
+        $("#navbar-content").load("navbar.html"); 
+      });
+    </script>
   </head>
 
-  <!--TODO: Extract and fetch nav bar html at top of each page.-->
-  <!--Display Nav Bar at top of page.-->
-  <nav class="navbar navbar-expand-lg navbar-light">
-    <div class="navbar-collapse bg-light" id="navbarColor03">
-      <ul class="navbar-nav mr-auto">
-        <li class="nav-item">
-          <a class="nav-link" href="index.html">HOME</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="about.html">ABOUT</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="projects.html">PROJECTS</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="courses.html">COURSES</a>
-        </li>
-        <li class="nav-item active">
-          <a class="nav-link" href="#">COMMENTS</a>
-        </li>
-      </ul>
-      <div class="icon-bar">
-        <a href="https://github.com/kpancha" class="github"><i class="fa fa-github"></i></a>
-        <a href="mailto:kirakpancha@gmail.com" class="email"><i class="fa fa-envelope"></i></a>
-        <a href="https://www.linkedin.com/in/kira-pancha-7ab886190/" class="linkedin"><i class="fa fa-linkedin"></i></a>
-      </div>
-    </div>
-  </nav>
-
   <body onpageshow="getAndDisplayComments()">
+    <!--Display Nav Bar at top of page.-->
+    <div id="navbar-content"></div>
+    
     <div  id="content" class="fade-in">
 
       <form class="center" action="/new-comment" method="POST">
