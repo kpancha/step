@@ -90,8 +90,8 @@ function getAndDisplayComments() {
 /**
  * Fetch and display navigation bar.
  */
-function getAndDisplayNavBar() {
-  fetch('/navbar')
+function getAndDisplayNavBar(page) {
+  fetch('/navbar?page=' + page)
   .then(response => response.text())
   .then((data) => {
     document.getElementById("navbar").innerHTML = data;

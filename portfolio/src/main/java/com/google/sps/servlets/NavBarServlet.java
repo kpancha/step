@@ -33,13 +33,12 @@ public class NavBarServlet extends HttpServlet {
         "<div class=\"navbar-collapse bg-light\" id=\"navbarColor03\">" + 
         "<ul class=\"navbar-nav mr-auto\">";
 
-    // TODO: add page as param in request body
     String currPage = request.getParameter("page");
     String liClass = "\"nav-item\"";
     String[] pages = new String[] {"index", "about", "projects", "courses", "comments"};
     Map<String, String> pageClasses = new HashMap<>();
 
-    pageClasses.put(currPage, liClass + " active");
+    pageClasses.put(currPage, "\"nav-item active\"");
     for (String page : pages) {
       if (!pageClasses.containsKey(page)) {
         pageClasses.put(page, liClass);
