@@ -17,7 +17,6 @@ package com.google.sps.servlets;
 import com.google.appengine.api.datastore.DatastoreService;
 import com.google.appengine.api.datastore.DatastoreServiceFactory;
 import com.google.appengine.api.datastore.Entity;
-import com.google.appengine.api.datastore.EntityNotFoundException;
 import com.google.appengine.api.datastore.Key;
 import com.google.appengine.api.datastore.KeyFactory;
 import com.google.appengine.api.datastore.PreparedQuery;
@@ -29,19 +28,16 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-/** Servlet that returns some example content. TODO: modify this file to handle comments data */
-@WebServlet("/data")
-public class DataServlet extends HttpServlet {
+/** Servlet that lists existing comments. */
+@WebServlet("/list-comments")
+public class ListCommentsServlet extends HttpServlet {
 
   private final DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
-  private static final Logger LOGGER = Logger.getLogger(DataServlet.class.getName());
 
   @Override
   public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
@@ -65,38 +61,5 @@ public class DataServlet extends HttpServlet {
     String jsonComments = new Gson().toJson(commentsList);
     response.setContentType("application/json;");
     response.getWriter().println(jsonComments);
-  }
-
-  @Override
-  public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
-    String content = request.getParameter("comment");
-    String name = request.getParameter("name");
-    String stringifiedKey = request.getParameter("comment-key");
-
-    // First block executes when a new comment is posted.
-    // Second block updates an existing comment by incrementing the number of likes.
-    if (content != null && name != null && content.length() != 0) {
-      name = name.length() == 0 ? "anonymous" : name;
-      Date timestamp = new Date();
-      Entity commentEntity = new Entity("Comment");
-      commentEntity.setProperty("name", name);
-      commentEntity.setProperty("content", content);
-      commentEntity.setProperty("numLikes", 0);
-      commentEntity.setProperty("timestamp", timestamp);
-      datastore.put(commentEntity);
-    } else if (stringifiedKey != null) {
-      // Patch for numLikes (executes when comment is liked).
-      Key key = KeyFactory.stringToKey(stringifiedKey);
-      try {
-        Entity retrievedComment = datastore.get(key);
-        long numLikes = (long) retrievedComment.getProperty("numLikes");
-        numLikes++;
-        retrievedComment.setProperty("numLikes", numLikes);
-        datastore.put(retrievedComment);
-      } catch (EntityNotFoundException e) {
-        LOGGER.log(Level.WARNING, "Entity could not be found in datastore: " + e.getMessage());
-      }
-    }
-    response.sendRedirect("/comments.html");
   }
 }
