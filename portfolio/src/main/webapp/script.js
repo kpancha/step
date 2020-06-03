@@ -67,16 +67,22 @@ function getAndDisplayComments() {
   fetch('/data')
   .then(response => response.json())
   .then((data) => {
-    const commentContainer = document.getElementById('data-container');
-    commentContainer.innerText = "";
-
-    // Display each comment on a new line.
+    // Display each comment in a block with a like button .
     for (let comment of data) {
-      commentContainer.innerText += 'Posted by: ' + comment.NAME + '\n';
-      commentContainer.innerText += comment.CONTENT + '\n';
-      commentContainer.innerText += comment.numLikes + ' likes\n';
-      commentContainer.innerText += 'Posted at ' + comment.TIMESTAMP + '\n';
-      commentContainer.innerText += '\n';
+      const commentContainer = document.createElement('div');
+      commentContainer.class = 'comment-container';
+      commentContainer.innerHTML = '';
+      commentContainer.innerHTML += 'Posted by: ' + comment.name + '<br>';
+      commentContainer.innerHTML += comment.content + '<br>';
+      commentContainer.innerHTML += comment.numLikes + ' likes<br>';
+      commentContainer.innerHTML += 'Posted at ' + comment.timestamp + '<br>';
+      // TODO: use methods to create button.
+      const likeButtonHTML = '<form action="/data" method="POST">' + 
+        '<input type="hidden" name="comment-key" value="' + comment.key + '" />' + 
+        '<input type="submit" value="Like" class="btn btn-danger btn-sm" /></form>';
+      commentContainer.innerHTML += likeButtonHTML;
+      commentContainer.innerHTML += '<br><br>';
+      document.getElementById('content').appendChild(commentContainer);
     }
   });
 }
