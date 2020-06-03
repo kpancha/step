@@ -61,28 +61,60 @@ function filterCourseDisplay(courseType = 'course') {
 }
 
 /**
- * Fetch data from server and display on DOM.
+ * Fetch comments from server and display on DOM.
  */
-function getAndDisplayComments() {
+function loadComments() {
   fetch('/list-comments')
   .then(response => response.json())
   .then((data) => {
-    // Display each comment in a block with a like button .
+    const display = document.getElementById('content');
     for (let comment of data) {
-      const commentContainer = document.createElement('div');
-      commentContainer.class = 'comment-container';
-      commentContainer.innerHTML = '';
-      commentContainer.innerHTML += 'Posted by: ' + comment.name + '<br>';
-      commentContainer.innerHTML += comment.content + '<br>';
-      commentContainer.innerHTML += comment.numLikes + ' likes<br>';
-      commentContainer.innerHTML += 'Posted at ' + comment.timestamp + '<br>';
-      // TODO: use methods to create button.
-      const likeButtonHTML = '<form action="/add-like" method="POST">' + 
-        '<input type="hidden" name="comment-key" value="' + comment.key + '" />' + 
-        '<input type="submit" value="Like" class="btn btn-danger btn-sm" /></form>';
-      commentContainer.innerHTML += likeButtonHTML;
-      commentContainer.innerHTML += '<br><br>';
-      document.getElementById('content').appendChild(commentContainer);
+      display.appendChild(createCommentElement(comment));
     }
   });
+}
+
+/**
+ * Create HTML display for one comment.
+ */
+function createCommentElement(comment) {
+  const commentContainer = document.createElement('div');
+
+  const commentText = document.createElement('p');
+  commentText.innerHTML += 'Posted by: ' + comment.name + '<br>';
+  commentText.innerHTML += comment.content + '<br>';
+  commentText.innerHTML += comment.numLikes + ' likes<br>';
+  commentText.innerHTML += 'Posted at ' + comment.timestamp;
+
+  const likeButton = createLikeButton(comment.key);
+
+  commentContainer.appendChild(commentText);
+  commentContainer.appendChild(likeButton);
+  commentContainer.innerHTML += '<br><br>';
+
+  return commentContainer;
+}
+
+/**
+ * Create a like button for a comment given the comment's unique key.
+ */
+function createLikeButton(key) {
+  const likeForm = document.createElement('form');
+  likeForm.action = '/add-like';
+  likeForm.method = 'POST';
+
+  const keyInput = document.createElement('input');
+  keyInput.type = 'hidden';
+  keyInput.name = 'comment-key';
+  keyInput.value = key;
+
+  const likeButton = document.createElement('input');
+  likeButton.type = 'submit';
+  likeButton.value = "Like";
+  likeButton.className = 'btn btn-danger btn-sm';
+
+  likeForm.appendChild(keyInput);
+  likeForm.appendChild(likeButton);
+
+  return likeForm;
 }
