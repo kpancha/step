@@ -64,7 +64,7 @@ function filterCourseDisplay(courseType = 'course') {
  * Fetch data from server and display on DOM.
  */
 function getAndDisplayComments() {
-  fetch('/data')
+  fetch('/list-comments')
   .then(response => response.json())
   .then((data) => {
     // Display each comment in a block with a like button .
@@ -77,7 +77,7 @@ function getAndDisplayComments() {
       commentContainer.innerHTML += comment.numLikes + ' likes<br>';
       commentContainer.innerHTML += 'Posted at ' + comment.timestamp + '<br>';
       // TODO: use methods to create button.
-      const likeButtonHTML = '<form action="/data" method="POST">' + 
+      const likeButtonHTML = '<form action="/add-like" method="POST">' + 
         '<input type="hidden" name="comment-key" value="' + comment.key + '" />' + 
         '<input type="submit" value="Like" class="btn btn-danger btn-sm" /></form>';
       commentContainer.innerHTML += likeButtonHTML;
