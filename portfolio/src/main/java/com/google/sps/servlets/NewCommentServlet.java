@@ -34,17 +34,16 @@ public class NewCommentServlet extends HttpServlet {
   public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
     String content = request.getParameter("comment");
     String name = request.getParameter("name");
+    name = name.length() == 0 ? "anonymous" : name;
+    Date timestamp = new Date();
 
-    if (content.length() != 0) {
-      name = name.length() == 0 ? "anonymous" : name;
-      Date timestamp = new Date();
-      Entity commentEntity = new Entity("Comment");
-      commentEntity.setProperty("name", name);
-      commentEntity.setProperty("content", content);
-      commentEntity.setProperty("numLikes", 0);
-      commentEntity.setProperty("timestamp", timestamp);
-      datastore.put(commentEntity);
-    }
+    Entity commentEntity = new Entity("Comment");
+    commentEntity.setProperty("name", name);
+    commentEntity.setProperty("content", content);
+    commentEntity.setProperty("numLikes", 0);
+    commentEntity.setProperty("timestamp", timestamp);
+    datastore.put(commentEntity);
+    
     response.sendRedirect("/comments.html");
   }
 }
