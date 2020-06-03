@@ -26,15 +26,15 @@ import com.google.appengine.api.datastore.Query.SortDirection;
 import com.google.gson.Gson;
 import com.google.sps.data.Comment;
 import java.io.IOException;
-import javax.servlet.annotation.WebServlet;
-import javax.servlet.http.HttpServlet;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 /** Servlet that returns some example content. TODO: modify this file to handle comments data */
 @WebServlet("/data")
@@ -54,13 +54,14 @@ public class DataServlet extends HttpServlet {
       Key key = entity.getKey();
       String name = (String) entity.getProperty("name");
       String content = (String) entity.getProperty("content");
-      int numLikes = (int)(long) entity.getProperty("numLikes");
+      int numLikes = (int) (long) entity.getProperty("numLikes");
       Date timestamp = (Date) entity.getProperty("timestamp");
 
-      Comment comment = new Comment(name, content, numLikes, timestamp, KeyFactory.keyToString(key));
+      Comment comment =
+          new Comment(name, content, numLikes, timestamp, KeyFactory.keyToString(key));
       commentsList.add(comment);
     }
-    
+
     String jsonComments = new Gson().toJson(commentsList);
     response.setContentType("application/json;");
     response.getWriter().println(jsonComments);
@@ -72,10 +73,8 @@ public class DataServlet extends HttpServlet {
     String name = request.getParameter("name");
     String stringifiedKey = request.getParameter("comment-key");
 
-    /* 
-      First block executes when a new comment is posted.
-      Second block updates an existing comment by incrementing the number of likes.
-    */
+    // First block executes when a new comment is posted.
+    // Second block updates an existing comment by incrementing the number of likes.
     if (content != null && name != null && content.length() != 0) {
       name = name.length() == 0 ? "anonymous" : name;
       Date timestamp = new Date();
