@@ -80,15 +80,24 @@ function loadComments() {
 function createCommentElement(comment) {
   const commentContainer = document.createElement('div');
 
-  const commentText = document.createElement('p');
-  commentText.innerHTML += 'Posted by: ' + comment.name + '<br>';
-  commentText.innerHTML += comment.content + '<br>';
-  commentText.innerHTML += comment.numLikes + ' likes<br>';
-  commentText.innerHTML += 'Posted at ' + comment.timestamp;
+  const nameElement = document.createElement('p');
+  nameElement.innerHTML = 'Posted by: ' + comment.name;
+
+  const contentElement = document.createElement('p');
+  contentElement.innerHTML = comment.content;
+
+  const likeElement = document.createElement('p');
+  likeElement.innerHTML = comment.numLikes + ' likes';
+
+  const timeElement = document.createElement('p');
+  timeElement.innerHTML += 'Posted at ' + comment.timestamp;
 
   const likeButton = createLikeButton(comment.key);
 
-  commentContainer.appendChild(commentText);
+  commentContainer.appendChild(nameElement);
+  commentContainer.appendChild(contentElement);
+  commentContainer.appendChild(likeElement);
+  commentContainer.appendChild(timeElement);
   commentContainer.appendChild(likeButton);
   commentContainer.innerHTML += '<br><br>';
 
@@ -103,6 +112,7 @@ function createLikeButton(key) {
   likeForm.action = '/add-like';
   likeForm.method = 'POST';
 
+  // Sends unique identifier for comment as a parameter in the post request.
   const keyInput = document.createElement('input');
   keyInput.type = 'hidden';
   keyInput.name = 'comment-key';
