@@ -33,7 +33,7 @@ import javax.servlet.http.HttpServletResponse;
 public class AddLikeServlet extends HttpServlet {
 
   private final DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
-  private static final Logger LOGGER = Logger.getLogger(DataServlet.class.getName());
+  private static final Logger LOGGER = Logger.getLogger(AddLikeServlet.class.getName());
 
   @Override
   public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
@@ -42,7 +42,7 @@ public class AddLikeServlet extends HttpServlet {
     Key key = KeyFactory.stringToKey(stringifiedKey);
     try {
       Entity retrievedComment = datastore.get(key);
-      long numLikes = (long) retrievedComment.getProperty("numLikes");
+      int numLikes = (int)(long) retrievedComment.getProperty("numLikes");
       numLikes++;
       retrievedComment.setProperty("numLikes", numLikes);
       datastore.put(retrievedComment);
