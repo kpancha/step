@@ -64,10 +64,16 @@ function filterCourseDisplay(courseType = 'course') {
  * Fetch comments from server and display on DOM.
  */
 function loadComments() {
-  fetch('/list-comments')
+  const max = document.getElementById('max').value;
+  console.log(max);
+  const url = max == '' ? '/list-comments' : '/list-comments?max-comments=' + max;
+  console.log(url);
+  fetch(url)
   .then(response => response.json())
   .then((data) => {
-    const display = document.getElementById('content');
+    const display = document.getElementById('comments');
+    display.innerHTML = '';
+    let i = 0;
     for (let comment of data) {
       display.appendChild(createCommentElement(comment));
     }
