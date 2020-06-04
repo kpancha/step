@@ -9,7 +9,12 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script> 
     <script> 
       $(function(){
-        $("#navbar-content").load("navbar.html"); 
+        $("#navbar-content").load("navbar.html", function() {
+          let currPage = $(this)[0].ownerDocument.location.pathname == '/' ? '/index.html' : $(this)[0].ownerDocument.location.pathname;
+          currPage = currPage.slice(1, -5);
+          const currPageLink = document.getElementById(currPage);
+          $('#' + currPage).addClass('nav-item active');
+        }); 
       });
     </script>
   </head>
