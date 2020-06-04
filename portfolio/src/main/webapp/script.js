@@ -69,7 +69,11 @@ function loadComments() {
   .then((data) => {
     const display = document.getElementById('content');
     for (let comment of data) {
-      display.appendChild(createCommentElement(comment));
+      const likeButton = createLikeButton();
+      likeButton.addEventListener('click', () => sendLike(comment));
+      const commentElement = createCommentElement(comment);
+      commentElement.appendChild(likeButton);
+      display.appendChild(commentElement);
     }
   });
 }
@@ -78,9 +82,11 @@ function loadComments() {
  * Sends a post request to increment number of likes on a comment.
  */
 function sendLike(comment) {
+  console.log('function called');
   const params = new URLSearchParams();
   params.append('comment-key', comment.key);
-  fetch('/add-like', {method: 'POST', body: params});
+  fetch('/add-like', {method: 'POST', body: params})
+  .then(response => window.location.replace(response.url));
 }
 
 /**
@@ -88,6 +94,8 @@ function sendLike(comment) {
  */
 function createCommentElement(comment) {
   const commentContainer = document.createElement('div');
+
+  const extraLineBreak = document.createElement('br');
 
   const nameElement = document.createElement('p');
   nameElement.innerHTML = 'Posted by: ' + comment.name;
@@ -101,25 +109,21 @@ function createCommentElement(comment) {
   const timeElement = document.createElement('p');
   timeElement.innerHTML += 'Posted at ' + comment.timestamp;
 
-  const likeButton = createLikeButton(comment);
-
+  commentContainer.appendChild(extraLineBreak);
   commentContainer.appendChild(nameElement);
   commentContainer.appendChild(contentElement);
   commentContainer.appendChild(likeElement);
   commentContainer.appendChild(timeElement);
-  commentContainer.appendChild(likeButton);
-  commentContainer.innerHTML += '<br><br>';
 
   return commentContainer;
 }
 
 /**
- * Create a like button for a comment given the comment's unique key.
+ * Create a like button for a comment.
  */
-function createLikeButton(comment) {
+function createLikeButton() {
   const likeButton = document.createElement('button');
   likeButton.innerHTML = 'Like';
   likeButton.className = 'btn btn-danger btn-sm';
-  likeButton.addEventListener('click', () => {sendLike(comment)});
   return likeButton;
 }
