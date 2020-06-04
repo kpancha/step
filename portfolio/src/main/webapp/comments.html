@@ -28,14 +28,18 @@
         <br>
         <input type="submit" class="btn btn-outline-secondary" />
       </form>
-
-      <select id="max-num-comments" name="max-comments" min="0" onchange="loadComments()">
+      
+      <br>
+      <h6>Number of Comments to Display</h6>
+      <select id="max-num-comments" name="max-comments" min="0" class="custom-select" onchange="loadComments()">
+        <option selected value="all">All</option>
         <option value="1">1</option>
         <option value="5">5</option>
         <option value="10">10</option>
         <option value="15">15</option>
-        <option value="all">All</option>
       </select>
+      <br>
+      <br>
 
       <!--Comments will be displayed here.-->
       <div id="comments"></div>
