@@ -29,10 +29,8 @@
         <input type="submit" class="btn btn-outline-secondary" />
       </form>
 
-      <form>
-        <input id="max" name="max-comments" placeholder="max" />
-        <input onclick="loadComments()" class="btn" />
-      </form>
+      <input type="number" id="max-num-comments" name="max-comments" min="0" onchange="loadComments()" />
+
       <!--Comments will be displayed here.-->
       <div id="comments"></div>
 
