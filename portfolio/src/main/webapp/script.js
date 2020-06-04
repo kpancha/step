@@ -75,6 +75,15 @@ function loadComments() {
 }
 
 /**
+ * Sends a post request to increment number of likes on a comment.
+ */
+function sendLike(comment) {
+  const params = new URLSearchParams();
+  params.append('comment-key', comment.key);
+  fetch('/add-like', {method: 'POST', body: params});
+}
+
+/**
  * Create HTML display for one comment.
  */
 function createCommentElement(comment) {
@@ -92,7 +101,7 @@ function createCommentElement(comment) {
   const timeElement = document.createElement('p');
   timeElement.innerHTML += 'Posted at ' + comment.timestamp;
 
-  const likeButton = createLikeButton(comment.key);
+  const likeButton = createLikeButton(comment);
 
   commentContainer.appendChild(nameElement);
   commentContainer.appendChild(contentElement);
@@ -107,24 +116,10 @@ function createCommentElement(comment) {
 /**
  * Create a like button for a comment given the comment's unique key.
  */
-function createLikeButton(key) {
-  const likeForm = document.createElement('form');
-  likeForm.action = '/add-like';
-  likeForm.method = 'POST';
-
-  // Sends unique identifier for comment as a parameter in the post request.
-  const keyInput = document.createElement('input');
-  keyInput.type = 'hidden';
-  keyInput.name = 'comment-key';
-  keyInput.value = key;
-
-  const likeButton = document.createElement('input');
-  likeButton.type = 'submit';
-  likeButton.value = "Like";
+function createLikeButton(comment) {
+  const likeButton = document.createElement('button');
+  likeButton.innerHTML = 'Like';
   likeButton.className = 'btn btn-danger btn-sm';
-
-  likeForm.appendChild(keyInput);
-  likeForm.appendChild(likeButton);
-
-  return likeForm;
+  likeButton.addEventListener('click', () => {sendLike(comment)});
+  return likeButton;
 }
