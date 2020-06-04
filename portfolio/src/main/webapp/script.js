@@ -65,13 +65,12 @@ function filterCourseDisplay(courseType = 'course') {
  */
 function loadComments() {
   const max = document.getElementById('max-num-comments').value;
-  const url = max == '' ? '/list-comments' : '/list-comments?max-comments=' + max;
+  const url = max == '' || max == 'all' ? '/list-comments' : '/list-comments?max-comments=' + max;
   fetch(url)
   .then(response => response.json())
   .then((data) => {
     const display = document.getElementById('comments');
     display.innerHTML = '';
-    let i = 0;
     for (let comment of data) {
       display.appendChild(createCommentElement(comment));
     }
