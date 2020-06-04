@@ -17,6 +17,8 @@ package com.google.sps.servlets;
 import com.google.appengine.api.datastore.DatastoreService;
 import com.google.appengine.api.datastore.DatastoreServiceFactory;
 import com.google.appengine.api.datastore.Entity;
+import com.google.appengine.api.datastore.FetchOptions;
+import com.google.appengine.api.datastore.FetchOptions.Builder;
 import com.google.appengine.api.datastore.Key;
 import com.google.appengine.api.datastore.KeyFactory;
 import com.google.appengine.api.datastore.PreparedQuery;
@@ -47,12 +49,9 @@ public class ListCommentsServlet extends HttpServlet {
     
     PreparedQuery results = datastore.prepare(query);
 
-    int i = 0;
     List<Comment> commentsList = new ArrayList<>();
-    for (Entity entity : results.asIterable()) {
-      if (i == maxNumComments) {
-        break;
-      }
+    for (int i = 0; i < results.countEntities(FetchOptions.Builder.withDefaults()) && i < maxNumComments; i++) {
+      Entity entity = results.asList(FetchOptions.Builder.withDefaults()).get(i);
       Key key = entity.getKey();
       String name = (String) entity.getProperty("name");
       String content = (String) entity.getProperty("content");
