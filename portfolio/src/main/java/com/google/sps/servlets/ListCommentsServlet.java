@@ -18,7 +18,6 @@ import com.google.appengine.api.datastore.DatastoreService;
 import com.google.appengine.api.datastore.DatastoreServiceFactory;
 import com.google.appengine.api.datastore.Entity;
 import com.google.appengine.api.datastore.FetchOptions;
-import com.google.appengine.api.datastore.FetchOptions.Builder;
 import com.google.appengine.api.datastore.Key;
 import com.google.appengine.api.datastore.KeyFactory;
 import com.google.appengine.api.datastore.PreparedQuery;
@@ -45,13 +44,11 @@ public class ListCommentsServlet extends HttpServlet {
   public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
     String[] sortOption = request.getParameter("sort-order").split("-");
     String sortByAttr = sortOption[0];
-    SortDirection direction = sortOption[1].equals("ascending") ? SortDirection.ASCENDING : SortDirection.DESCENDING;
-    
+    SortDirection direction =
+        sortOption[1].equals("ascending") ? SortDirection.ASCENDING : SortDirection.DESCENDING;
+
     Query query = new Query("Comment").addSort(sortByAttr, direction);
 
-    String maxCommentParam = request.getParameter("max-comments");
-    int maxNumComments = maxCommentParam == null ? Integer.MAX_VALUE : Integer.parseInt(maxCommentParam);
-    
     PreparedQuery results = datastore.prepare(query);
 
     List<Comment> commentsList = new ArrayList<>();
@@ -59,7 +56,7 @@ public class ListCommentsServlet extends HttpServlet {
     int resultsLength = results.countEntities(defaults);
     List<Entity> resultsList = results.asList(defaults);
 
-    for (int i = 0; i < resultsLength && i < maxNumComments; i++) {
+    for (int i = 0; i < resultsLength; i++) {
       Entity entity = resultsList.get(i);
       Key key = entity.getKey();
       String name = (String) entity.getProperty("name");
