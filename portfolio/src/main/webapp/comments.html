@@ -22,18 +22,18 @@
     <div  id="content" class="fade-in">
 
       <form class="center" action="/new-comment" method="POST">
-        <label for="comment">Leave a comment!</label>
+        <label for="comment-input">Leave a comment!</label>
         <br>
-        <textarea name="comment" rows="3" required></textarea>
+        <textarea id="comment-input" name="comment" rows="3" required></textarea>
         <br>
-        <label for="name" hidden="true">Your Name (Optional)</label>
-        <textarea name="name" type="text" rows="1" placeholder="Your Name (Optional)"></textarea>
+        <label for="name-input" hidden="true">Your Name (Optional)</label>
+        <textarea id="name-input" name="name" type="text" rows="1" placeholder="Your Name (Optional)"></textarea>
         <br>
         <input type="submit" class="btn btn-outline-secondary" />
       </form>
       
       <br>
-      <label for="max-num-comments">Number of Comments to Display</id>
+      <label for="max-num-comments">Number of Comments to Display</label>
       <select id="max-num-comments" name="max-num-comments" class="custom-select" onchange="loadComments()">
         <option selected value="">All</option>
         <option value="1">1</option>
