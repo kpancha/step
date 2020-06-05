@@ -64,10 +64,13 @@ function filterCourseDisplay(courseType = 'course') {
  * Fetch comments from server and display on DOM.
  */
 function loadComments() {
-  fetch('/list-comments')
+  const max = document.getElementById('max-num-comments').value;
+  const url = max == 'all' ? '/list-comments' : '/list-comments?max-comments=' + max;
+  fetch(url)
     .then(response => response.json())
     .then((data) => {
-      const display = document.getElementById('content');
+      const display = document.getElementById('comments');
+      display.innerHTML = '';
       for (let comment of data) {
         const likeButton = createLikeButton();
         likeButton.addEventListener('click', () => sendLike(comment));

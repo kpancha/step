@@ -17,6 +17,8 @@ package com.google.sps.servlets;
 import com.google.appengine.api.datastore.DatastoreService;
 import com.google.appengine.api.datastore.DatastoreServiceFactory;
 import com.google.appengine.api.datastore.Entity;
+import com.google.appengine.api.datastore.FetchOptions;
+import com.google.appengine.api.datastore.FetchOptions.Builder;
 import com.google.appengine.api.datastore.Key;
 import com.google.appengine.api.datastore.KeyFactory;
 import com.google.appengine.api.datastore.PreparedQuery;
@@ -42,11 +44,18 @@ public class ListCommentsServlet extends HttpServlet {
   @Override
   public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
     Query query = new Query("Comment").addSort("timestamp", SortDirection.DESCENDING);
-
+    String maxCommentParam = request.getParameter("max-comments");
+    int maxNumComments = maxCommentParam == null ? Integer.MAX_VALUE : Integer.parseInt(maxCommentParam);
+    
     PreparedQuery results = datastore.prepare(query);
 
     List<Comment> commentsList = new ArrayList<>();
-    for (Entity entity : results.asIterable()) {
+    FetchOptions defaults = FetchOptions.Builder.withDefaults();
+    int resultsLength = results.countEntities(defaults);
+    List<Entity> resultsList = results.asList(defaults);
+
+    for (int i = 0; i < resultsLength && i < maxNumComments; i++) {
+      Entity entity = resultsList.get(i);
       Key key = entity.getKey();
       String name = (String) entity.getProperty("name");
       String content = (String) entity.getProperty("content");
