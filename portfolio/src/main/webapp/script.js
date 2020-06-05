@@ -65,7 +65,9 @@ function filterCourseDisplay(courseType = 'course') {
  */
 function loadComments() {
   const max = document.getElementById('max-num-comments').value;
-  const url = max == 'all' ? '/list-comments' : '/list-comments?max-comments=' + max;
+  const sortOrder = document.getElementById('sort-order').value;
+  let url = '/list-comments?sort-order=' + sortOrder;
+  url += max == 'all' ? '' : 'max-comments=' + max;
   fetch(url)
     .then(response => response.json())
     .then((data) => {

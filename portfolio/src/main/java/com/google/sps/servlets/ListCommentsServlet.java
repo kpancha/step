@@ -43,7 +43,12 @@ public class ListCommentsServlet extends HttpServlet {
 
   @Override
   public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
-    Query query = new Query("Comment").addSort("timestamp", SortDirection.DESCENDING);
+    String[] sortOption = request.getParameter("sort-order").split("-");
+    String sortByAttr = sortOption[0];
+    SortDirection direction = sortOption[1].equals("ascending") ? SortDirection.ASCENDING : SortDirection.DESCENDING;
+    
+    Query query = new Query("Comment").addSort(sortByAttr, direction);
+
     String maxCommentParam = request.getParameter("max-comments");
     int maxNumComments = maxCommentParam == null ? Integer.MAX_VALUE : Integer.parseInt(maxCommentParam);
     

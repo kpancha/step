@@ -33,12 +33,19 @@
       
       <br>
       <h6>Number of Comments to Display</h6>
-      <select id="max-num-comments" name="max-comments" min="0" class="custom-select" onchange="loadComments()">
+      <select id="max-num-comments" name="max-comments" class="custom-select" onchange="loadComments()">
         <option selected value="all">All</option>
         <option value="1">1</option>
         <option value="5">5</option>
         <option value="10">10</option>
         <option value="15">15</option>
+      </select>
+      <br>
+      <h6>Display Order</h6>
+      <select id="sort-order" name="sort-order" class="custom-select" onchange="loadComments()">
+        <option selected value="timestamp-descending">Newest First</option>
+        <option value="timestamp-ascending">Oldest First</option>
+        <option value="numLikes-descending">Most Liked</option>
       </select>
       <br>
       <br>
