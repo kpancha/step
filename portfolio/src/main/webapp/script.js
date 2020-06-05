@@ -69,7 +69,7 @@ function loadComments() {
   fetch(url)
     .then(response => response.json())
     .then((data) => {
-      const display = document.getElementById('comments');
+      const display = document.getElementById('comment-container');
       display.innerHTML = '';
       for (let comment of data) {
         const likeButton = createLikeButton();
