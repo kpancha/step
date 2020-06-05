@@ -64,25 +64,25 @@ function filterCourseDisplay(courseType = 'course') {
  * Fetch comments from server and display on DOM.
  */
 function loadComments() {
-  const max = parseInt(document.getElementById('max-num-comments').value) || Number.MAX_VALUE;
+  const maxCommentsPerPage = parseInt(document.getElementById('max-num-comments').value) || Number.MAX_VALUE;
   const sortOrder = document.getElementById('sort-order').value;
   let url = '/list-comments?sort-order=' + sortOrder;
   fetch(url)
     .then(response => response.json())
     .then((data) => {
-      showNextNComments(data, 0, max);
+      showNextNComments(data, /* startInd= */ 0, maxCommentsPerPage);
     });
 }
 
 /**
  * Display a specified amount of messages starting at a certain index.
  */
-function showNextNComments(data, startInd, numComments) {
+function showNextNComments(allComments, startInd, maxNumDisplayed) {
   const display = document.getElementById('comment-container');
     display.innerHTML = '';
     
-    for (let i = startInd; i < data.length && i < startInd + numComments; i++) {
-      const comment = data[i];
+    for (let i = startInd; i < allComments.length && i < startInd + maxNumDisplayed; i++) {
+      const comment = allComments[i];
 
       const likeButton = createLikeButton();
       likeButton.addEventListener('click', () => sendLike(comment));
@@ -100,13 +100,13 @@ function showNextNComments(data, startInd, numComments) {
     const leftButton = createNextButton(/* direction= */ 'l', /* isValid= */ remainingLeft);
     if (remainingLeft) {
       leftButton.addEventListener('click', () => 
-          showNextNComments(data, startInd - numComments, numComments))
+          showNextNComments(allComments, startInd - maxNumDisplayed, maxNumDisplayed))
     }
-    const remainingRight = startInd + numComments < data.length;
+    const remainingRight = startInd + maxNumDisplayed < allComments.length;
     const rightButton = createNextButton(/* direction= */ 'r', /* isValid= */ remainingRight);
     if (remainingRight) {
       rightButton.addEventListener('click', () => 
-          showNextNComments(data, startInd + numComments, numComments))
+          showNextNComments(allComments, startInd + maxNumDisplayed, maxNumDisplayed))
     }
     display.appendChild(leftButton);
     display.appendChild(rightButton);
