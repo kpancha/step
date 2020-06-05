@@ -65,16 +65,16 @@ function filterCourseDisplay(courseType = 'course') {
  */
 function loadComments() {
   fetch('/list-comments')
-  .then(response => response.json())
-  .then((data) => {
-    const display = document.getElementById('content');
-    for (let comment of data) {
-      const likeButton = createLikeButton();
-      likeButton.addEventListener('click', () => sendLike(comment));
-      const commentElement = createCommentElement(comment);
-      commentElement.appendChild(likeButton);
-      display.appendChild(commentElement);
-    }
+    .then(response => response.json())
+    .then((data) => {
+      const display = document.getElementById('content');
+      for (let comment of data) {
+        const likeButton = createLikeButton();
+        likeButton.addEventListener('click', () => sendLike(comment));
+        const commentElement = createCommentElement(comment);
+        commentElement.appendChild(likeButton);
+        display.appendChild(commentElement);
+      }
   });
 }
 
@@ -82,11 +82,10 @@ function loadComments() {
  * Sends a post request to increment number of likes on a comment.
  */
 function sendLike(comment) {
-  console.log('function called');
   const params = new URLSearchParams();
   params.append('comment-key', comment.key);
   fetch('/add-like', {method: 'POST', body: params})
-  .then(response => window.location.replace(response.url));
+    .then(response => window.location.replace(response.url));
 }
 
 /**
@@ -94,7 +93,6 @@ function sendLike(comment) {
  */
 function createCommentElement(comment) {
   const commentContainer = document.createElement('div');
-
   const extraLineBreak = document.createElement('br');
 
   const nameElement = document.createElement('p');
