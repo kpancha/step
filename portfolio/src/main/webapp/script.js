@@ -61,28 +61,68 @@ function filterCourseDisplay(courseType = 'course') {
 }
 
 /**
- * Fetch data from server and display on DOM.
+ * Fetch comments from server and display on DOM.
  */
-function getAndDisplayComments() {
+function loadComments() {
   fetch('/list-comments')
-  .then(response => response.json())
-  .then((data) => {
-    // Display each comment in a block with a like button .
-    for (let comment of data) {
-      const commentContainer = document.createElement('div');
-      commentContainer.class = 'comment-container';
-      commentContainer.innerHTML = '';
-      commentContainer.innerHTML += 'Posted by: ' + comment.name + '<br>';
-      commentContainer.innerHTML += comment.content + '<br>';
-      commentContainer.innerHTML += comment.numLikes + ' likes<br>';
-      commentContainer.innerHTML += 'Posted at ' + comment.timestamp + '<br>';
-      // TODO: use methods to create button.
-      const likeButtonHTML = '<form action="/add-like" method="POST">' + 
-        '<input type="hidden" name="comment-key" value="' + comment.key + '" />' + 
-        '<input type="submit" value="Like" class="btn btn-danger btn-sm" /></form>';
-      commentContainer.innerHTML += likeButtonHTML;
-      commentContainer.innerHTML += '<br><br>';
-      document.getElementById('content').appendChild(commentContainer);
-    }
+    .then(response => response.json())
+    .then((data) => {
+      const display = document.getElementById('content');
+      for (let comment of data) {
+        const likeButton = createLikeButton();
+        likeButton.addEventListener('click', () => sendLike(comment));
+        const commentElement = createCommentElement(comment);
+        commentElement.appendChild(likeButton);
+        display.appendChild(commentElement);
+      }
   });
 }
+
+/**
+ * Sends a post request to increment number of likes on a comment.
+ */
+function sendLike(comment) {
+  const params = new URLSearchParams();
+  params.append('comment-key', comment.key);
+  fetch('/add-like', {method: 'POST', body: params})
+    .then(response => window.location.replace(response.url));
+}
+
+/**
+ * Create HTML display for one comment.
+ */
+function createCommentElement(comment) {
+  const commentContainer = document.createElement('div');
+  const extraLineBreak = document.createElement('br');
+
+  const nameElement = document.createElement('p');
+  nameElement.innerHTML = 'Posted by: ' + comment.name;
+
+  const contentElement = document.createElement('p');
+  contentElement.innerHTML = comment.content;
+
+  const likeElement = document.createElement('p');
+  likeElement.innerHTML = comment.numLikes + ' likes';
+
+  const timeElement = document.createElement('p');
+  timeElement.innerHTML += 'Posted at ' + comment.timestamp;
+
+  commentContainer.appendChild(extraLineBreak);
+  commentContainer.appendChild(nameElement);
+  commentContainer.appendChild(contentElement);
+  commentContainer.appendChild(likeElement);
+  commentContainer.appendChild(timeElement);
+
+  return commentContainer;
+}
+
+/**
+ * Create a like button for a comment.
+ */
+function createLikeButton() {
+  const likeButton = document.createElement('button');
+  likeButton.innerHTML = 'Like';
+  likeButton.className = 'btn btn-danger btn-sm';
+  return likeButton;
+}
+
