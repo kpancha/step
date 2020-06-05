@@ -22,18 +22,19 @@
     <div  id="content" class="fade-in">
 
       <form class="center" action="/new-comment" method="POST">
-        Leave a comment!
+        <label for="comment">Leave a comment!</label>
         <br>
         <textarea name="comment" rows="3" required></textarea>
         <br>
+        <label for="name" hidden="true">Your Name (Optional)</label>
         <textarea name="name" type="text" rows="1" placeholder="Your Name (Optional)"></textarea>
         <br>
         <input type="submit" class="btn btn-outline-secondary" />
       </form>
       
       <br>
-      <h6>Number of Comments to Display</h6>
-      <select id="max-num-comments" name="max-comments" class="custom-select" onchange="loadComments()">
+      <label for="max-num-comments">Number of Comments to Display</id>
+      <select id="max-num-comments" name="max-num-comments" class="custom-select" onchange="loadComments()">
         <option selected value="all">All</option>
         <option value="1">1</option>
         <option value="5">5</option>
@@ -41,7 +42,7 @@
         <option value="15">15</option>
       </select>
       <br>
-      <h6>Display Order</h6>
+      <label for="sort-order">Display Order</label>
       <select id="sort-order" name="sort-order" class="custom-select" onchange="loadComments()">
         <option selected value="timestamp-descending">Newest First</option>
         <option value="timestamp-ascending">Oldest First</option>
