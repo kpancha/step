@@ -50,8 +50,12 @@ public class ListCommentsServlet extends HttpServlet {
     PreparedQuery results = datastore.prepare(query);
 
     List<Comment> commentsList = new ArrayList<>();
-    for (int i = 0; i < results.countEntities(FetchOptions.Builder.withDefaults()) && i < maxNumComments; i++) {
-      Entity entity = results.asList(FetchOptions.Builder.withDefaults()).get(i);
+    FetchOptions defaults = FetchOptions.Builder.withDefaults();
+    int resultsLength = results.countEntities(defaults);
+    List<Entity> resultsList = results.asList(defaults);
+
+    for (int i = 0; i < resultsLength && i < maxNumComments; i++) {
+      Entity entity = resultsList.get(i);
       Key key = entity.getKey();
       String name = (String) entity.getProperty("name");
       String content = (String) entity.getProperty("content");
@@ -61,7 +65,6 @@ public class ListCommentsServlet extends HttpServlet {
       Comment comment =
           new Comment(name, content, numLikes, timestamp, KeyFactory.keyToString(key));
       commentsList.add(comment);
-      i++;
     }
 
     String jsonComments = new Gson().toJson(commentsList);
