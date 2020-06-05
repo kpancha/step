@@ -25,7 +25,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-/** Servlet for adding a like to a specific comment. */
+/** Servlet for deleting a specific comment. */
 @WebServlet("/delete-comment")
 public class DeleteCommentServlet extends HttpServlet {
   
