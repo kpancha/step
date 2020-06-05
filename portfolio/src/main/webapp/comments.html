@@ -22,23 +22,31 @@
     <div  id="content" class="fade-in">
 
       <form class="center" action="/new-comment" method="POST">
-        Leave a comment!
+        <label for="comment-input">Leave a comment!</label>
         <br>
-        <textarea name="comment" rows="3" required></textarea>
+        <textarea id="comment-input" name="comment" rows="3" required></textarea>
         <br>
-        <textarea name="name" type="text" rows="1" placeholder="Your Name (Optional)"></textarea>
+        <label for="name-input" hidden="true">Your Name (Optional)</label>
+        <textarea id="name-input" name="name" type="text" rows="1" placeholder="Your Name (Optional)"></textarea>
         <br>
         <input type="submit" class="btn btn-outline-secondary" />
       </form>
       
       <br>
-      <h6>Number of Comments to Display</h6>
-      <select id="max-num-comments" name="max-comments" min="0" class="custom-select" onchange="loadComments()">
-        <option selected value="all">All</option>
+      <label for="max-num-comments">Number of Comments to Display</label>
+      <select id="max-num-comments" name="max-num-comments" class="custom-select" onchange="loadComments()">
+        <option selected value="">All</option>
         <option value="1">1</option>
         <option value="5">5</option>
         <option value="10">10</option>
         <option value="15">15</option>
+      </select>
+      <br>
+      <label for="sort-order">Display Order</label>
+      <select id="sort-order" name="sort-order" class="custom-select" onchange="loadComments()">
+        <option selected value="timestamp-descending">Newest First</option>
+        <option value="timestamp-ascending">Oldest First</option>
+        <option value="numLikes-descending">Most Liked</option>
       </select>
       <br>
       <br>

@@ -42,7 +42,7 @@ public class AddLikeServlet extends HttpServlet {
     Key key = KeyFactory.stringToKey(stringifiedKey);
     try {
       Entity retrievedComment = datastore.get(key);
-      int numLikes = (int)(long) retrievedComment.getProperty("numLikes");
+      int numLikes = (int) (long) retrievedComment.getProperty("numLikes");
       numLikes++;
       retrievedComment.setProperty("numLikes", numLikes);
       datastore.put(retrievedComment);

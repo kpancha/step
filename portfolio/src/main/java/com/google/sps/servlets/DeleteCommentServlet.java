@@ -16,7 +16,6 @@ package com.google.sps.servlets;
 
 import com.google.appengine.api.datastore.DatastoreService;
 import com.google.appengine.api.datastore.DatastoreServiceFactory;
-import com.google.appengine.api.datastore.Entity;
 import com.google.appengine.api.datastore.Key;
 import com.google.appengine.api.datastore.KeyFactory;
 import java.io.IOException;
@@ -28,7 +27,7 @@ import javax.servlet.http.HttpServletResponse;
 /** Servlet for deleting a specific comment. */
 @WebServlet("/delete-comment")
 public class DeleteCommentServlet extends HttpServlet {
-  
+
   private final DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
 
   @Override

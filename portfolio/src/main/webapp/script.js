@@ -64,26 +64,52 @@ function filterCourseDisplay(courseType = 'course') {
  * Fetch comments from server and display on DOM.
  */
 function loadComments() {
-  const max = document.getElementById('max-num-comments').value;
-  const url = max == 'all' ? '/list-comments' : '/list-comments?max-comments=' + max;
+  const maxCommentsPerPage = parseInt(document.getElementById('max-num-comments').value) || Number.MAX_VALUE;
+  const sortOrder = document.getElementById('sort-order').value;
+  let url = '/list-comments?sort-order=' + sortOrder;
   fetch(url)
     .then(response => response.json())
     .then((data) => {
-      const display = document.getElementById('comment-container');
-      display.innerHTML = '';
-      for (let comment of data) {
-        const likeButton = createLikeButton();
-        likeButton.addEventListener('click', () => sendLike(comment));
+      showNextNComments(data, /* startInd= */ 0, maxCommentsPerPage);
+    });
+}
 
-        const deleteButton = createDeleteButton();
-        deleteButton.addEventListener('click', () => deleteComment(comment));
+/**
+ * Display a specified amount of messages starting at a certain index.
+ */
+function showNextNComments(allComments, startInd, maxNumDisplayed) {
+  const display = document.getElementById('comment-container');
+    display.innerHTML = '';
+    
+    for (let i = startInd; i < allComments.length && i < startInd + maxNumDisplayed; i++) {
+      const comment = allComments[i];
 
-        const commentElement = createCommentElement(comment);
-        commentElement.appendChild(likeButton);
-        commentElement.appendChild(deleteButton);
-        display.appendChild(commentElement);
-      }
-  });
+      const likeButton = createLikeButton();
+      likeButton.addEventListener('click', () => sendLike(comment));
+
+      const deleteButton = createDeleteButton();
+      deleteButton.addEventListener('click', () => deleteComment(comment));
+
+      const commentElement = createCommentElement(comment);
+      commentElement.appendChild(likeButton);
+      commentElement.appendChild(deleteButton);
+      display.appendChild(commentElement);
+    }
+
+    const remainingLeft = startInd > 0;
+    const leftButton = createNextButton(/* direction= */ 'l', /* isValid= */ remainingLeft);
+    if (remainingLeft) {
+      leftButton.addEventListener('click', () => 
+          showNextNComments(allComments, startInd - maxNumDisplayed, maxNumDisplayed))
+    }
+    const remainingRight = startInd + maxNumDisplayed < allComments.length;
+    const rightButton = createNextButton(/* direction= */ 'r', /* isValid= */ remainingRight);
+    if (remainingRight) {
+      rightButton.addEventListener('click', () => 
+          showNextNComments(allComments, startInd + maxNumDisplayed, maxNumDisplayed))
+    }
+    display.appendChild(leftButton);
+    display.appendChild(rightButton);
 }
 
 /**
@@ -154,3 +180,12 @@ function createDeleteButton() {
   return deleteButton;
 }
 
+/**
+ * Create a next button to display more comments.
+ */
+function createNextButton(direction, isValid) {
+  const nextButton = document.createElement('button');
+  nextButton.className = isValid ? 'btn btn-secondary' : 'btn btn-secondary disabled';
+  nextButton.innerHTML = direction == 'r' ? '&raquo;' : '&laquo;';
+  return nextButton;
+}

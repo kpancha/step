@@ -43,7 +43,7 @@ public class NewCommentServlet extends HttpServlet {
     commentEntity.setProperty("numLikes", 0);
     commentEntity.setProperty("timestamp", timestamp);
     datastore.put(commentEntity);
-    
+
     response.sendRedirect("/comments.html");
   }
 }
