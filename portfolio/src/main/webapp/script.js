@@ -125,3 +125,4 @@ function createLikeButton() {
   likeButton.className = 'btn btn-danger btn-sm';
   return likeButton;
 }
+
