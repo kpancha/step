@@ -74,11 +74,26 @@ function loadComments() {
       for (let comment of data) {
         const likeButton = createLikeButton();
         likeButton.addEventListener('click', () => sendLike(comment));
+
+        const deleteButton = createDeleteButton();
+        deleteButton.addEventListener('click', () => deleteComment(comment));
+
         const commentElement = createCommentElement(comment);
         commentElement.appendChild(likeButton);
+        commentElement.appendChild(deleteButton);
         display.appendChild(commentElement);
       }
   });
+}
+
+/**
+ * Send request to delete a specific comment.
+ */
+function deleteComment(comment) {
+  const params = new URLSearchParams();
+  params.append('comment-key', comment.key);
+  fetch('/delete-comment', {method: 'POST', body: params})
+    .then(() => loadComments());
 }
 
 /**
@@ -88,7 +103,7 @@ function sendLike(comment) {
   const params = new URLSearchParams();
   params.append('comment-key', comment.key);
   fetch('/add-like', {method: 'POST', body: params})
-    .then(response => window.location.replace(response.url));
+    .then(() => loadComments());
 }
 
 /**
@@ -125,7 +140,17 @@ function createCommentElement(comment) {
 function createLikeButton() {
   const likeButton = document.createElement('button');
   likeButton.innerHTML = 'Like';
-  likeButton.className = 'btn btn-danger btn-sm';
+  likeButton.className = 'btn btn-success btn-sm';
   return likeButton;
+}
+
+/**
+ * Create a delete button for a comment.
+ */
+function createDeleteButton() {
+  const deleteButton = document.createElement('button');
+  deleteButton.innerHTML = 'Delete';
+  deleteButton.className = 'btn btn-danger btn-sm';
+  return deleteButton;
 }
 
