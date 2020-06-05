@@ -97,13 +97,13 @@ function showNextNComments(data, startInd, numComments) {
     }
 
     const remainingLeft = startInd > 0;
-    const leftButton = createNextButton('l', remainingLeft);
+    const leftButton = createNextButton(/* direction= */ 'l', /* isValid= */ remainingLeft);
     if (remainingLeft) {
       leftButton.addEventListener('click', () => 
           showNextNComments(data, startInd - numComments, numComments))
     }
     const remainingRight = startInd + numComments < data.length;
-    const rightButton = createNextButton('r', remainingRight);
+    const rightButton = createNextButton(/* direction= */ 'r', /* isValid= */ remainingRight);
     if (remainingRight) {
       rightButton.addEventListener('click', () => 
           showNextNComments(data, startInd + numComments, numComments))
