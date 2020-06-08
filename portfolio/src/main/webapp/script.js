@@ -191,9 +191,202 @@ function createNextButton(direction, isValid) {
 }
 
 /** Creates a map and adds it to the page. */
-function createMap() { 
-  new google.maps.Map(document.getElementById('map'), {
-    center: {lat: 37.422, lng: -122.084}, 
-    zoom: 16 
+function createMap() {
+  const styledMapType = new google.maps.StyledMapType([
+      {"elementType": "geometry","stylers": [{"color": "#ebe3cd"}]},
+      {"elementType": "labels.text.fill","stylers": [{"color": "#523735"}]},
+      {"elementType": "labels.text.stroke","stylers": [{"color": "#f5f1e6"}]},
+      {"featureType": "administrative","elementType": "geometry.stroke","stylers": [{"color": "#c9b2a6"}]},
+      {"featureType": "administrative.land_parcel","elementType": "geometry.stroke","stylers": [{"color": "#dcd2be"}]},
+      {"featureType": "administrative.land_parcel","elementType": "labels.text.fill","stylers": [{"color": "#ae9e90"}]},
+      {"featureType": "landscape.natural","elementType": "geometry","stylers": [{"color": "#dfd2ae"}]},
+      {"featureType": "poi","elementType": "geometry","stylers": [{"color": "#dfd2ae"}]},
+      {"featureType": "poi","elementType": "labels.text.fill","stylers": [{"color": "#93817c"}]},
+      {"featureType": "poi.park","elementType": "geometry.fill","stylers": [{"color": "#a5b076"}]},
+      {"featureType": "poi.park","elementType": "labels.text.fill","stylers": [{"color": "#447530"}]},
+      {"featureType": "road","elementType": "geometry","stylers": [{"color": "#f5f1e6"}]},
+      {"featureType": "road.arterial","elementType": "geometry","stylers": [{"color": "#fdfcf8"}]},
+      {"featureType": "road.highway","elementType": "geometry","stylers": [{"color": "#f8c967"}]},
+      {"featureType": "road.highway","elementType": "geometry.stroke","stylers": [{"color": "#e9bc62"}]},
+      {"featureType": "road.highway.controlled_access","elementType": "geometry","stylers": [{"color": "#e98d58"}]},
+      {"featureType": "road.highway.controlled_access","elementType": "geometry.stroke","stylers": [{"color": "#db8555"}]},
+      {"featureType": "road.local","elementType": "labels.text.fill","stylers": [{"color": "#806b63"}]},
+      {"featureType": "transit.line","elementType": "geometry","stylers": [{"color": "#dfd2ae"}]},
+      {"featureType": "transit.line","elementType": "labels.text.fill","stylers": [{"color": "#8f7d77"}]},
+      {"featureType": "transit.line","elementType": "labels.text.stroke","stylers": [{"color": "#ebe3cd"}]},
+      {"featureType": "transit.station","elementType": "geometry","stylers": [{"color": "#dfd2ae"}]},
+      {"featureType": "water","elementType": "geometry.fill","stylers": [{"color": "#b9d3c2"}]},
+      {"featureType": "water","elementType": "labels.text.fill","stylers": [{"color": "#92998d"}]}],
+      {name: 'Retro Map'});
+  
+  const latLngCoords = createLatLng(/* lat= */ 40.44, /* lng= */ -74.66);
+
+  const map = new google.maps.Map(document.getElementById('map'),{
+    center: latLngCoords, 
+    zoom: 2, 
+    mapTypeControlOptions: {
+      mapTypeIds: ['roadmap', 'satellite', 'styled_map']
+    }
   });
+  map.mapTypes.set('styled_map', styledMapType);
+  map.setMapTypeId('styled_map');
+
+  // Set markers with corresponding icons
+  const placesLivedMarkers = getPlacesLivedMarkers();
+  const houseIcon = 'images/house.svg'
+  setMarkers(map, placesLivedMarkers, houseIcon);
+
+  const travelMarkers = getTravelMarkers();
+  setMarkers(map, travelMarkers);
+
+  const danceLocationMarkers = getDanceCompMarkers();
+  const danceIcon = 'images/dancer.svg';
+  setMarkers(map, danceLocationMarkers, danceIcon);
+}
+
+/**
+ * Puts all markers from an array onto a map with the same icon.
+ */
+function setMarkers(map, markers, icon=null) {
+  for (let marker of markers) {
+    marker.setIcon(icon);
+    marker.setMap(map);
+  }
+}
+
+/**
+ * Creates a Marker with a given LatLng position and title.
+ */
+function createMarker(position, title) {
+  return new google.maps.Marker({position, title});
+}
+
+/**
+ * Creates a LatLng element with a specific latitude and longitude.
+ */
+function createLatLng(lat, lng) {
+  return new google.maps.LatLng({lat, lng});
+}
+
+/**
+ * Returns an array of markers for places lived.
+ */
+function getPlacesLivedMarkers() {
+  const placesLivedMarkers = [];
+
+  const montyLatlng = createLatLng(/* lat= */ 40.44, /* lng= */ -74.66);
+  const montyMarker = createMarker(montyLatlng, 'My hometown!');
+  placesLivedMarkers.push(montyMarker);
+
+  const gtLatlng = createLatLng(/* lat= */ 33.78, /* lng= */ -84.40);
+  const gtMarker = createMarker(gtLatlng, 'Go jackets');
+  placesLivedMarkers.push(gtMarker);
+
+  const sfLatlng = createLatLng(/* lat= */ 37.77, /* lng= */ -122.42);
+  const sfMarker = createMarker(sfLatlng, 'Summer 2019');
+  placesLivedMarkers.push(sfMarker);
+
+  return placesLivedMarkers;
+}
+
+/**
+ * Returns an array of markers for places traveled to.
+ */
+function getTravelMarkers() {
+  const travelMarkers = []
+
+  const rehobothLatlng = createLatLng(/* lat= */ 38.72, /* lng= */ -75.08);
+  const rehobothMarker = createMarker(rehobothLatlng, 'My favorite beach');
+  travelMarkers.push(rehobothMarker);
+
+  const vermontLatlng = createLatLng(/* lat= */ 44.59, /* lng= */ -72.79);
+  const vermontMarker = createMarker(vermontLatlng, 'The BEST skiing slopes');
+  travelMarkers.push(vermontMarker);
+
+  const drLatlng = createLatLng(/* lat= */ 18.74, /* lng= */ -70.16);
+  const drMarker = createMarker(drLatlng, 'My first solo international flight');
+  travelMarkers.push(drMarker);
+
+  const torontoLatlng = createLatLng(/* lat= */ 43.65, /* lng= */ -79.38);
+  const torontoMarker = createMarker(torontoLatlng, 'Climbed the CNN tower!');
+  travelMarkers.push(torontoMarker);
+
+  const costaRicaLatlng = createLatLng(/* lat= */ 9.75, /* lng= */ -83.75);
+  const costaRicaMarker = createMarker(costaRicaLatlng, 'Pura vida');
+  travelMarkers.push(costaRicaMarker);
+
+  const caymanLatlng = createLatLng(/* lat= */ 19.32, /* lng= */ -81.24);
+  const caymanMarker = createMarker(caymanLatlng, 'The clearest water I\'ve ever seen!');
+  travelMarkers.push(caymanMarker);
+
+  const alaskaLatlng = createLatLng(/* lat= */ 64.20, /* lng= */ -149.49);
+  const alaskaMarker = createMarker(alaskaLatlng, 'My first and only cruise');
+  travelMarkers.push(alaskaMarker);
+
+  const chennaiLatlng = createLatLng(/* lat= */ 13.08, /* lng= */ 80.27);
+  const chennaiMarker = createMarker(chennaiLatlng, 'I\'ve been here 8 times!');
+  travelMarkers.push(chennaiMarker);
+
+  const beijingLatlng = createLatLng(/* lat= */ 39.90, /* lng= */ 116.41);
+  const beijingMarker = createMarker(beijingLatlng, 'We were here a few months before the Olympics');
+  travelMarkers.push(beijingMarker);
+
+  const shanghaiLatlng = createLatLng(/* lat= */ 31.23, /* lng= */ 121.47);
+  const shanghaiMarker = createMarker(shanghaiLatlng, 'We rode the fastest train in the world (the Maglev)');
+  travelMarkers.push(shanghaiMarker);
+
+  const hongKongLatlng = createLatLng(/* lat= */ 22.32, /* lng= */ 114.17);
+  const hongKongMarker = createMarker(hongKongLatlng, 'The most jetlagged I\'ve ever been');
+  travelMarkers.push(hongKongMarker);
+
+  const dubaiLatlng = createLatLng(/* lat= */ 25.20, /* lng= */ 55.27);
+  const dubaiMarker = createMarker(dubaiLatlng, 'It was 110 degrees outside!');
+  travelMarkers.push(dubaiMarker);
+
+  const parisLatlng = createLatLng(/* lat= */ 48.85, /* lng= */ 2.35);
+  const parisMarker = createMarker(parisLatlng, 'I was here the day France won the world cup!');
+  travelMarkers.push(parisMarker);
+
+  const bordeauxLatlng = createLatLng(/* lat= */ 44.84, /* lng= */ 0.58);
+  const bordeauxMarker = createMarker(bordeauxLatlng, 'Donna traveled here in Mamma Mia 2');
+  travelMarkers.push(bordeauxMarker);
+
+  const barcaLatlng = createLatLng(/* lat= */ 41.38, /* lng= */ 2.17);
+  const barcaMarker = createMarker(barcaLatlng, 'The sun didn\'t come out the whole trip :(');
+  travelMarkers.push(barcaMarker);
+
+  const switzLatlng = createLatLng(/* lat= */ 46.82, /* lng= */ 8.23);
+  const switzMarker = createMarker(switzLatlng, 'I got to go here twice!');
+  travelMarkers.push(switzMarker);
+
+  const portugalLatlng = createLatLng(/* lat= */ 39.40, /* lng= */ -8.22);
+  const portugalMarker = createMarker(portugalLatlng, 'I accidentally nearly drowned my uncle here');
+  travelMarkers.push(portugalMarker);
+
+  return travelMarkers;
+}
+
+/**
+ * Returns an array of markers for dance competition locations.
+ */
+function getDanceCompMarkers() {
+  const danceLocationMarkers = [];
+
+  const dallasLatlng = createLatLng(/* lat= */ 32.99, /* lng= */ -96.75);
+  const dallasMarker = createMarker(dallasLatlng, 'Aaja Nachle');
+  danceLocationMarkers.push(dallasMarker);
+
+  const minneapolisLatlng = createLatLng(/* lat= */ 44.97, /* lng= */ -93.23);
+  const minneapolisMarker = createMarker(minneapolisLatlng, 'Jazba');
+  danceLocationMarkers.push(minneapolisMarker);
+
+  const marylandLatlng = createLatLng(/* lat= */ 38.99, /* lng= */ -76.94);
+  const marylandMarker = createMarker(marylandLatlng, 'Minza');
+  danceLocationMarkers.push(marylandMarker);
+
+  const scLatlng = createLatLng(/* lat= */ 33.99, /* lng= */ -81.03);
+  const scMarker = createMarker(scLatlng, 'Aag Ki Raat');
+  danceLocationMarkers.push(scMarker);
+
+  return danceLocationMarkers;
 }
