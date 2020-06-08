@@ -88,3 +88,7 @@
 .my-slides:hover .caption {
   opacity: 1;
 }
+
+#map {
+  height: 650px;
+}
