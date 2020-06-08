@@ -189,3 +189,11 @@ function createNextButton(direction, isValid) {
   nextButton.innerHTML = direction == 'r' ? '&raquo;' : '&laquo;';
   return nextButton;
 }
+
+/** Creates a map and adds it to the page. */
+function createMap() { 
+  new google.maps.Map(document.getElementById('map'), {
+    center: {lat: 37.422, lng: -122.084}, 
+    zoom: 16 
+  });
+}

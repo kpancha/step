@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+  <meta charset="UTF-8">
+    <title>Comments</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="bootstrap.min.css">
+    <script src="script.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script> 
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBBqtlu5Y3Og7lzC1WI9SFHZr2gJ4iDdTc"></script>
+    <script> 
+      $(function(){
+        $("#navbar-content").load("navbar.html", function() {
+          $('#maps').addClass('nav-item active');
+        }); 
+      });
+    </script>
+  </head>
+
+  <body onpageshow="createMap();">
+    <div id="navbar-content"></div>
+    <div id="content" class="fade-in">
+      <div id="map"></div>
+    </div>
+  </body>
+</html>
