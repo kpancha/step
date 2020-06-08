@@ -219,7 +219,7 @@ function createMap() {
       {"featureType": "water","elementType": "labels.text.fill","stylers": [{"color": "#92998d"}]}],
       {name: 'Retro Map'});
   
-  const latLngCoords = new google.maps.LatLng({lat: 40.4417, lng: -74.6829});
+  const latLngCoords = new google.maps.LatLng({lat: 40.44, lng: -74.66});
 
   const map = new google.maps.Map(
       document.getElementById('map'),
@@ -230,4 +230,43 @@ function createMap() {
     );
   map.mapTypes.set('styled_map', styledMapType);
   map.setMapTypeId('styled_map');
+
+  const locationMarkers = getMarkers();
+  for (let marker of locationMarkers) {
+    marker.setMap(map);
+  }
+}
+
+function getMarkers() {
+  const locationMarkers = [];
+
+  const montyLatlng = new google.maps.LatLng({lat: 40.44, lng: -74.66});
+  const montyMarker = new google.maps.Marker({
+    position: montyLatlng,
+    title:'My hometown!'
+  });
+  locationMarkers.push(montyMarker);
+
+  const rehobothLatlng = new google.maps.LatLng({lat: 38.72, lng: -75.08});
+  const rehobothMarker = new google.maps.Marker({
+    position: rehobothLatlng,
+    title: 'My favorite beach'
+  });
+  locationMarkers.push(rehobothMarker);
+
+  const vermontLatlng = new google.maps.LatLng({lat: 44.59, lng: -72.79});
+  const vermontMarker = new google.maps.Marker({
+    position: vermontLatlng,
+    title: 'The BEST skiing slopes'
+  });
+  locationMarkers.push(vermontMarker);
+
+  const gtLatlng = new google.maps.LatLng({lat: 33.78, lng: -84.40});
+  const gtMarker = new google.maps.Marker({
+    position: gtLatlng,
+    title: 'Go jackets'
+  });
+  locationMarkers.push(gtMarker);
+
+  return locationMarkers;
 }
