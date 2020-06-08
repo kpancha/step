@@ -221,25 +221,25 @@ function createMap() {
   
   const latLngCoords = new google.maps.LatLng({lat: 40.44, lng: -74.66});
 
-  const map = new google.maps.Map(
-      document.getElementById('map'),
-      {center: latLngCoords, zoom: 2, mapTypeControlOptions: {
-          mapTypeIds: ['roadmap', 'satellite', 'styled_map']
-        }
-      }
-    );
+  const map = new google.maps.Map(document.getElementById('map'),{
+    center: latLngCoords, 
+    zoom: 2, 
+    mapTypeControlOptions: {
+      mapTypeIds: ['roadmap', 'satellite', 'styled_map']
+    }
+  });
   map.mapTypes.set('styled_map', styledMapType);
   map.setMapTypeId('styled_map');
 
   // Set markers with corresponding icons
   const placesLivedMarkers = getPlacesLivedMarkers();
   const goldCircle = {
-      path: google.maps.SymbolPath.CIRCLE,
-      fillColor: 'yellow',
-      fillOpacity: 0.8,
-      scale: 10,
-      strokeColor: 'gold',
-    };
+    path: google.maps.SymbolPath.CIRCLE,
+    fillColor: 'yellow',
+    fillOpacity: 0.8,
+    scale: 10,
+    strokeColor: 'gold',
+  };
   setMarkers(map, placesLivedMarkers, goldCircle);
 
   const travelMarkers = getTravelMarkers();
@@ -247,9 +247,9 @@ function createMap() {
 
   const danceLocationMarkers = getDanceCompMarkers();
   const blackCircle = {
-      path: google.maps.SymbolPath.CIRCLE, 
-      scale: 10 
-    };
+    path: google.maps.SymbolPath.CIRCLE, 
+    scale: 10 
+  };
   setMarkers(map, danceLocationMarkers, blackCircle);
 }
 
