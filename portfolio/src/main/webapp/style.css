@@ -76,9 +76,10 @@
 .my-slides .caption {
   position: relative;
   bottom: 30px;
-  right: 40px;
-  text-align: right;
   opacity: 0;
+  color: black;
+  text-transform: uppercase;
+  font-weight: bold;  
 }
 
 .my-slides:hover img {
