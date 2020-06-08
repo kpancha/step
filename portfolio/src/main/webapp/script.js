@@ -264,30 +264,28 @@ function setMarkers(map, markers, icon=null) {
 }
 
 /**
+ * Creates a marker witha given google.maps.LatLng position and title.
+ */
+function createMarker(position, title) {
+  return new google.maps.Marker({position, title});
+}
+
+/**
  * Returns an array of markers for places lived.
  */
 function getPlacesLivedMarkers() {
   const placesLivedMarkers = [];
 
   const montyLatlng = new google.maps.LatLng({lat: 40.44, lng: -74.66});
-  const montyMarker = new google.maps.Marker({
-    position: montyLatlng,
-    title:'My hometown!'
-  });
+  const montyMarker = createMarker(montyLatlng, 'My hometown!');
   placesLivedMarkers.push(montyMarker);
 
   const gtLatlng = new google.maps.LatLng({lat: 33.78, lng: -84.40});
-  const gtMarker = new google.maps.Marker({
-    position: gtLatlng,
-    title: 'Go jackets'
-  });
+  const gtMarker = createMarker(gtLatlng, 'Go jackets');
   placesLivedMarkers.push(gtMarker);
 
   const sfLatlng = new google.maps.LatLng({lat: 37.77, lng: -122.42});
-  const sfMarker = new google.maps.Marker({
-    position: sfLatlng,
-    title: 'Summer 2019'
-  });
+  const sfMarker = createMarker(sfLatlng, 'Summer 2019');
   placesLivedMarkers.push(sfMarker);
 
   return placesLivedMarkers;
@@ -300,87 +298,51 @@ function getTravelMarkers() {
   const travelMarkers = []
 
   const rehobothLatlng = new google.maps.LatLng({lat: 38.72, lng: -75.08});
-  const rehobothMarker = new google.maps.Marker({
-    position: rehobothLatlng,
-    title: 'My favorite beach'
-  });
+  const rehobothMarker = createMarker(rehobothLatlng, 'My favorite beach');
   travelMarkers.push(rehobothMarker);
 
   const vermontLatlng = new google.maps.LatLng({lat: 44.59, lng: -72.79});
-  const vermontMarker = new google.maps.Marker({
-    position: vermontLatlng,
-    title: 'The BEST skiing slopes'
-  });
+  const vermontMarker = createMarker(vermontLatlng, 'The BEST skiing slopes');
   travelMarkers.push(vermontMarker);
 
   const drLatlng = new google.maps.LatLng({lat: 18.74, lng: -70.16});
-  const drMarker = new google.maps.Marker({
-    position: drLatlng,
-    title: 'My first solo international flight'
-  });
+  const drMarker = createMarker(drLatlng, 'My first solo international flight');
   travelMarkers.push(drMarker);
 
   const torontoLatlng = new google.maps.LatLng({lat: 43.65, lng: -79.38});
-  const torontoMarker = new google.maps.Marker({
-    position: torontoLatlng,
-    title: 'We saw the CNN tower!'
-  });
+  const torontoMarker = createMarker(torontoLatlng, 'Climbed the CNN tower!');
   travelMarkers.push(torontoMarker);
 
   const costaRicaLatlng = new google.maps.LatLng({lat: 9.75, lng: -83.75});
-  const costaRicaMarker = new google.maps.Marker({
-    position: costaRicaLatlng,
-    title: 'Pura Vida'
-  });
+  const costaRicaMarker = createMarker(costaRicaLatlng, 'Pura vida');
   travelMarkers.push(costaRicaMarker);
 
   const caymanLatlng = new google.maps.LatLng({lat: 19.32, lng: -81.24});
-  const caymanMarker = new google.maps.Marker({
-    position: caymanLatlng,
-    title: 'The clearest water I\'ve ever seen!'
-  });
+  const caymanMarker = createMarker(caymanLatlng, 'The clearest water I\'ve ever seen!');
   travelMarkers.push(caymanMarker);
 
   const alaskaLatlng = new google.maps.LatLng({lat: 64.20, lng: -149.49});
-  const alaskaMarker = new google.maps.Marker({
-    position: alaskaLatlng,
-    title: 'The only cruise I\'ve been on'
-  });
+  const alaskaMarker = createMarker(alaskaLatlng, 'My first and only cruise');
   travelMarkers.push(alaskaMarker);
 
   const chennaiLatlng = new google.maps.LatLng({lat: 13.08, lng: 80.27});
-  const chennaiMarker = new google.maps.Marker({
-    position: chennaiLatlng,
-    title: 'I\'ve been to Chennai 8 times!'
-  });
+  const chennaiMarker = createMarker(chennaiLatlng, 'I\'ve been here 8 times!');
   travelMarkers.push(chennaiMarker);
 
   const beijingLatlng = new google.maps.LatLng({lat: 39.90, lng: 116.41});
-  const beijingMarker = new google.maps.Marker({
-    position: beijingLatlng,
-    title: 'We went the same year as the Olympics'
-  });
+  const beijingMarker = createMarker(beijingLatlng, 'We were here a few months before the Olympics');
   travelMarkers.push(beijingMarker);
 
   const shanghaiLatlng = new google.maps.LatLng({lat: 31.23, lng: 121.47});
-  const shanghaiMarker = new google.maps.Marker({
-    position: shanghaiLatlng,
-    title: 'We got to ride the Maglev'
-  });
+  const shanghaiMarker = createMarker(shanghaiLatlng, 'We rode the fastest train in the world (the Maglev)');
   travelMarkers.push(shanghaiMarker);
 
   const hongKongLatlng = new google.maps.LatLng({lat: 22.32, lng: 114.17});
-  const hongKongMarker = new google.maps.Marker({
-    position: hongKongLatlng,
-    title: 'The most jetlagged I\'ve ever been'
-  });
+  const hongKongMarker = createMarker(hongKongLatlng, 'The most jetlagged I\'ve ever been');
   travelMarkers.push(hongKongMarker);
 
   const dubaiLatlng = new google.maps.LatLng({lat: 25.20, lng: 55.27});
-  const dubaiMarker = new google.maps.Marker({
-    position: dubaiLatlng,
-    title: 'It was 110 degrees outside!'
-  });
+  const dubaiMarker = createMarker(dubaiLatlng, 'It was 110 degrees outside!');
   travelMarkers.push(dubaiMarker);
 
   return travelMarkers;
@@ -393,31 +355,19 @@ function getDanceCompMarkers() {
   const danceLocationMarkers = [];
 
   const dallasLatlng = new google.maps.LatLng({lat: 32.99, lng: -96.75});
-  const dallasMarker = new google.maps.Marker({
-    position: dallasLatlng,
-    title: 'Aaja Nachle'
-  });
+  const dallasMarker = createMarker(dallasLatlng, 'Aaja Nachle');
   danceLocationMarkers.push(dallasMarker);
 
   const minneapolisLatlng = new google.maps.LatLng({lat: 44.97, lng: -93.23});
-  const minneapolisMarker = new google.maps.Marker({
-    position: minneapolisLatlng,
-    title: 'Jazba'
-  });
+  const minneapolisMarker = createMarker(minneapolisLatlng, 'Jazba');
   danceLocationMarkers.push(minneapolisMarker);
 
   const marylandLatlng = new google.maps.LatLng({lat: 38.99, lng: -76.94});
-  const marylandMarker = new google.maps.Marker({
-    position: marylandLatlng,
-    title: 'Minza'
-  });
+  const marylandMarker = createMarker(marylandLatlng, 'Minza');
   danceLocationMarkers.push(marylandMarker);
 
   const scLatlng = new google.maps.LatLng({lat: 33.99, lng: -81.03});
-  const scMarker = new google.maps.Marker({
-    position: scLatlng,
-    title: 'Aag Ki Raat'
-  });
+  const scMarker = createMarker(scLatlng, 'Aag Ki Raat');
   danceLocationMarkers.push(scMarker);
 
   return danceLocationMarkers;
