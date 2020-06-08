@@ -233,24 +233,15 @@ function createMap() {
 
   // Set markers with corresponding icons
   const placesLivedMarkers = getPlacesLivedMarkers();
-  const goldCircle = {
-    path: google.maps.SymbolPath.CIRCLE,
-    fillColor: 'yellow',
-    fillOpacity: 0.8,
-    scale: 10,
-    strokeColor: 'gold',
-  };
-  setMarkers(map, placesLivedMarkers, goldCircle);
+  const houseIcon = 'images/house.svg'
+  setMarkers(map, placesLivedMarkers, houseIcon);
 
   const travelMarkers = getTravelMarkers();
   setMarkers(map, travelMarkers);
 
   const danceLocationMarkers = getDanceCompMarkers();
-  const blackCircle = {
-    path: google.maps.SymbolPath.CIRCLE, 
-    scale: 10 
-  };
-  setMarkers(map, danceLocationMarkers, blackCircle);
+  const danceIcon = 'images/dancer.svg';
+  setMarkers(map, danceLocationMarkers, danceIcon);
 }
 
 /**
@@ -267,6 +258,7 @@ function setMarkers(map, markers, icon=null) {
  * Creates a marker witha given google.maps.LatLng position and title.
  */
 function createMarker(position, title) {
+  
   return new google.maps.Marker({position, title});
 }
 
@@ -344,6 +336,26 @@ function getTravelMarkers() {
   const dubaiLatlng = new google.maps.LatLng({lat: 25.20, lng: 55.27});
   const dubaiMarker = createMarker(dubaiLatlng, 'It was 110 degrees outside!');
   travelMarkers.push(dubaiMarker);
+
+  const parisLatlng = new google.maps.LatLng({lat: 48.85, lng: 2.35});
+  const parisMarker = createMarker(parisLatlng, 'I was here the day France won the world cup!');
+  travelMarkers.push(parisMarker);
+
+  const bordeauxLatlng = new google.maps.LatLng({lat: 44.84, lng: 0.58});
+  const bordeauxMarker = createMarker(bordeauxLatlng, 'Donna traveled here in Mamma Mia 2');
+  travelMarkers.push(bordeauxMarker);
+
+  const barcaLatlng = new google.maps.LatLng({lat: 41.38, lng: 2.17});
+  const barcaMarker = createMarker(barcaLatlng, 'The sun didn\'t come out the whole trip :(');
+  travelMarkers.push(barcaMarker);
+
+  const switzLatlng = new google.maps.LatLng({lat: 46.82, lng: 8.23});
+  const switzMarker = createMarker(switzLatlng, 'I got to go here twice!');
+  travelMarkers.push(switzMarker);
+
+  const portugalLatlng = new google.maps.LatLng({lat: 39.40, lng: -8.22});
+  const portugalMarker = createMarker(portugalLatlng, 'I accidentally nearly drowned my uncle here');
+  travelMarkers.push(portugalMarker);
 
   return travelMarkers;
 }
