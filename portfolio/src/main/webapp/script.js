@@ -231,42 +231,124 @@ function createMap() {
   map.mapTypes.set('styled_map', styledMapType);
   map.setMapTypeId('styled_map');
 
-  const locationMarkers = getMarkers();
-  for (let marker of locationMarkers) {
+  // Set markers with corresponding icons
+  const placesLivedMarkers = getPlacesLivedMarkers();
+  const goldCircle = {
+      path: google.maps.SymbolPath.CIRCLE,
+      fillColor: 'yellow',
+      fillOpacity: 0.8,
+      scale: 10,
+      strokeColor: 'gold',
+    };
+  setMarkers(map, placesLivedMarkers, goldCircle);
+
+  const travelMarkers = getTravelMarkers();
+  setMarkers(map, travelMarkers);
+
+  const danceLocationMarkers = getDanceCompMarkers();
+  const blackCircle = {
+      path: google.maps.SymbolPath.CIRCLE, 
+      scale: 10 
+    };
+  setMarkers(map, danceLocationMarkers, blackCircle);
+}
+
+/**
+ * Puts all markers from an array onto a map with the same icon.
+ */
+function setMarkers(map, markers, icon=null) {
+  for (let marker of markers) {
+    marker.setIcon(icon);
     marker.setMap(map);
   }
 }
 
-function getMarkers() {
-  const locationMarkers = [];
+/**
+ * Returns an array of markers for places lived.
+ */
+function getPlacesLivedMarkers() {
+  const placesLivedMarkers = [];
 
   const montyLatlng = new google.maps.LatLng({lat: 40.44, lng: -74.66});
   const montyMarker = new google.maps.Marker({
     position: montyLatlng,
     title:'My hometown!'
   });
-  locationMarkers.push(montyMarker);
-
-  const rehobothLatlng = new google.maps.LatLng({lat: 38.72, lng: -75.08});
-  const rehobothMarker = new google.maps.Marker({
-    position: rehobothLatlng,
-    title: 'My favorite beach'
-  });
-  locationMarkers.push(rehobothMarker);
-
-  const vermontLatlng = new google.maps.LatLng({lat: 44.59, lng: -72.79});
-  const vermontMarker = new google.maps.Marker({
-    position: vermontLatlng,
-    title: 'The BEST skiing slopes'
-  });
-  locationMarkers.push(vermontMarker);
+  placesLivedMarkers.push(montyMarker);
 
   const gtLatlng = new google.maps.LatLng({lat: 33.78, lng: -84.40});
   const gtMarker = new google.maps.Marker({
     position: gtLatlng,
     title: 'Go jackets'
   });
-  locationMarkers.push(gtMarker);
+  placesLivedMarkers.push(gtMarker);
 
-  return locationMarkers;
+  const sfLatlng = new google.maps.LatLng({lat: 37.77, lng: -122.42});
+  const sfMarker = new google.maps.Marker({
+    position: sfLatlng,
+    title: 'Summer 2019'
+  });
+  placesLivedMarkers.push(sfMarker);
+
+  return placesLivedMarkers;
+}
+
+/**
+ * Returns an array of markers for places traveled to.
+ */
+function getTravelMarkers() {
+  const travelMarkers = []
+
+  const rehobothLatlng = new google.maps.LatLng({lat: 38.72, lng: -75.08});
+  const rehobothMarker = new google.maps.Marker({
+    position: rehobothLatlng,
+    title: 'My favorite beach'
+  });
+  travelMarkers.push(rehobothMarker);
+
+  const vermontLatlng = new google.maps.LatLng({lat: 44.59, lng: -72.79});
+  const vermontMarker = new google.maps.Marker({
+    position: vermontLatlng,
+    title: 'The BEST skiing slopes'
+  });
+  travelMarkers.push(vermontMarker);
+
+  return travelMarkers;
+}
+
+/**
+ * Returns an array of markers for dance competition locations.
+ */
+function getDanceCompMarkers() {
+  const danceLocationMarkers = [];
+
+  const dallasLatlng = new google.maps.LatLng({lat: 32.99, lng: -96.75});
+  const dallasMarker = new google.maps.Marker({
+    position: dallasLatlng,
+    title: 'Aaja Nachle'
+  });
+  danceLocationMarkers.push(dallasMarker);
+
+  const minneapolisLatlng = new google.maps.LatLng({lat: 44.97, lng: -93.23});
+  const minneapolisMarker = new google.maps.Marker({
+    position: minneapolisLatlng,
+    title: 'Jazba'
+  });
+  danceLocationMarkers.push(minneapolisMarker);
+
+  const marylandLatlng = new google.maps.LatLng({lat: 38.99, lng: -76.94});
+  const marylandMarker = new google.maps.Marker({
+    position: marylandLatlng,
+    title: 'Minza'
+  });
+  danceLocationMarkers.push(marylandMarker);
+
+  const scLatlng = new google.maps.LatLng({lat: 33.99, lng: -81.03});
+  const scMarker = new google.maps.Marker({
+    position: scLatlng,
+    title: 'Aag Ki Raat'
+  });
+  danceLocationMarkers.push(scMarker);
+
+  return danceLocationMarkers;
 }
