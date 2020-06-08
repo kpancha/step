@@ -313,6 +313,76 @@ function getTravelMarkers() {
   });
   travelMarkers.push(vermontMarker);
 
+  const drLatlng = new google.maps.LatLng({lat: 18.74, lng: -70.16});
+  const drMarker = new google.maps.Marker({
+    position: drLatlng,
+    title: 'My first solo international flight'
+  });
+  travelMarkers.push(drMarker);
+
+  const torontoLatlng = new google.maps.LatLng({lat: 43.65, lng: -79.38});
+  const torontoMarker = new google.maps.Marker({
+    position: torontoLatlng,
+    title: 'We saw the CNN tower!'
+  });
+  travelMarkers.push(torontoMarker);
+
+  const costaRicaLatlng = new google.maps.LatLng({lat: 9.75, lng: -83.75});
+  const costaRicaMarker = new google.maps.Marker({
+    position: costaRicaLatlng,
+    title: 'Pura Vida'
+  });
+  travelMarkers.push(costaRicaMarker);
+
+  const caymanLatlng = new google.maps.LatLng({lat: 19.32, lng: -81.24});
+  const caymanMarker = new google.maps.Marker({
+    position: caymanLatlng,
+    title: 'The clearest water I\'ve ever seen!'
+  });
+  travelMarkers.push(caymanMarker);
+
+  const alaskaLatlng = new google.maps.LatLng({lat: 64.20, lng: -149.49});
+  const alaskaMarker = new google.maps.Marker({
+    position: alaskaLatlng,
+    title: 'The only cruise I\'ve been on'
+  });
+  travelMarkers.push(alaskaMarker);
+
+  const chennaiLatlng = new google.maps.LatLng({lat: 13.08, lng: 80.27});
+  const chennaiMarker = new google.maps.Marker({
+    position: chennaiLatlng,
+    title: 'I\'ve been to Chennai 8 times!'
+  });
+  travelMarkers.push(chennaiMarker);
+
+  const beijingLatlng = new google.maps.LatLng({lat: 39.90, lng: 116.41});
+  const beijingMarker = new google.maps.Marker({
+    position: beijingLatlng,
+    title: 'We went the same year as the Olympics'
+  });
+  travelMarkers.push(beijingMarker);
+
+  const shanghaiLatlng = new google.maps.LatLng({lat: 31.23, lng: 121.47});
+  const shanghaiMarker = new google.maps.Marker({
+    position: shanghaiLatlng,
+    title: 'We got to ride the Maglev'
+  });
+  travelMarkers.push(shanghaiMarker);
+
+  const hongKongLatlng = new google.maps.LatLng({lat: 22.32, lng: 114.17});
+  const hongKongMarker = new google.maps.Marker({
+    position: hongKongLatlng,
+    title: 'The most jetlagged I\'ve ever been'
+  });
+  travelMarkers.push(hongKongMarker);
+
+  const dubaiLatlng = new google.maps.LatLng({lat: 25.20, lng: 55.27});
+  const dubaiMarker = new google.maps.Marker({
+    position: dubaiLatlng,
+    title: 'It was 110 degrees outside!'
+  });
+  travelMarkers.push(dubaiMarker);
+
   return travelMarkers;
 }
 
