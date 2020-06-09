@@ -191,7 +191,7 @@ function createNextButton(direction, isValid) {
 }
 
 /** Creates a map and adds it to the page. */
-function createMap() {
+function createMap(mapContainer, zoom, addMarkers=true) {
   const styledMapType = new google.maps.StyledMapType([
       {"elementType": "geometry","stylers": [{"color": "#ebe3cd"}]},
       {"elementType": "labels.text.fill","stylers": [{"color": "#523735"}]},
@@ -219,17 +219,21 @@ function createMap() {
       {"featureType": "water","elementType": "labels.text.fill","stylers": [{"color": "#92998d"}]}],
       {name: 'Retro Map'});
   
-  const latLngCoords = createLatLng(/* lat= */ 40.44, /* lng= */ -74.66);
+  const latLngCoords = createLatLng(/* lat= */ 40, /* lng= */ -100);
 
-  const map = new google.maps.Map(document.getElementById('map'),{
+  const map = new google.maps.Map(document.getElementById(mapContainer),{
     center: latLngCoords, 
-    zoom: 2, 
+    zoom: zoom, 
     mapTypeControlOptions: {
       mapTypeIds: ['roadmap', 'satellite', 'styled_map']
     }
   });
   map.mapTypes.set('styled_map', styledMapType);
   map.setMapTypeId('styled_map');
+
+  if (!addMarkers) {
+    return;
+  }
 
   // Set markers with corresponding icons
   const placesLivedMarkers = getPlacesLivedMarkers();
