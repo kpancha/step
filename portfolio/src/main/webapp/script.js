@@ -219,7 +219,10 @@ function displayNextState(stateCoordMap, stateInd) {
   const nameDisplay = document.createElement('h6');
   nameDisplay.innerHTML = currState;
   stateElement.appendChild(nameDisplay);
-  const nextButton = createNextButton(/* direction= */ 'r', /* isValid= */ true);
+
+  const nextButton = document.createElement('button');
+  nextButton.className = 'btn btn-outline-primary btn-sm';
+  nextButton.innerHTML = 'next';
   nextButton.addEventListener('click', () => displayNextState(stateCoordMap, ++stateInd));
   stateElement.appendChild(nextButton);
 }
@@ -227,7 +230,7 @@ function displayNextState(stateCoordMap, stateInd) {
 /**
  * Creates a marker on the interactive map.
  */
-function createGameMarker(lat, lng, targetCoords) {
+function createGameMarker(lat, lng, targetCoords, map) {
   let isInBounds = false;
   if (targetCoords != null) {
     const diffLat = Math.abs(lat - parseFloat(targetCoords['lat']));
@@ -235,7 +238,7 @@ function createGameMarker(lat, lng, targetCoords) {
     isInBounds = diffLat < 0.25 && diffLng < 0.25;
   }
   const greenIcon = 'images/green-icon.png';
-  const marker = new google.maps.Marker({position: {lat, lng}});
+  const marker = new google.maps.Marker({position: {lat, lng}, map});
   // If the user clicks on the correct capital, a green location marker is used.
   // Otherwise, the default red marker is used.
   if (isInBounds) {
@@ -244,7 +247,6 @@ function createGameMarker(lat, lng, targetCoords) {
   } else {
     alert("Try again.");
   }
-  return marker;
 }
 
 /**
@@ -256,8 +258,7 @@ function createInteractiveMap(targetCoords=null) {
   const map = createMap('interactive-map', latLngCoords, /* zoom= */ 4, mapTypeControlOptions);
   
   map.addListener('click', (event) => {
-    const marker = createGameMarker(event.latLng.lat(), event.latLng.lng(), targetCoords);
-    marker.setMap(map);
+    createGameMarker(event.latLng.lat(), event.latLng.lng(), targetCoords, map);
   });
 }
 
