@@ -14,40 +14,34 @@
 
 package com.google.sps.servlets;
 
-import com.google.sps.data.Marker;
 import com.google.gson.Gson;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-/** Handles fetching and saving markers data. */
-@WebServlet("/markers")
-public class MarkerServlet extends HttpServlet {
+/** Handles fetching a random state and its capital. */
+@WebServlet("/random-state")
+public class RandomStateServlet extends HttpServlet {
 
-  private List<Marker> markersOnMap = new ArrayList<>();
+  private Map<String,Map<String, Double>> stateCapitalCoords = new HashMap<>();
+  private Gson gson = new Gson();
 
-  /** Responds with a JSON array containing marker data. */
   @Override
   public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
+    Map<String, Double> njCoords = new HashMap<>();
+    njCoords.put("lat", 40.22);
+    njCoords.put("lng", -74.76);
+    stateCapitalCoords.put("New Jersey", njCoords);
+    Map<String, Double> nyCoords = new HashMap<>();
+    nyCoords.put("lat", 42.65);
+    nyCoords.put("lng", -73.76);
+    stateCapitalCoords.put("New York", nyCoords);
+    
     response.setContentType("application/json");
-
-    Gson gson = new Gson();
-    String json = gson.toJson(markersOnMap);
-
-    response.getWriter().println(json);
-  }
-
-  /** Accepts a POST request containing a new marker. */
-  @Override
-  public void doPost(HttpServletRequest request, HttpServletResponse response) {
-    double lat = Double.parseDouble(request.getParameter("lat"));
-    double lng = Double.parseDouble(request.getParameter("lng"));
-
-    Marker marker = new Marker(lat, lng, "NJ");
-    markersOnMap.add(marker);
+    response.getWriter().println(gson.toJson(stateCapitalCoords));
   }
 }
