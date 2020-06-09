@@ -255,17 +255,28 @@ function setMarkers(map, markers, icon=null) {
 }
 
 /**
- * Creates a Marker with a given LatLng position and title.
+ * Returns a Marker with a given LatLng position and title.
  */
-function createMarker(position, title) {
-  return new google.maps.Marker({position, title});
+function createMarker(position, title, infoWindow) {
+  const marker = new google.maps.Marker({position, title});
+  marker.addListener('click', function() {
+    infoWindow.open(map, marker);
+  });
+  return marker;
 }
 
 /**
- * Creates a LatLng element with a specific latitude and longitude.
+ * Returns a LatLng element with a specific latitude and longitude.
  */
 function createLatLng(lat, lng) {
   return new google.maps.LatLng({lat, lng});
+}
+
+/**
+ * Returns an InfoWindow element with content.
+ */
+function createInfoWindow(content) {
+  return new google.maps.InfoWindow({content});
 }
 
 /**
@@ -275,15 +286,18 @@ function getPlacesLivedMarkers() {
   const placesLivedMarkers = [];
 
   const montyLatlng = createLatLng(/* lat= */ 40.44, /* lng= */ -74.66);
-  const montyMarker = createMarker(montyLatlng, 'My hometown!');
+  const montyInfo = createInfoWindow('I\'ve lived in Montgomery since I was 7.');
+  const montyMarker = createMarker(montyLatlng, 'My hometown!', montyInfo);
   placesLivedMarkers.push(montyMarker);
 
   const gtLatlng = createLatLng(/* lat= */ 33.78, /* lng= */ -84.40);
-  const gtMarker = createMarker(gtLatlng, 'Go jackets');
+  const gtInfo = createInfoWindow('I am a 3rd year at Georgia Tech.');
+  const gtMarker = createMarker(gtLatlng, 'Go jackets', gtInfo);
   placesLivedMarkers.push(gtMarker);
 
   const sfLatlng = createLatLng(/* lat= */ 37.77, /* lng= */ -122.42);
-  const sfMarker = createMarker(sfLatlng, 'Summer 2019');
+  const sfInfo = createInfoWindow('I lived with my cousins in SF during Summer 2019.');
+  const sfMarker = createMarker(sfLatlng, 'I ran a half marathon here!', sfInfo);
   placesLivedMarkers.push(sfMarker);
 
   return placesLivedMarkers;
@@ -296,71 +310,114 @@ function getTravelMarkers() {
   const travelMarkers = []
 
   const rehobothLatlng = createLatLng(/* lat= */ 38.72, /* lng= */ -75.08);
-  const rehobothMarker = createMarker(rehobothLatlng, 'My favorite beach');
+  const rehobothInfo = createInfoWindow('I love to go to my grandparents\' beach house.');
+  const rehobothMarker = createMarker(rehobothLatlng, 'My favorite beach', rehobothInfo);
   travelMarkers.push(rehobothMarker);
 
   const vermontLatlng = createLatLng(/* lat= */ 44.59, /* lng= */ -72.79);
-  const vermontMarker = createMarker(vermontLatlng, 'The BEST skiing slopes');
+  const vermontInfo = createInfoWindow('My cousins live in Vermont.');
+  const vermontMarker = createMarker(vermontLatlng, 'The BEST skiing slopes', vermontInfo);
   travelMarkers.push(vermontMarker);
 
   const drLatlng = createLatLng(/* lat= */ 18.74, /* lng= */ -70.16);
-  const drMarker = createMarker(drLatlng, 'My first solo international flight');
+  const drInfo = createInfoWindow(
+      'I\'ve been here twice! Punta Cana for my 15th birthday and ' + 
+      'Monte Cristi for a service trip with Outreach360.'
+  );
+  const drMarker = createMarker(drLatlng, 'My first solo international flight', drInfo);
   travelMarkers.push(drMarker);
 
   const torontoLatlng = createLatLng(/* lat= */ 43.65, /* lng= */ -79.38);
-  const torontoMarker = createMarker(torontoLatlng, 'Climbed the CNN tower!');
+  const torontoInfo = createInfoWindow('We went here after going to Niagra Falls.');
+  const torontoMarker = createMarker(torontoLatlng, 'Climbed the CNN tower!', torontoInfo);
   travelMarkers.push(torontoMarker);
 
   const costaRicaLatlng = createLatLng(/* lat= */ 9.75, /* lng= */ -83.75);
-  const costaRicaMarker = createMarker(costaRicaLatlng, 'Pura vida');
+  const costaRicaInfo = createInfoWindow(
+      'My Girl Scout troop went on a trip to Costa Rica in high school.' + 
+      'We stayed in a lodge in the rainforest that was only accessible by raft!'
+  );
+  const costaRicaMarker = createMarker(costaRicaLatlng, 'Pura vida', costaRicaInfo);
   travelMarkers.push(costaRicaMarker);
 
   const caymanLatlng = createLatLng(/* lat= */ 19.32, /* lng= */ -81.24);
-  const caymanMarker = createMarker(caymanLatlng, 'The clearest water I\'ve ever seen!');
+  const caymanInfo = createInfoWindow(
+      'My mom and I went to Grand Cayman for a weekend for my 13th birthday.'
+  );
+  const caymanMarker = createMarker(caymanLatlng, 'The clearest water I\'ve ever seen!', caymanInfo);
   travelMarkers.push(caymanMarker);
 
   const alaskaLatlng = createLatLng(/* lat= */ 64.20, /* lng= */ -149.49);
-  const alaskaMarker = createMarker(alaskaLatlng, 'My first and only cruise');
+  const alaskaInfo = createInfoWindow(
+      'Alaska is my favorite U.S. state I\'ve been to!' + 
+      ' We went to Denali, Anchorage, Skagway, and Juneau.'
+  );
+  const alaskaMarker = createMarker(alaskaLatlng, 'My first and only cruise', alaskaInfo);
   travelMarkers.push(alaskaMarker);
 
   const chennaiLatlng = createLatLng(/* lat= */ 13.08, /* lng= */ 80.27);
-  const chennaiMarker = createMarker(chennaiLatlng, 'I\'ve been here 8 times!');
+  const chennaiInfo = createInfoWindow(
+      'My family tries to go to India every other year.' + 
+      ' We stay in the same house that my dad grew up in.'
+  );
+  const chennaiMarker = createMarker(chennaiLatlng, 'I\'ve been here 8 times!', chennaiInfo);
   travelMarkers.push(chennaiMarker);
 
   const beijingLatlng = createLatLng(/* lat= */ 39.90, /* lng= */ 116.41);
-  const beijingMarker = createMarker(beijingLatlng, 'We were here a few months before the Olympics');
+  const beijingInfo = createInfoWindow(
+      '7-year-old Kira wanted to take a slide down from the Great Wall,' +
+      'but we ended up taking the steps. How boring.'
+  );
+  const beijingMarker = createMarker(beijingLatlng, 'We were here a few months before the Olympics', beijingInfo);
   travelMarkers.push(beijingMarker);
 
   const shanghaiLatlng = createLatLng(/* lat= */ 31.23, /* lng= */ 121.47);
-  const shanghaiMarker = createMarker(shanghaiLatlng, 'We rode the fastest train in the world (the Maglev)');
+  const shanghaiInfo = createInfoWindow('My favorite parts of Shanghai were the Pearl Tower, Maglev, and cable cars.');
+  const shanghaiMarker = createMarker(shanghaiLatlng, 'We rode the fastest train in the world', shanghaiInfo);
   travelMarkers.push(shanghaiMarker);
 
   const hongKongLatlng = createLatLng(/* lat= */ 22.32, /* lng= */ 114.17);
-  const hongKongMarker = createMarker(hongKongLatlng, 'The most jetlagged I\'ve ever been');
+  const hongKongInfo = createInfoWindow('I had the best dim sum of my life right after landing in Hong Kong.');
+  const hongKongMarker = createMarker(hongKongLatlng, 'The most jetlagged I\'ve ever been', hongKongInfo);
   travelMarkers.push(hongKongMarker);
 
   const dubaiLatlng = createLatLng(/* lat= */ 25.20, /* lng= */ 55.27);
-  const dubaiMarker = createMarker(dubaiLatlng, 'It was 110 degrees outside!');
+  const dubaiInfo = createInfoWindow('We got stuck here for a few days during a layover because of Hurricane Irene.');
+  const dubaiMarker = createMarker(dubaiLatlng, 'It was 110 degrees outside!', dubaiInfo);
   travelMarkers.push(dubaiMarker);
 
   const parisLatlng = createLatLng(/* lat= */ 48.85, /* lng= */ 2.35);
-  const parisMarker = createMarker(parisLatlng, 'I was here the day France won the world cup!');
+  const parisInfo = createInfoWindow(
+      'We were only in Paris for a weekend, but it happened to be the weekend of Bastille Day and ' +
+      'the World Cup final! We walked about 10 miles each day while we were there.'
+  );
+  const parisMarker = createMarker(parisLatlng, 'I was here the day France won the world cup!', parisInfo);
   travelMarkers.push(parisMarker);
 
   const bordeauxLatlng = createLatLng(/* lat= */ 44.84, /* lng= */ 0.58);
-  const bordeauxMarker = createMarker(bordeauxLatlng, 'Donna traveled here in Mamma Mia 2');
+  const bordeauxInfo = createInfoWindow('We went to this beautiful city for a week the summer before I left for college.');
+  const bordeauxMarker = createMarker(bordeauxLatlng, 'Donna traveled here in Mamma Mia 2', bordeauxInfo);
   travelMarkers.push(bordeauxMarker);
 
   const barcaLatlng = createLatLng(/* lat= */ 41.38, /* lng= */ 2.17);
-  const barcaMarker = createMarker(barcaLatlng, 'The sun didn\'t come out the whole trip :(');
+  const barcaInfo = createInfoWindow('My favorite part of Barcelona was the Sagrada Familia.');
+  const barcaMarker = createMarker(barcaLatlng, 'The sun didn\'t come out the whole trip :(', barcaInfo);
   travelMarkers.push(barcaMarker);
 
   const switzLatlng = createLatLng(/* lat= */ 46.82, /* lng= */ 8.23);
-  const switzMarker = createMarker(switzLatlng, 'I got to go here twice!');
+  const switzInfo = createInfoWindow(
+      'I travelled to Switzerland once with my family and then 12 years later on a school trip!' +
+      ' It is one of the most beautiful places I have ever been to.'  
+  );
+  const switzMarker = createMarker(switzLatlng, 'I got to go here twice!', switzInfo);
   travelMarkers.push(switzMarker);
 
   const portugalLatlng = createLatLng(/* lat= */ 39.40, /* lng= */ -8.22);
-  const portugalMarker = createMarker(portugalLatlng, 'I accidentally nearly drowned my uncle here');
+  const portugalInfo = createInfoWindow(
+      'I was 6 when we went to Portugal. All I remember was the bakery on the beach' + 
+      ' where we would get these delicious chocolate croissants.'
+  );
+  const portugalMarker = createMarker(portugalLatlng, 'I accidentally nearly drowned my uncle here', portugalInfo);
   travelMarkers.push(portugalMarker);
 
   return travelMarkers;
@@ -373,19 +430,23 @@ function getDanceCompMarkers() {
   const danceLocationMarkers = [];
 
   const dallasLatlng = createLatLng(/* lat= */ 32.99, /* lng= */ -96.75);
-  const dallasMarker = createMarker(dallasLatlng, 'Aaja Nachle');
+  const dallasInfo = createInfoWindow('My first dance competition was at UT Dallas.');
+  const dallasMarker = createMarker(dallasLatlng, 'Aaja Nachle', dallasInfo);
   danceLocationMarkers.push(dallasMarker);
 
   const minneapolisLatlng = createLatLng(/* lat= */ 44.97, /* lng= */ -93.23);
-  const minneapolisMarker = createMarker(minneapolisLatlng, 'Jazba');
+  const minnapolisInfo = createInfoWindow('Minneapolis is my favorite place I have been for dance.');
+  const minneapolisMarker = createMarker(minneapolisLatlng, 'Jazba', minnapolisInfo);
   danceLocationMarkers.push(minneapolisMarker);
 
   const marylandLatlng = createLatLng(/* lat= */ 38.99, /* lng= */ -76.94);
-  const marylandMarker = createMarker(marylandLatlng, 'Minza');
+  const marylandInfo = createInfoWindow('My parents and best friend came to watch me perform at this comp!');
+  const marylandMarker = createMarker(marylandLatlng, 'Minza', marylandInfo);
   danceLocationMarkers.push(marylandMarker);
 
   const scLatlng = createLatLng(/* lat= */ 33.99, /* lng= */ -81.03);
-  const scMarker = createMarker(scLatlng, 'Aag Ki Raat');
+  const scInfo = createInfoWindow('Our car broke down on the way to this comp.');
+  const scMarker = createMarker(scLatlng, 'Aag Ki Raat', scInfo);
   danceLocationMarkers.push(scMarker);
 
   return danceLocationMarkers;
