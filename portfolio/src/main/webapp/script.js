@@ -190,8 +190,45 @@ function createNextButton(direction, isValid) {
   return nextButton;
 }
 
+/**
+ * Retrieves markers from /markers.
+ */
+function fetchMarkers() {
+  fetch('/markers').then(response => response.json()).then((markers) => {
+    markers.forEach(
+        (marker) => {
+            createGameMarker(marker.lat, marker.lng)});
+  });
+}
+
+/**
+ * Creates a marker on the interactive map.
+ */
+function createGameMarker(lat, lng) {
+  return new google.maps.Marker({position: {lat: lat, lng: lng}});
+}
+
+/**
+ * Creates an interactive map.
+ */
+function createInteractiveMap() {
+  const latLngCoords = createLatLng(/* lat= */ 40, /* lng= */ -100);
+
+  const map = new google.maps.Map(document.getElementById('interactive-map'),{
+    center: latLngCoords, 
+    zoom: 4, 
+    mapTypeId: 'roadmap'
+  });
+
+  map.addListener('click', (event) => {
+    const marker = createGameMarker(event.latLng.lat(), event.latLng.lng());
+    marker.setMap(map);
+  });
+  fetchMarkers();
+}
+
 /** Creates a map and adds it to the page. */
-function createMap(mapContainer, zoom, addMarkers=true) {
+function createStaticMap() {
   const styledMapType = new google.maps.StyledMapType([
       {"elementType": "geometry","stylers": [{"color": "#ebe3cd"}]},
       {"elementType": "labels.text.fill","stylers": [{"color": "#523735"}]},
@@ -221,19 +258,15 @@ function createMap(mapContainer, zoom, addMarkers=true) {
   
   const latLngCoords = createLatLng(/* lat= */ 40, /* lng= */ -100);
 
-  const map = new google.maps.Map(document.getElementById(mapContainer),{
+  const map = new google.maps.Map(document.getElementById('map'),{
     center: latLngCoords, 
-    zoom: zoom, 
+    zoom: 2, 
     mapTypeControlOptions: {
       mapTypeIds: ['roadmap', 'satellite', 'styled_map']
     }
   });
   map.mapTypes.set('styled_map', styledMapType);
   map.setMapTypeId('styled_map');
-
-  if (!addMarkers) {
-    return;
-  }
 
   // Set markers with corresponding icons
   const placesLivedMarkers = getPlacesLivedMarkers();
