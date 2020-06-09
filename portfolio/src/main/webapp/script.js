@@ -517,6 +517,21 @@ function getTravelMarkers() {
   const portugalMarker = createMarker(portugalLatlng, 'I accidentally nearly drowned my uncle here', portugalInfo);
   travelMarkers.push(portugalMarker);
 
+  const englandLatlng = createLatLng(/* lat= */ 52.35, /* lng= */ -1.17);
+  const englandInfo = createInfoWindow('I was about 2 years old when we went to England and all I ate there was peanut butter.');
+  const englandMarker = createMarker(englandLatlng, 'One of my first vacations', englandInfo);
+  travelMarkers.push(englandMarker);
+
+  const newOrleansLatlng = createLatLng(/* lat= */ 29.95, /* lng= */ -90.07);
+  const newOrleansInfo = createInfoWindow('We roadtripped from Atlanta during my freshman year of college.');
+  const newOrleansMarker = createMarker(newOrleansLatlng, 'College formal', newOrleansInfo);
+  travelMarkers.push(newOrleansMarker);
+
+  const disneyLatlng = createLatLng(/* lat= */ 28.39, /* lng= */ -81.56);
+  const disneyInfo = createInfoWindow('I went to Disney twice: once when I was 5 and once for our high school senior trip.');
+  const disneyMarker = createMarker(disneyLatlng, 'I could never get tired of Disney World!', disneyInfo);
+  travelMarkers.push(disneyMarker);
+
   return travelMarkers;
 }
 
