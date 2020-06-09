@@ -36,8 +36,8 @@ import javax.servlet.ServletException;
 public class RandomStateServlet extends HttpServlet {
 
   private final Map<String,Map<String, Double>> stateCapitalCoords = new HashMap<>();
-  private static final Logger LOGGER = Logger.getLogger(RandomStateServlet.class.getName());
   private final Gson gson = new Gson();
+  private static final Logger LOGGER = Logger.getLogger(RandomStateServlet.class.getName());
 
   @Override
   public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
