@@ -93,3 +93,11 @@
 .map {
   height: 650px;
 }
+
+.alert {
+  width: 650px;
+}
+
+#map-label {
+  padding-top: 50px;
+}

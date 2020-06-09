@@ -1,12 +1,14 @@
 <!DOCTYPE html>
 <html>
   <meta charset="UTF-8">
-    <title>Comments</title>
+    <title>Maps</title>
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="bootstrap.min.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
     <script src="script.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script> 
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBBqtlu5Y3Og7lzC1WI9SFHZr2gJ4iDdTc"></script>
+
     <script> 
       $(function(){
         $("#navbar-content").load("navbar.html", function() {
@@ -18,14 +20,22 @@
 
   <body onpageshow="createStaticMap(); createInteractiveMap();">
     <div id="navbar-content"></div>
-    <div id="content" class="fade-in">
+    <div id="content" class="fade-in center">
+      <label for="map">
+          <h1>Kira's Adventures</h1>
+          <p>Mouse over or click on any of the icons to find out more about the places I've been!</p>
+          <span class="material-icons" id="dancer">emoji_people</span>
+          <label for="dancer">Dance competitions I've been to</label>
+          <br>
+          <span class="material-icons" id="house">house</span>
+          <label for="house">Places I've lived</label>
+      </label>
       <div id="map" class="map"></div>
-      <br>
-      <label for="interactive-map">
+      <label id="map-label" for="interactive-map">
           <h4>State Capital Game</h4>
           <p>Click on the map below to drop a pin on the state's capital.</p>
+          <button class="btn btn-outline-primary btn-sm" onclick="fetchStates();">Start Game</button>
       </label>
-      <button class="btn btn-outline-primary btn-sm" onclick="fetchStates();">Start Game</button>
       <div id="state-name"></div>
       <div id="interactive-map" class="map"></div>
     </div>

@@ -214,20 +214,28 @@ function displayNextState(stateCoordMap, stateInd) {
   }
   const currState = stateNames[stateInd];
   const currCoords = stateCoordMap[currState];
-  createInteractiveMap(currCoords);
+  createInteractiveMap(currCoords, stateCoordMap, stateInd);
   
   const nameDisplay = document.createElement('h6');
   nameDisplay.innerHTML = currState;
   stateElement.appendChild(nameDisplay);
-  const nextButton = createNextButton(/* direction= */ 'r', /* isValid= */ true);
+
+  const nextButton = document.createElement('button');
+  nextButton.className = 'btn btn-outline-primary btn-sm';
+  nextButton.innerHTML = 'next';
   nextButton.addEventListener('click', () => displayNextState(stateCoordMap, ++stateInd));
   stateElement.appendChild(nextButton);
+
+  // Blank upon creation but this is where alerts will tell the user if their guess is correct.
+  const alertContainer = document.createElement('div');
+  alertContainer.id = 'alert-container';
+  stateElement.appendChild(alertContainer);
 }
 
 /**
  * Creates a marker on the interactive map.
  */
-function createGameMarker(lat, lng, targetCoords) {
+function createGameMarker(lat, lng, targetCoords, map, stateCoordMap=null, stateInd=0) {
   let isInBounds = false;
   if (targetCoords != null) {
     const diffLat = Math.abs(lat - parseFloat(targetCoords['lat']));
@@ -235,29 +243,40 @@ function createGameMarker(lat, lng, targetCoords) {
     isInBounds = diffLat < 0.25 && diffLng < 0.25;
   }
   const greenIcon = 'images/green-icon.png';
-  const marker = new google.maps.Marker({position: {lat, lng}});
+  const marker = new google.maps.Marker({position: {lat, lng}, map});
+  
   // If the user clicks on the correct capital, a green location marker is used.
   // Otherwise, the default red marker is used.
   if (isInBounds) {
     marker.setIcon(greenIcon);
-    alert('Correct!');
+    showAlert(/* alertType= */ 'success', /* message= */ 'CORRECT!');
+    setTimeout(function() {
+      displayNextState(stateCoordMap, ++stateInd);
+    }, 2500);
   } else {
-    alert("Try again.");
+    showAlert(/* alertType= */ 'danger', /* message= */ 'Try Again.');
   }
-  return marker;
+}
+
+/**
+ * Displays an alert of a certain color (determined by alertType) and message.
+ */
+function showAlert(alertType, message) {
+  const alertContainer = document.getElementById('alert-container');
+  alertContainer.className = 'alert alert-dismissible alert-' + alertType;
+  alertContainer.innerHTML = message;
 }
 
 /**
  * Creates an interactive map.
  */
-function createInteractiveMap(targetCoords=null) {
+function createInteractiveMap(targetCoords=null, stateCoordMap=null, stateInd=0) {
   const latLngCoords = createLatLng(/* lat= */ 40, /* lng= */ -100);
   const mapTypeControlOptions = {mapTypeIds: ['roadmap', 'satellite']};
   const map = createMap('interactive-map', latLngCoords, /* zoom= */ 4, mapTypeControlOptions);
   
   map.addListener('click', (event) => {
-    const marker = createGameMarker(event.latLng.lat(), event.latLng.lng(), targetCoords);
-    marker.setMap(map);
+    createGameMarker(event.latLng.lat(), event.latLng.lng(), targetCoords, map, stateCoordMap, stateInd);
   });
 }
 
@@ -497,6 +516,21 @@ function getTravelMarkers() {
   );
   const portugalMarker = createMarker(portugalLatlng, 'I accidentally nearly drowned my uncle here', portugalInfo);
   travelMarkers.push(portugalMarker);
+
+  const englandLatlng = createLatLng(/* lat= */ 52.35, /* lng= */ -1.17);
+  const englandInfo = createInfoWindow('I was about 2 years old when we went to England and all I ate there was peanut butter.');
+  const englandMarker = createMarker(englandLatlng, 'One of my first vacations', englandInfo);
+  travelMarkers.push(englandMarker);
+
+  const newOrleansLatlng = createLatLng(/* lat= */ 29.95, /* lng= */ -90.07);
+  const newOrleansInfo = createInfoWindow('We roadtripped from Atlanta during my freshman year of college.');
+  const newOrleansMarker = createMarker(newOrleansLatlng, 'College formal', newOrleansInfo);
+  travelMarkers.push(newOrleansMarker);
+
+  const disneyLatlng = createLatLng(/* lat= */ 28.39, /* lng= */ -81.56);
+  const disneyInfo = createInfoWindow('I went to Disney twice: once when I was 5 and once for our high school senior trip.');
+  const disneyMarker = createMarker(disneyLatlng, 'I could never get tired of Disney World!', disneyInfo);
+  travelMarkers.push(disneyMarker);
 
   return travelMarkers;
 }
