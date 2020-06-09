@@ -32,7 +32,7 @@ import javax.servlet.ServletException;
 @WebServlet("/random-state")
 public class RandomStateServlet extends HttpServlet {
 
-  private Map<String,Map<String, Double>> stateCapitalCoords = new HashMap<>();
+  private final Map<String,Map<String, Double>> stateCapitalCoords = new HashMap<>();
   private final Gson gson = new Gson();
 
   @Override
