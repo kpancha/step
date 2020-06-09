@@ -214,7 +214,7 @@ function displayNextState(stateCoordMap, stateInd) {
   }
   const currState = stateNames[stateInd];
   const currCoords = stateCoordMap[currState];
-  createInteractiveMap(currCoords);
+  createInteractiveMap(currCoords, stateCoordMap, stateInd);
   
   const nameDisplay = document.createElement('h6');
   nameDisplay.innerHTML = currState;
@@ -225,12 +225,17 @@ function displayNextState(stateCoordMap, stateInd) {
   nextButton.innerHTML = 'next';
   nextButton.addEventListener('click', () => displayNextState(stateCoordMap, ++stateInd));
   stateElement.appendChild(nextButton);
+
+  // Blank upon creation but this is where alerts will tell the user if their guess is correct.
+  const alertContainer = document.createElement('div');
+  alertContainer.id = 'alert-container';
+  stateElement.appendChild(alertContainer);
 }
 
 /**
  * Creates a marker on the interactive map.
  */
-function createGameMarker(lat, lng, targetCoords, map) {
+function createGameMarker(lat, lng, targetCoords, map, stateCoordMap=null, stateInd=0) {
   let isInBounds = false;
   if (targetCoords != null) {
     const diffLat = Math.abs(lat - parseFloat(targetCoords['lat']));
@@ -239,26 +244,39 @@ function createGameMarker(lat, lng, targetCoords, map) {
   }
   const greenIcon = 'images/green-icon.png';
   const marker = new google.maps.Marker({position: {lat, lng}, map});
+  
   // If the user clicks on the correct capital, a green location marker is used.
   // Otherwise, the default red marker is used.
   if (isInBounds) {
     marker.setIcon(greenIcon);
-    alert('Correct!');
+    showAlert(/* alertType= */ 'success', /* message= */ 'CORRECT!');
+    setTimeout(function() {
+      displayNextState(stateCoordMap, ++stateInd);
+    }, 2500);
   } else {
-    alert("Try again.");
+    showAlert(/* alertType= */ 'danger', /* message= */ 'Try Again.');
   }
+}
+
+/**
+ * Displays an alert of a certain color (determined by alertType) and message.
+ */
+function showAlert(alertType, message) {
+  const alertContainer = document.getElementById('alert-container');
+  alertContainer.className = 'alert alert-dismissible alert-' + alertType;
+  alertContainer.innerHTML = message;
 }
 
 /**
  * Creates an interactive map.
  */
-function createInteractiveMap(targetCoords=null) {
+function createInteractiveMap(targetCoords=null, stateCoordMap=null, stateInd=0) {
   const latLngCoords = createLatLng(/* lat= */ 40, /* lng= */ -100);
   const mapTypeControlOptions = {mapTypeIds: ['roadmap', 'satellite']};
   const map = createMap('interactive-map', latLngCoords, /* zoom= */ 4, mapTypeControlOptions);
   
   map.addListener('click', (event) => {
-    createGameMarker(event.latLng.lat(), event.latLng.lng(), targetCoords, map);
+    createGameMarker(event.latLng.lat(), event.latLng.lng(), targetCoords, map, stateCoordMap, stateInd);
   });
 }
 
