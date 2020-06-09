@@ -27,8 +27,8 @@ import javax.servlet.http.HttpServletResponse;
 @WebServlet("/random-state")
 public class RandomStateServlet extends HttpServlet {
 
-  private Map<String,Map<String, Double>> stateCapitalCoords = new HashMap<>();
-  private Gson gson = new Gson();
+  private final Map<String,Map<String, Double>> stateCapitalCoords = new HashMap<>();
+  private final Gson gson = new Gson();
 
   @Override
   public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
