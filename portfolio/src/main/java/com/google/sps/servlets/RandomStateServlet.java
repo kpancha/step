@@ -19,6 +19,9 @@ import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import java.lang.NumberFormatException;
 import java.util.HashMap;
 import java.util.Map;
 import javax.servlet.annotation.WebServlet;
@@ -33,6 +36,7 @@ import javax.servlet.ServletException;
 public class RandomStateServlet extends HttpServlet {
 
   private final Map<String,Map<String, Double>> stateCapitalCoords = new HashMap<>();
+  private static final Logger LOGGER = Logger.getLogger(RandomStateServlet.class.getName());
   private final Gson gson = new Gson();
 
   @Override
@@ -50,12 +54,16 @@ public class RandomStateServlet extends HttpServlet {
     while ((data = reader.readLine()) != null) {
       String[] dataSegments = data.split(",");
       String stateName = dataSegments[0];
-      double lat = Double.parseDouble(dataSegments[1]);
-      double lng = Double.parseDouble(dataSegments[2]);
-      Map<String, Double> coords = new HashMap<>();
-      coords.put("lat", lat);
-      coords.put("lng", lng);
-      stateCapitalCoords.put(stateName, coords);
+      try {
+        double lat = Double.parseDouble(dataSegments[1]);
+        double lng = Double.parseDouble(dataSegments[2]);
+        Map<String, Double> coords = new HashMap<>();
+        coords.put("lat", lat);
+        coords.put("lng", lng);
+        stateCapitalCoords.put(stateName, coords);
+      } catch (NumberFormatException e) {
+        LOGGER.log(Level.WARNING, "Input could not be cast to double: " + e.getMessage());
+      }
     }
   }
 }
