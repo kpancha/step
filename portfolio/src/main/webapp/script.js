@@ -213,12 +213,9 @@ function createGameMarker(lat, lng) {
  */
 function createInteractiveMap() {
   const latLngCoords = createLatLng(/* lat= */ 40, /* lng= */ -100);
+  const mapTypeControlOptions = {mapTypeIds: ['roadmap', 'satellite']};
 
-  const map = new google.maps.Map(document.getElementById('interactive-map'),{
-    center: latLngCoords, 
-    zoom: 4, 
-    mapTypeId: 'roadmap'
-  });
+  const map = createMap('interactive-map', latLngCoords, /* zoom= */ 4, mapTypeControlOptions);
 
   map.addListener('click', (event) => {
     const marker = createGameMarker(event.latLng.lat(), event.latLng.lng());
@@ -227,7 +224,19 @@ function createInteractiveMap() {
   fetchMarkers();
 }
 
-/** Creates a map and adds it to the page. */
+/** 
+ * Adds a map to a specific HTML element.
+*/
+function createMap(mapContainer, center, zoom, mapTypeControlOptions) {
+  const map = new google.maps.Map(document.getElementById(mapContainer),{
+    center, zoom, mapTypeControlOptions
+  });
+  return map;
+}
+
+/** 
+ * Creates a retro themed map with markers and adds it to the page. 
+*/
 function createStaticMap() {
   const styledMapType = new google.maps.StyledMapType([
       {"elementType": "geometry","stylers": [{"color": "#ebe3cd"}]},
@@ -257,14 +266,9 @@ function createStaticMap() {
       {name: 'Retro Map'});
   
   const latLngCoords = createLatLng(/* lat= */ 40, /* lng= */ -100);
+  const mapTypeControlOptions = {mapTypeIds: ['roadmap', 'satellite', 'styled_map']};
 
-  const map = new google.maps.Map(document.getElementById('map'),{
-    center: latLngCoords, 
-    zoom: 2, 
-    mapTypeControlOptions: {
-      mapTypeIds: ['roadmap', 'satellite', 'styled_map']
-    }
-  });
+  const map = createMap('map', latLngCoords, /* zoom= */ 2, mapTypeControlOptions);
   map.mapTypes.set('styled_map', styledMapType);
   map.setMapTypeId('styled_map');
 
