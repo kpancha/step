@@ -15,6 +15,9 @@
 package com.google.sps.servlets;
 
 import com.google.gson.Gson;
+import java.io.BufferedReader;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
@@ -22,6 +25,8 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.ServletContext;
+import javax.servlet.ServletException;
 
 /** Handles fetching a random state and its capital. */
 @WebServlet("/random-state")
@@ -31,17 +36,26 @@ public class RandomStateServlet extends HttpServlet {
   private Gson gson = new Gson();
 
   @Override
-  public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
-    Map<String, Double> njCoords = new HashMap<>();
-    njCoords.put("lat", 40.22);
-    njCoords.put("lng", -74.76);
-    stateCapitalCoords.put("New Jersey", njCoords);
-    Map<String, Double> nyCoords = new HashMap<>();
-    nyCoords.put("lat", 42.65);
-    nyCoords.put("lng", -73.76);
-    stateCapitalCoords.put("New York", nyCoords);
-    
+  public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
+    readStateCoords();
     response.setContentType("application/json");
     response.getWriter().println(gson.toJson(stateCapitalCoords));
+  }
+
+  private void readStateCoords() throws IOException, ServletException {
+    InputStream stateCoords = getServletContext().getResourceAsStream("/WEB-INF/state_capitals.txt");
+    InputStreamReader inputReader = new InputStreamReader(stateCoords);
+    BufferedReader reader = new BufferedReader(inputReader);
+    String data;
+    while ((data = reader.readLine()) != null) {
+      String[] dataSegments = data.split(" +");
+      String stateName = dataSegments[0];
+      double lat = Double.parseDouble(dataSegments[1]);
+      double lng = Double.parseDouble(dataSegments[2]);
+      Map<String, Double> coords = new HashMap<>();
+      coords.put("lat", lat);
+      coords.put("lng", lng);
+      stateCapitalCoords.put(stateName, coords);
+    }
   }
 }
