@@ -194,7 +194,7 @@ function createNextButton(direction, isValid) {
  * Fetch states mapped to latitudes and longitudes.
  */
 function fetchStates() {
-  fetch('/random-state').then(response => response.json()).then((state) => {
+  fetch('/random-state').then(response => response.json()).then((states) => {
     displayNextState( /* stateCoordMap= */ states, /* stateInd= */ 0);
   });
 }
