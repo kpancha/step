@@ -16,10 +16,18 @@
     </script>
   </head>
 
-  <body onpageshow="createMap();">
+  <body onpageshow="createStaticMap(); createInteractiveMap();">
     <div id="navbar-content"></div>
     <div id="content" class="fade-in">
-      <div id="map"></div>
+      <div id="map" class="map"></div>
+      <br>
+      <label for="interactive-map">
+          <h4>State Capital Game</h4>
+          <p>Click on the map below to drop a pin on the state's capital.</p>
+      </label>
+      <button class="btn btn-outline-primary btn-sm" onclick="fetchStates();">Start Game</button>
+      <div id="state-name"></div>
+      <div id="interactive-map" class="map"></div>
     </div>
   </body>
 </html>

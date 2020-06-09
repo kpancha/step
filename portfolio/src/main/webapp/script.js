@@ -190,8 +190,91 @@ function createNextButton(direction, isValid) {
   return nextButton;
 }
 
-/** Creates a map and adds it to the page. */
-function createMap() {
+/**
+ * Fetch states mapped to latitudes and longitudes.
+ */
+function fetchStates() {
+  fetch('/random-state').then(response => response.json()).then((states) => {
+    displayNextState( /* stateCoordMap= */ states, /* stateInd= */ 0);
+  });
+}
+
+/**
+ * Displays the next state from a JSON Object on the DOM.
+ */
+function displayNextState(stateCoordMap, stateInd) {
+  const stateNames = Object.keys(stateCoordMap);
+  const stateElement = document.getElementById('state-name');
+  stateElement.innerHTML = '';
+
+  if (stateInd >= stateNames.length) {
+    alert('Game Over!');
+    stateElement.innerHTML = 'Game Over!';
+    return;
+  }
+  const currState = stateNames[stateInd];
+  const currCoords = stateCoordMap[currState];
+  createInteractiveMap(currCoords);
+  
+  const nameDisplay = document.createElement('h6');
+  nameDisplay.innerHTML = currState;
+  stateElement.appendChild(nameDisplay);
+  const nextButton = createNextButton(/* direction= */ 'r', /* isValid= */ true);
+  nextButton.addEventListener('click', () => displayNextState(stateCoordMap, ++stateInd));
+  stateElement.appendChild(nextButton);
+}
+
+/**
+ * Creates a marker on the interactive map.
+ */
+function createGameMarker(lat, lng, targetCoords) {
+  let isInBounds = false;
+  if (targetCoords != null) {
+    const diffLat = Math.abs(lat - parseFloat(targetCoords['lat']));
+    const diffLng = Math.abs(lng - parseFloat(targetCoords['lng']));
+    isInBounds = diffLat < 0.25 && diffLng < 0.25;
+  }
+  const greenIcon = 'images/green-icon.png';
+  const marker = new google.maps.Marker({position: {lat, lng}});
+  // If the user clicks on the correct capital, a green location marker is used.
+  // Otherwise, the default red marker is used.
+  if (isInBounds) {
+    marker.setIcon(greenIcon);
+    alert('Correct!');
+  } else {
+    alert("Try again.");
+  }
+  return marker;
+}
+
+/**
+ * Creates an interactive map.
+ */
+function createInteractiveMap(targetCoords=null) {
+  const latLngCoords = createLatLng(/* lat= */ 40, /* lng= */ -100);
+  const mapTypeControlOptions = {mapTypeIds: ['roadmap', 'satellite']};
+  const map = createMap('interactive-map', latLngCoords, /* zoom= */ 4, mapTypeControlOptions);
+  
+  map.addListener('click', (event) => {
+    const marker = createGameMarker(event.latLng.lat(), event.latLng.lng(), targetCoords);
+    marker.setMap(map);
+  });
+}
+
+/** 
+ * Adds a map to a specific HTML element.
+*/
+function createMap(mapContainer, center, zoom, mapTypeControlOptions) {
+  const map = new google.maps.Map(document.getElementById(mapContainer), {
+    center, zoom, mapTypeControlOptions
+  });
+  return map;
+}
+
+/** 
+ * Creates a retro themed map with markers and adds it to the page. 
+*/
+function createStaticMap() {
   const styledMapType = new google.maps.StyledMapType([
       {"elementType": "geometry","stylers": [{"color": "#ebe3cd"}]},
       {"elementType": "labels.text.fill","stylers": [{"color": "#523735"}]},
@@ -219,15 +302,10 @@ function createMap() {
       {"featureType": "water","elementType": "labels.text.fill","stylers": [{"color": "#92998d"}]}],
       {name: 'Retro Map'});
   
-  const latLngCoords = createLatLng(/* lat= */ 40.44, /* lng= */ -74.66);
+  const latLngCoords = createLatLng(/* lat= */ 40, /* lng= */ -100);
+  const mapTypeControlOptions = {mapTypeIds: ['roadmap', 'satellite', 'styled_map']};
 
-  const map = new google.maps.Map(document.getElementById('map'),{
-    center: latLngCoords, 
-    zoom: 2, 
-    mapTypeControlOptions: {
-      mapTypeIds: ['roadmap', 'satellite', 'styled_map']
-    }
-  });
+  const map = createMap('map', latLngCoords, /* zoom= */ 2, mapTypeControlOptions);
   map.mapTypes.set('styled_map', styledMapType);
   map.setMapTypeId('styled_map');
 
