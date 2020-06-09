@@ -33,7 +33,7 @@ import javax.servlet.ServletException;
 public class RandomStateServlet extends HttpServlet {
 
   private Map<String,Map<String, Double>> stateCapitalCoords = new HashMap<>();
-  private Gson gson = new Gson();
+  private final Gson gson = new Gson();
 
   @Override
   public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
