@@ -43,12 +43,12 @@ public class RandomStateServlet extends HttpServlet {
   }
 
   private void readStateCoords() throws IOException, ServletException {
-    InputStream stateCoords = getServletContext().getResourceAsStream("/WEB-INF/state_capitals.txt");
+    InputStream stateCoords = getServletContext().getResourceAsStream("/WEB-INF/state_capitals.csv");
     InputStreamReader inputReader = new InputStreamReader(stateCoords);
     BufferedReader reader = new BufferedReader(inputReader);
     String data;
     while ((data = reader.readLine()) != null) {
-      String[] dataSegments = data.split(" +");
+      String[] dataSegments = data.split(",");
       String stateName = dataSegments[0];
       double lat = Double.parseDouble(dataSegments[1]);
       double lng = Double.parseDouble(dataSegments[2]);
