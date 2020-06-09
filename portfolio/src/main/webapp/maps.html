@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
   <meta charset="UTF-8">
-    <title>Comments</title>
+    <title>Maps</title>
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="bootstrap.min.css">
     <script src="script.js"></script>
@@ -18,14 +18,14 @@
 
   <body onpageshow="createStaticMap(); createInteractiveMap();">
     <div id="navbar-content"></div>
-    <div id="content" class="fade-in">
+    <div id="content" class="fade-in center">
+      <label for="map"><h1>Kira's Adventures</h1></label>
       <div id="map" class="map"></div>
-      <br>
-      <label for="interactive-map">
+      <label id="map-label" for="interactive-map">
           <h4>State Capital Game</h4>
           <p>Click on the map below to drop a pin on the state's capital.</p>
+          <button class="btn btn-outline-primary btn-sm" onclick="fetchStates();">Start Game</button>
       </label>
-      <button class="btn btn-outline-primary btn-sm" onclick="fetchStates();">Start Game</button>
       <div id="state-name"></div>
       <div id="interactive-map" class="map"></div>
     </div>
