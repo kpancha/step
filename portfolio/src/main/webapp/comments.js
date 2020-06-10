@@ -185,7 +185,7 @@ function createCommentElement(comment) {
   contentElement.innerHTML = comment.content;
 
   const likeElement = document.createElement('p');
-  likeElement.innerHTML = comment.numLikes + ' likes';
+  likeElement.innerHTML = comment.numLikes + ' &#10084;&#65039;';
 
   const timeElement = document.createElement('p');
   timeElement.innerHTML += 'Posted at ' + comment.timestamp;
@@ -215,7 +215,7 @@ function createLikeButton(isDisabled=false) {
  */
 function createDeleteButton() {
   const deleteButton = document.createElement('button');
-  deleteButton.innerHTML = 'Delete';
+  deleteButton.innerHTML = 'Delete my comment';
   deleteButton.className = 'btn btn-danger btn-sm';
   return deleteButton;
 }
