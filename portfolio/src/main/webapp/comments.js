@@ -114,21 +114,21 @@ function showNextNComments(allComments, startInd, maxNumDisplayed) {
     
     for (let i = startInd; i < allComments.length && i < startInd + maxNumDisplayed; i++) {
       const comment = allComments[i];
-
-      const likeButton = createLikeButton();
-      likeButton.addEventListener('click', () => sendLike(comment));
-
-      const deleteButton = createDeleteButton();
-      deleteButton.addEventListener('click', () => deleteComment(comment));
-
       const commentElement = createCommentElement(comment);
-      commentElement.appendChild(likeButton);
 
       fetchLoginStatus().then((user) => {
-        if (user.userEmail && user.userEmail == comment.email) {
-          commentElement.appendChild(deleteButton);
+        if (user.userEmail) {
+          const likeButton = createLikeButton();
+          likeButton.addEventListener('click', () => sendLike(comment));
+          commentElement.appendChild(likeButton);
+          if (user.userEmail == comment.email) {
+            const deleteButton = createDeleteButton();
+            deleteButton.addEventListener('click', () => deleteComment(comment));
+            commentElement.appendChild(deleteButton);
+          }
         }
       });
+
       display.appendChild(commentElement);
     }
 
@@ -200,10 +200,11 @@ function createCommentElement(comment) {
 /**
  * Create a like button for a comment.
  */
-function createLikeButton() {
+function createLikeButton(isDisabled=false) {
   const likeButton = document.createElement('button');
   likeButton.innerHTML = 'Like';
   likeButton.className = 'btn btn-success btn-sm';
+  likeButton.disabled = isDisabled;
   return likeButton;
 }
 
