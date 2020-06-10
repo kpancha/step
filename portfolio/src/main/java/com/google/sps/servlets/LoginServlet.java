@@ -49,6 +49,5 @@ public class LoginServlet extends HttpServlet {
       userInfo.put("redirectUrl", loginUrl);
       response.getWriter().println(gson.toJson(userInfo));
     }
-    //response.sendRedirect("/comments.html");
   }
 }

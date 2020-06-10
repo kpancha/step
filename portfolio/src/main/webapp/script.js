@@ -66,7 +66,7 @@ function filterCourseDisplay(courseType = 'course') {
 function fetchLoginStatus() {
   fetch('/login').then(response => response.json()).then((user) => {
     if (user.userEmail) {
-      displayCommentInputField();
+      displayCommentInputField(user.userEmail);
       displayLoginButton(user.redirectUrl, /* logout= */ true);
     } else {
       displayLoginButton(user.redirectUrl);
@@ -82,8 +82,9 @@ function displayLoginButton(redirectUrl, logout=false) {
   loginContainer.innerHTML = '';
   const loginButton = document.createElement('a');
   loginButton.type = 'button';
-  loginButton.className = 'btn btn-outline-primary';
-  loginButton.innerHTML = logout ? 'Log out' : 'Log in';
+  loginButton.className = logout ? 
+      'btn btn-outline-primary btn-sm' : 'btn btn-outline-primary';
+  loginButton.innerHTML = logout ? 'Log out' : 'Log in to leave a comment';
   loginButton.href = redirectUrl;
   loginContainer.appendChild(loginButton);
 }
@@ -91,7 +92,7 @@ function displayLoginButton(redirectUrl, logout=false) {
 /**
  * Displays text area to leave comment.
  */
-function displayCommentInputField() {
+function displayCommentInputField(userEmail) {
   const commentFormContainer = document.getElementById('comment-form');
   commentFormContainer.innerHTML = '';
   const breakElement = document.createElement('br');
@@ -122,6 +123,11 @@ function displayCommentInputField() {
   nameLabel.hidden = true;
   nameLabel.innerHTML = 'Your Name (Optional)';
 
+  const emailParam = document.createElement('input');
+  emailParam.hidden = true;
+  emailParam.name = 'email';
+  emailParam.value = userEmail;
+
   const submitButton = document.createElement('button');
   submitButton.type = 'submit';
   submitButton.innerHTML = 'Post';
@@ -134,6 +140,7 @@ function displayCommentInputField() {
   commentForm.appendChild(nameLabel);
   commentForm.appendChild(nameTextArea);
   commentForm.appendChild(breakElement.cloneNode(false));
+  commentForm.appendChild(emailParam);
   commentForm.appendChild(submitButton);
   commentFormContainer.appendChild(commentForm);
 }
@@ -218,8 +225,9 @@ function createCommentElement(comment) {
   const extraLineBreak = document.createElement('br');
 
   const nameElement = document.createElement('p');
-  nameElement.innerHTML = 'Posted by: ' + comment.name;
-
+  nameElement.innerHTML = 'Posted by: ';
+  nameElement.innerHTML += comment.name == 'anonymous' && comment.email ? 
+      comment.email : comment.name;
   const contentElement = document.createElement('p');
   contentElement.innerHTML = comment.content;
 
