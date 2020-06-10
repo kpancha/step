@@ -15,23 +15,17 @@
     </script>
   </head>
 
-  <body onpageshow="loadComments()">
+  <body onpageshow="loadComments(); fetchLoginStatus();">
     <!--Display Nav Bar at top of page.-->
     <div id="navbar-content"></div>
 
     <div  id="content" class="fade-in">
+      <!--Comment form will be displayed here if user is logged in.-->
+      <div id="comment-form" class="center"></div>
 
-      <form class="center" action="/new-comment" method="POST">
-        <label for="comment-input">Leave a comment!</label>
-        <br>
-        <textarea id="comment-input" name="comment" rows="3" required></textarea>
-        <br>
-        <label for="name-input" hidden="true">Your Name (Optional)</label>
-        <textarea id="name-input" name="name" type="text" rows="1" placeholder="Your Name (Optional)"></textarea>
-        <br>
-        <input type="submit" class="btn btn-outline-secondary" />
-      </form>
-      
+      <!--Displays either a login or log out button depending on if user is logged in.-->
+      <div id="login-container" class="center"></div>
+
       <br>
       <label for="max-num-comments">Number of Comments to Display</label>
       <select id="max-num-comments" name="max-num-comments" class="custom-select" onchange="loadComments()">
