@@ -1,18 +1,18 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <meta charset="UTF-8">
+    <meta charset="UTF-8" />
     <title>My Portfolio</title>
-    <link rel="stylesheet" href="style.css">
-    <link rel="stylesheet" href="bootstrap.min.css">
+    <link rel="stylesheet" href="style.css" />
+    <link rel="stylesheet" href="bootstrap.min.css" />
     <script src="script.js"></script>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script> 
-    <script> 
-      $(function(){
-        $("#navbar-content").load("navbar.html", function() {
-          $('#index').addClass('nav-item active');
-        }); 
-      });
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script>
+      $(function () {
+        $("#navbar-content").load("navbar.html", function () {
+          $("#index").addClass("nav-item active")
+        })
+      })
     </script>
   </head>
 
@@ -22,47 +22,56 @@
 
     <div id="content" class="center fade-in">
       <h1 class="display-3">Hello, World!</h1>
-      
+
       <!--Display slideshow.-->
       <div id="image-slideshow-container">
         <div class="my-slides">
-          <img id="philadelphia-photo" src="/images/places-0.jpg" alt="Philadelphia, PA" width="600px">
+          <img id="philadelphia-photo" src="/images/places-0.jpg" alt="Philadelphia, PA" width="600px" />
           <label for="philadelphia-photo" class="caption">Philadelphia</label>
         </div>
         <div class="my-slides">
-          <img id="delaware-photo" src="/images/places-1.jpg" alt="Lewes, DE" width="600px">
+          <img id="delaware-photo" src="/images/places-1.jpg" alt="Lewes, DE" width="600px" />
           <label for="delaware-photo" class="caption">Lewes, Delaware</label>
         </div>
         <div class="my-slides">
-          <img id="golden-gate-bridge-photo" src="/images/places-2.jpg" alt="Golden Gate Bridge" width="600px">
+          <img id="golden-gate-bridge-photo" src="/images/places-2.jpg" alt="Golden Gate Bridge" width="600px" />
           <label for="golden-gate-bridge-photo" class="caption">Golden Gate Bridge</label>
         </div>
         <div class="my-slides">
-          <img id="fort-mason-photo" src="/images/places-3.jpg" alt="Fort Mason" width="600px">
+          <img id="fort-mason-photo" src="/images/places-3.jpg" alt="Fort Mason" width="600px" />
           <label for="fort-mason-photo" class="caption">Fort Mason</label>
         </div>
         <div class="my-slides">
-          <img id="oracle-park-photo" src="/images/places-4.jpg" alt="Oracle Park" width="600px">
+          <img id="oracle-park-photo" src="/images/places-4.jpg" alt="Oracle Park" width="600px" />
           <label for="oracle-park-photo" class="caption">Oracle Park</label>
         </div>
         <div class="my-slides">
-          <img id="monte-cristi-photo" src="/images/places-5.jpg" alt="Monte Cristi, Dominican Republic" width="600px">
+          <img
+            id="monte-cristi-photo"
+            src="/images/places-5.jpg"
+            alt="Monte Cristi, Dominican Republic"
+            width="600px"
+          />
           <label for="monte-cristi-photo" class="caption">Monte Cristi, DR</label>
         </div>
         <div class="my-slides">
-          <img id="avienda-el-morro-photo" src="/images/places-6.jpg" alt="Avienda El Morro, Dominican Republic" width="600px">
+          <img
+            id="avienda-el-morro-photo"
+            src="/images/places-6.jpg"
+            alt="Avienda El Morro, Dominican Republic"
+            width="600px"
+          />
           <label for="avienda-el-morro-photo" class="caption">Avienda El Morro, DR</label>
         </div>
       </div>
 
       <h2>I'm Kira, an undergrad Computer Science student at Georgia Tech.</h2>
-      <br>
+      <br />
 
       <!-- Display download resume button.-->
       <a href="/files/resume.pdf" download="Kira-Pancha-resume.pdf" type="button" class="btn btn-outline-primary">
         Download my resume
       </a>
-
     </div>
   </body>
 </html>
