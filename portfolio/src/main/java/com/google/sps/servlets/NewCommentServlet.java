@@ -34,10 +34,12 @@ public class NewCommentServlet extends HttpServlet {
   public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
     String content = request.getParameter("comment");
     String name = request.getParameter("name");
+    String email = request.getParameter("email");
     name = name.length() == 0 ? "anonymous" : name;
     Date timestamp = new Date();
 
     Entity commentEntity = new Entity("Comment");
+    commentEntity.setProperty("email", email);
     commentEntity.setProperty("name", name);
     commentEntity.setProperty("content", content);
     commentEntity.setProperty("numLikes", 0);

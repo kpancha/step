@@ -56,13 +56,14 @@ public class ListCommentsServlet extends HttpServlet {
 
     for (Entity entity : resultsIterable) {
       Key key = entity.getKey();
+      String email = (String) entity.getProperty("email");
       String name = (String) entity.getProperty("name");
       String content = (String) entity.getProperty("content");
       int numLikes = (int) (long) entity.getProperty("numLikes");
       Date timestamp = (Date) entity.getProperty("timestamp");
 
       Comment comment =
-          new Comment(name, content, numLikes, timestamp, KeyFactory.keyToString(key));
+          new Comment(email, name, content, numLikes, timestamp, KeyFactory.keyToString(key));
       commentsList.add(comment);
     }
 
