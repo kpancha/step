@@ -16,23 +16,22 @@
  * Cycles through images automatically.
  */
 function slideShow(imgIndex = 0) {
-
   const slides = document.getElementsByClassName('my-slides');
-  
+
   // If there are no images, end function.
   if (slides.length === 0) {
     return;
   }
-  
-  for (let slide of slides) {
+
+  for (const slide of slides) {
     slide.style.display = 'none';
   }
-  
+
   // Ensure image index is in bounds.
   if (imgIndex > slides.length - 1) {
     imgIndex = 0;
   }
-  
+
   slides[imgIndex].style.display = '';
 
   // Delay next function call so image is displayed for 5 seconds.
@@ -40,22 +39,20 @@ function slideShow(imgIndex = 0) {
   setTimeout(function() {
     slideShow(imgIndex);
   }, 5000);
-
 }
 
 /**
  * Displays only courses that are part of a specified class.
  */
 function filterCourseDisplay(courseType = 'course') {
-
   const allCourses = document.getElementsByClassName('course');
 
   // Display courses in courseType class and hide the rest.
-  for (let course of allCourses) {
+  for (const course of allCourses) {
     if (course.classList.contains(courseType)) {
-        course.style.display = '';
+      course.style.display = '';
     } else {
-        course.style.display = 'none';
+      course.style.display = 'none';
     }
   }
 }
@@ -66,12 +63,12 @@ function filterCourseDisplay(courseType = 'course') {
 function loadComments() {
   const maxCommentsPerPage = parseInt(document.getElementById('max-num-comments').value) || Number.MAX_VALUE;
   const sortOrder = document.getElementById('sort-order').value;
-  let url = '/list-comments?sort-order=' + sortOrder;
+  const url = '/list-comments?sort-order=' + sortOrder;
   fetch(url)
-    .then(response => response.json())
-    .then((data) => {
-      showNextNComments(data, /* startInd= */ 0, maxCommentsPerPage);
-    });
+      .then((response) => response.json())
+      .then((data) => {
+        showNextNComments(data, /* startInd= */ 0, maxCommentsPerPage);
+      });
 }
 
 /**
@@ -79,37 +76,37 @@ function loadComments() {
  */
 function showNextNComments(allComments, startInd, maxNumDisplayed) {
   const display = document.getElementById('comment-container');
-    display.innerHTML = '';
-    
-    for (let i = startInd; i < allComments.length && i < startInd + maxNumDisplayed; i++) {
-      const comment = allComments[i];
+  display.innerHTML = '';
 
-      const likeButton = createLikeButton();
-      likeButton.addEventListener('click', () => sendLike(comment));
+  for (let i = startInd; i < allComments.length && i < startInd + maxNumDisplayed; i++) {
+    const comment = allComments[i];
 
-      const deleteButton = createDeleteButton();
-      deleteButton.addEventListener('click', () => deleteComment(comment));
+    const likeButton = createLikeButton();
+    likeButton.addEventListener('click', () => sendLike(comment));
 
-      const commentElement = createCommentElement(comment);
-      commentElement.appendChild(likeButton);
-      commentElement.appendChild(deleteButton);
-      display.appendChild(commentElement);
-    }
+    const deleteButton = createDeleteButton();
+    deleteButton.addEventListener('click', () => deleteComment(comment));
 
-    const remainingLeft = startInd > 0;
-    const leftButton = createNextButton(/* direction= */ 'l', /* isValid= */ remainingLeft);
-    if (remainingLeft) {
-      leftButton.addEventListener('click', () => 
-          showNextNComments(allComments, startInd - maxNumDisplayed, maxNumDisplayed))
-    }
-    const remainingRight = startInd + maxNumDisplayed < allComments.length;
-    const rightButton = createNextButton(/* direction= */ 'r', /* isValid= */ remainingRight);
-    if (remainingRight) {
-      rightButton.addEventListener('click', () => 
-          showNextNComments(allComments, startInd + maxNumDisplayed, maxNumDisplayed))
-    }
-    display.appendChild(leftButton);
-    display.appendChild(rightButton);
+    const commentElement = createCommentElement(comment);
+    commentElement.appendChild(likeButton);
+    commentElement.appendChild(deleteButton);
+    display.appendChild(commentElement);
+  }
+
+  const remainingLeft = startInd > 0;
+  const leftButton = createNextButton(/* direction= */ 'l', /* isValid= */ remainingLeft);
+  if (remainingLeft) {
+    leftButton.addEventListener('click', () =>
+      showNextNComments(allComments, startInd - maxNumDisplayed, maxNumDisplayed));
+  }
+  const remainingRight = startInd + maxNumDisplayed < allComments.length;
+  const rightButton = createNextButton(/* direction= */ 'r', /* isValid= */ remainingRight);
+  if (remainingRight) {
+    rightButton.addEventListener('click', () =>
+      showNextNComments(allComments, startInd + maxNumDisplayed, maxNumDisplayed));
+  }
+  display.appendChild(leftButton);
+  display.appendChild(rightButton);
 }
 
 /**
@@ -119,7 +116,7 @@ function deleteComment(comment) {
   const params = new URLSearchParams();
   params.append('comment-key', comment.key);
   fetch('/delete-comment', {method: 'POST', body: params})
-    .then(() => loadComments());
+      .then(() => loadComments());
 }
 
 /**
@@ -129,7 +126,7 @@ function sendLike(comment) {
   const params = new URLSearchParams();
   params.append('comment-key', comment.key);
   fetch('/add-like', {method: 'POST', body: params})
-    .then(() => loadComments());
+      .then(() => loadComments());
 }
 
 /**
@@ -194,7 +191,7 @@ function createNextButton(direction, isValid) {
  * Fetch states mapped to latitudes and longitudes.
  */
 function fetchStates() {
-  fetch('/random-state').then(response => response.json()).then((states) => {
+  fetch('/random-state').then((response) => response.json()).then((states) => {
     displayNextState( /* stateCoordMap= */ states, /* stateInd= */ 0);
   });
 }
@@ -215,7 +212,7 @@ function displayNextState(stateCoordMap, stateInd) {
   const currState = stateNames[stateInd];
   const currCoords = stateCoordMap[currState];
   createInteractiveMap(currCoords, stateCoordMap, stateInd);
-  
+
   const nameDisplay = document.createElement('h6');
   nameDisplay.innerHTML = currState;
   stateElement.appendChild(nameDisplay);
@@ -244,7 +241,7 @@ function createGameMarker(lat, lng, targetCoords, map, stateCoordMap=null, state
   }
   const greenIcon = 'images/green-icon.png';
   const marker = new google.maps.Marker({position: {lat, lng}, map});
-  
+
   // If the user clicks on the correct capital, a green location marker is used.
   // Otherwise, the default red marker is used.
   if (isInBounds) {
@@ -274,53 +271,53 @@ function createInteractiveMap(targetCoords=null, stateCoordMap=null, stateInd=0)
   const latLngCoords = createLatLng(/* lat= */ 40, /* lng= */ -100);
   const mapTypeControlOptions = {mapTypeIds: ['roadmap', 'satellite']};
   const map = createMap('interactive-map', latLngCoords, /* zoom= */ 4, mapTypeControlOptions);
-  
+
   map.addListener('click', (event) => {
     createGameMarker(event.latLng.lat(), event.latLng.lng(), targetCoords, map, stateCoordMap, stateInd);
   });
 }
 
-/** 
+/**
  * Adds a map to a specific HTML element.
 */
 function createMap(mapContainer, center, zoom, mapTypeControlOptions) {
   const map = new google.maps.Map(document.getElementById(mapContainer), {
-    center, zoom, mapTypeControlOptions
+    center, zoom, mapTypeControlOptions,
   });
   return map;
 }
 
-/** 
- * Creates a retro themed map with markers and adds it to the page. 
+/**
+ * Creates a retro themed map with markers and adds it to the page.
 */
 function createStaticMap() {
   const styledMapType = new google.maps.StyledMapType([
-      {"elementType": "geometry","stylers": [{"color": "#ebe3cd"}]},
-      {"elementType": "labels.text.fill","stylers": [{"color": "#523735"}]},
-      {"elementType": "labels.text.stroke","stylers": [{"color": "#f5f1e6"}]},
-      {"featureType": "administrative","elementType": "geometry.stroke","stylers": [{"color": "#c9b2a6"}]},
-      {"featureType": "administrative.land_parcel","elementType": "geometry.stroke","stylers": [{"color": "#dcd2be"}]},
-      {"featureType": "administrative.land_parcel","elementType": "labels.text.fill","stylers": [{"color": "#ae9e90"}]},
-      {"featureType": "landscape.natural","elementType": "geometry","stylers": [{"color": "#dfd2ae"}]},
-      {"featureType": "poi","elementType": "geometry","stylers": [{"color": "#dfd2ae"}]},
-      {"featureType": "poi","elementType": "labels.text.fill","stylers": [{"color": "#93817c"}]},
-      {"featureType": "poi.park","elementType": "geometry.fill","stylers": [{"color": "#a5b076"}]},
-      {"featureType": "poi.park","elementType": "labels.text.fill","stylers": [{"color": "#447530"}]},
-      {"featureType": "road","elementType": "geometry","stylers": [{"color": "#f5f1e6"}]},
-      {"featureType": "road.arterial","elementType": "geometry","stylers": [{"color": "#fdfcf8"}]},
-      {"featureType": "road.highway","elementType": "geometry","stylers": [{"color": "#f8c967"}]},
-      {"featureType": "road.highway","elementType": "geometry.stroke","stylers": [{"color": "#e9bc62"}]},
-      {"featureType": "road.highway.controlled_access","elementType": "geometry","stylers": [{"color": "#e98d58"}]},
-      {"featureType": "road.highway.controlled_access","elementType": "geometry.stroke","stylers": [{"color": "#db8555"}]},
-      {"featureType": "road.local","elementType": "labels.text.fill","stylers": [{"color": "#806b63"}]},
-      {"featureType": "transit.line","elementType": "geometry","stylers": [{"color": "#dfd2ae"}]},
-      {"featureType": "transit.line","elementType": "labels.text.fill","stylers": [{"color": "#8f7d77"}]},
-      {"featureType": "transit.line","elementType": "labels.text.stroke","stylers": [{"color": "#ebe3cd"}]},
-      {"featureType": "transit.station","elementType": "geometry","stylers": [{"color": "#dfd2ae"}]},
-      {"featureType": "water","elementType": "geometry.fill","stylers": [{"color": "#b9d3c2"}]},
-      {"featureType": "water","elementType": "labels.text.fill","stylers": [{"color": "#92998d"}]}],
-      {name: 'Retro Map'});
-  
+    {'elementType': 'geometry', 'stylers': [{'color': '#ebe3cd'}]},
+    {'elementType': 'labels.text.fill', 'stylers': [{'color': '#523735'}]},
+    {'elementType': 'labels.text.stroke', 'stylers': [{'color': '#f5f1e6'}]},
+    {'featureType': 'administrative', 'elementType': 'geometry.stroke', 'stylers': [{'color': '#c9b2a6'}]},
+    {'featureType': 'administrative.land_parcel', 'elementType': 'geometry.stroke', 'stylers': [{'color': '#dcd2be'}]},
+    {'featureType': 'administrative.land_parcel', 'elementType': 'labels.text.fill', 'stylers': [{'color': '#ae9e90'}]},
+    {'featureType': 'landscape.natural', 'elementType': 'geometry', 'stylers': [{'color': '#dfd2ae'}]},
+    {'featureType': 'poi', 'elementType': 'geometry', 'stylers': [{'color': '#dfd2ae'}]},
+    {'featureType': 'poi', 'elementType': 'labels.text.fill', 'stylers': [{'color': '#93817c'}]},
+    {'featureType': 'poi.park', 'elementType': 'geometry.fill', 'stylers': [{'color': '#a5b076'}]},
+    {'featureType': 'poi.park', 'elementType': 'labels.text.fill', 'stylers': [{'color': '#447530'}]},
+    {'featureType': 'road', 'elementType': 'geometry', 'stylers': [{'color': '#f5f1e6'}]},
+    {'featureType': 'road.arterial', 'elementType': 'geometry', 'stylers': [{'color': '#fdfcf8'}]},
+    {'featureType': 'road.highway', 'elementType': 'geometry', 'stylers': [{'color': '#f8c967'}]},
+    {'featureType': 'road.highway', 'elementType': 'geometry.stroke', 'stylers': [{'color': '#e9bc62'}]},
+    {'featureType': 'road.highway.controlled_access', 'elementType': 'geometry', 'stylers': [{'color': '#e98d58'}]},
+    {'featureType': 'road.highway.controlled_access', 'elementType': 'geometry.stroke', 'stylers': [{'color': '#db8555'}]},
+    {'featureType': 'road.local', 'elementType': 'labels.text.fill', 'stylers': [{'color': '#806b63'}]},
+    {'featureType': 'transit.line', 'elementType': 'geometry', 'stylers': [{'color': '#dfd2ae'}]},
+    {'featureType': 'transit.line', 'elementType': 'labels.text.fill', 'stylers': [{'color': '#8f7d77'}]},
+    {'featureType': 'transit.line', 'elementType': 'labels.text.stroke', 'stylers': [{'color': '#ebe3cd'}]},
+    {'featureType': 'transit.station', 'elementType': 'geometry', 'stylers': [{'color': '#dfd2ae'}]},
+    {'featureType': 'water', 'elementType': 'geometry.fill', 'stylers': [{'color': '#b9d3c2'}]},
+    {'featureType': 'water', 'elementType': 'labels.text.fill', 'stylers': [{'color': '#92998d'}]}],
+  {name: 'Retro Map'});
+
   const latLngCoords = createLatLng(/* lat= */ 40, /* lng= */ -100);
   const mapTypeControlOptions = {mapTypeIds: ['roadmap', 'satellite', 'styled_map']};
 
@@ -330,7 +327,7 @@ function createStaticMap() {
 
   // Set markers with corresponding icons
   const placesLivedMarkers = getPlacesLivedMarkers();
-  const houseIcon = 'images/house.svg'
+  const houseIcon = 'images/house.svg';
   setMarkers(map, placesLivedMarkers, houseIcon);
 
   const travelMarkers = getTravelMarkers();
@@ -345,7 +342,7 @@ function createStaticMap() {
  * Puts all markers from an array onto a map with the same icon.
  */
 function setMarkers(map, markers, icon=null) {
-  for (let marker of markers) {
+  for (const marker of markers) {
     marker.setIcon(icon);
     marker.setMap(map);
   }
@@ -404,7 +401,7 @@ function getPlacesLivedMarkers() {
  * Returns an array of markers for places traveled to.
  */
 function getTravelMarkers() {
-  const travelMarkers = []
+  const travelMarkers = [];
 
   const rehobothLatlng = createLatLng(/* lat= */ 38.72, /* lng= */ -75.08);
   const rehobothInfo = createInfoWindow('I love to go to my grandparents\' beach house.');
@@ -418,8 +415,8 @@ function getTravelMarkers() {
 
   const drLatlng = createLatLng(/* lat= */ 18.74, /* lng= */ -70.16);
   const drInfo = createInfoWindow(
-      'I\'ve been here twice! Punta Cana for my 15th birthday and ' + 
-      'Monte Cristi for a service trip with Outreach360.'
+      'I\'ve been here twice! Punta Cana for my 15th birthday and ' +
+      'Monte Cristi for a service trip with Outreach360.',
   );
   const drMarker = createMarker(drLatlng, 'My first solo international flight', drInfo);
   travelMarkers.push(drMarker);
@@ -431,31 +428,31 @@ function getTravelMarkers() {
 
   const costaRicaLatlng = createLatLng(/* lat= */ 9.75, /* lng= */ -83.75);
   const costaRicaInfo = createInfoWindow(
-      'My Girl Scout troop went on a trip to Costa Rica in high school.' + 
-      'We stayed in a lodge in the rainforest that was only accessible by raft!'
+      'My Girl Scout troop went on a trip to Costa Rica in high school.' +
+      'We stayed in a lodge in the rainforest that was only accessible by raft!',
   );
   const costaRicaMarker = createMarker(costaRicaLatlng, 'Pura vida', costaRicaInfo);
   travelMarkers.push(costaRicaMarker);
 
   const caymanLatlng = createLatLng(/* lat= */ 19.32, /* lng= */ -81.24);
   const caymanInfo = createInfoWindow(
-      'My mom and I went to Grand Cayman for a weekend for my 13th birthday.'
+      'My mom and I went to Grand Cayman for a weekend for my 13th birthday.',
   );
   const caymanMarker = createMarker(caymanLatlng, 'The clearest water I\'ve ever seen!', caymanInfo);
   travelMarkers.push(caymanMarker);
 
   const alaskaLatlng = createLatLng(/* lat= */ 64.20, /* lng= */ -149.49);
   const alaskaInfo = createInfoWindow(
-      'Alaska is my favorite U.S. state I\'ve been to!' + 
-      ' We went to Denali, Anchorage, Skagway, and Juneau.'
+      'Alaska is my favorite U.S. state I\'ve been to!' +
+      ' We went to Denali, Anchorage, Skagway, and Juneau.',
   );
   const alaskaMarker = createMarker(alaskaLatlng, 'My first and only cruise', alaskaInfo);
   travelMarkers.push(alaskaMarker);
 
   const chennaiLatlng = createLatLng(/* lat= */ 13.08, /* lng= */ 80.27);
   const chennaiInfo = createInfoWindow(
-      'My family tries to go to India every other year.' + 
-      ' We stay in the same house that my dad grew up in.'
+      'My family tries to go to India every other year.' +
+      ' We stay in the same house that my dad grew up in.',
   );
   const chennaiMarker = createMarker(chennaiLatlng, 'I\'ve been here 8 times!', chennaiInfo);
   travelMarkers.push(chennaiMarker);
@@ -463,7 +460,7 @@ function getTravelMarkers() {
   const beijingLatlng = createLatLng(/* lat= */ 39.90, /* lng= */ 116.41);
   const beijingInfo = createInfoWindow(
       '7-year-old Kira wanted to take a slide down from the Great Wall,' +
-      'but we ended up taking the steps. How boring.'
+      'but we ended up taking the steps. How boring.',
   );
   const beijingMarker = createMarker(beijingLatlng, 'We were here a few months before the Olympics', beijingInfo);
   travelMarkers.push(beijingMarker);
@@ -486,7 +483,7 @@ function getTravelMarkers() {
   const parisLatlng = createLatLng(/* lat= */ 48.85, /* lng= */ 2.35);
   const parisInfo = createInfoWindow(
       'We were only in Paris for a weekend, but it happened to be the weekend of Bastille Day and ' +
-      'the World Cup final! We walked about 10 miles each day while we were there.'
+      'the World Cup final! We walked about 10 miles each day while we were there.',
   );
   const parisMarker = createMarker(parisLatlng, 'I was here the day France won the world cup!', parisInfo);
   travelMarkers.push(parisMarker);
@@ -504,15 +501,15 @@ function getTravelMarkers() {
   const switzLatlng = createLatLng(/* lat= */ 46.82, /* lng= */ 8.23);
   const switzInfo = createInfoWindow(
       'I travelled to Switzerland once with my family and then 12 years later on a school trip!' +
-      ' It is one of the most beautiful places I have ever been to.'  
+      ' It is one of the most beautiful places I have ever been to.',
   );
   const switzMarker = createMarker(switzLatlng, 'I got to go here twice!', switzInfo);
   travelMarkers.push(switzMarker);
 
   const portugalLatlng = createLatLng(/* lat= */ 39.40, /* lng= */ -8.22);
   const portugalInfo = createInfoWindow(
-      'I was 6 when we went to Portugal. All I remember was the bakery on the beach' + 
-      ' where we would get these delicious chocolate croissants.'
+      'I was 6 when we went to Portugal. All I remember was the bakery on the beach' +
+      ' where we would get these delicious chocolate croissants.',
   );
   const portugalMarker = createMarker(portugalLatlng, 'I accidentally nearly drowned my uncle here', portugalInfo);
   travelMarkers.push(portugalMarker);

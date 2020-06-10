@@ -1,17 +1,17 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <meta charset="UTF-8">
+    <meta charset="UTF-8" />
     <title>Projects</title>
-    <link rel="stylesheet" href="style.css">
-    <link rel="stylesheet" href="bootstrap.min.css">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script> 
-    <script> 
-      $(function(){
-        $("#navbar-content").load("navbar.html", function() {
-          $('#projects').addClass('nav-item active');
-        }); 
-      });
+    <link rel="stylesheet" href="style.css" />
+    <link rel="stylesheet" href="bootstrap.min.css" />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script>
+      $(function () {
+        $("#navbar-content").load("navbar.html", function () {
+          $("#projects").addClass("nav-item active")
+        })
+      })
     </script>
   </head>
 
@@ -21,16 +21,15 @@
 
     <div id="content" class="fade-in">
       <h1 class="center">Personal Projects</h1>
-      <br>
+      <br />
       <div class="grid-container">
-          
         <a href="https://github.com/kpancha/capital-won" target="_blank">
           <div class="grid-item">
             <h3>Budgeting Android App</h3>
             <p>
-              An Android app that implements an algorithm to budget user's spending in order to save a target amount of money.
-              The interface displays a visual representation of the user's progress towards the goal.
-              Built during the Capital One SES Hackathon.
+              An Android app that implements an algorithm to budget user's spending in order to save a target amount of
+              money. The interface displays a visual representation of the user's progress towards the goal. Built
+              during the Capital One SES Hackathon.
             </p>
             <p>
               Technologies used: Android Studio, Java, XML, Nessie API
@@ -42,7 +41,8 @@
           <div class="grid-item">
             <h3>Jeopardy Question Search Web App</h3>
             <p>
-              A web app designed to filter through past Jeopardy trivia questions based on category, question value, and date aired.
+              A web app designed to filter through past Jeopardy trivia questions based on category, question value, and
+              date aired.
             </p>
             <p>
               Technologies used: Express, Node.js, Heroku, jService.io
@@ -54,8 +54,9 @@
           <div class="grid-item">
             <h3>Clickstream Data Analysis</h3>
             <p>
-              Refactored existing e-commerce site to send Kafka messages tracking items viewed, added to cart, and purchased by user.
-              Sends messages to the corresponding category with information about the product along with user ID and time of the event.
+              Refactored existing e-commerce site to send Kafka messages tracking items viewed, added to cart, and
+              purchased by user. Sends messages to the corresponding category with information about the product along
+              with user ID and time of the event.
             </p>
             <p>
               Technologies used: Kafka, Express, Node.js, JSON
@@ -67,7 +68,7 @@
           <div class="grid-item">
             <h3>Space Trader Desktop Game</h3>
             <p>
-                Technologies used: Java, JavaFX
+              Technologies used: Java, JavaFX
             </p>
           </div>
         </a>

@@ -1,18 +1,18 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <meta charset="UTF-8">
+    <meta charset="UTF-8" />
     <title>Courses</title>
-    <link rel="stylesheet" href="style.css">
-    <link rel="stylesheet" href="bootstrap.min.css">
+    <link rel="stylesheet" href="style.css" />
+    <link rel="stylesheet" href="bootstrap.min.css" />
     <script src="script.js"></script>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script> 
-    <script> 
-      $(function(){
-        $("#navbar-content").load("navbar.html", function() {
-          $('#courses').addClass('nav-item active');
-        }); 
-      });
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script>
+      $(function () {
+        $("#navbar-content").load("navbar.html", function () {
+          $("#courses").addClass("nav-item active")
+        })
+      })
     </script>
   </head>
 
@@ -22,7 +22,7 @@
 
     <div id="content" class="fade-in">
       <h1 class="center">College-Level STEM Courses</h1>
-      <br>
+      <br />
       <!--Display buttons indicating category to filter by.-->
       <div class="btn-toolbar" role="toolbar" aria-label="Course filters">
         <div class="btn-group" role="group" aria-label="Subject">
@@ -32,9 +32,13 @@
           <button type="button" class="btn btn-secondary" onclick="filterCourseDisplay('physics')">Physics</button>
         </div>
         <div class="btn-group" role="group" aria-label="Semester">
-          <button type="button" class="btn btn-secondary" onclick="filterCourseDisplay('spring-20')">Spring 2020</button>
+          <button type="button" class="btn btn-secondary" onclick="filterCourseDisplay('spring-20')">
+            Spring 2020
+          </button>
           <button type="button" class="btn btn-secondary" onclick="filterCourseDisplay('fall-19')">Fall 2019</button>
-          <button type="button" class="btn btn-secondary" onclick="filterCourseDisplay('spring-19')">Spring 2019</button>
+          <button type="button" class="btn btn-secondary" onclick="filterCourseDisplay('spring-19')">
+            Spring 2019
+          </button>
           <button type="button" class="btn btn-secondary" onclick="filterCourseDisplay('fall-18')">Fall 2018</button>
         </div>
         <div class="btn-group" role="group" aria-label="Programming language">
@@ -43,7 +47,7 @@
           <button type="button" class="btn btn-secondary" onclick="filterCourseDisplay('c')">C</button>
         </div>
       </div>
-      
+
       <!--Unordered list of all courses.-->
       <ul>
         <li class="course cs spring-20 python">
@@ -68,7 +72,7 @@
           <h4>Discrete Math <small class="text-muted">CS 2050</small></h4>
         </li>
         <li class="course math fall-19">
-         <h4>Statistics and Applications <small class="text-muted">ISYE 3770</small></h4>
+          <h4>Statistics and Applications <small class="text-muted">ISYE 3770</small></h4>
         </li>
         <li class="course cs spring-19 java">
           <h4>Intro to OOP <small class="text-muted">CS 1331</small></h4>
