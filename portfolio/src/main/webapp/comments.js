@@ -1,8 +1,16 @@
 /**
- * Fetch login status from server.
+ * Fetch login status from server and return JSON response.
  */
-function fetchLoginStatus() {
-  fetch('/login').then(response => response.json()).then((user) => {
+async function fetchLoginStatus() {
+  const response = await fetch('/login');
+    return await response.json();
+}
+
+/**
+ * Display login or log out button depending on login status.
+ */
+function getLoginStatusAndButton() {
+  fetchLoginStatus().then((user) => {
     if (user.userEmail) {
       displayCommentInputField(user.userEmail);
       displayLoginButton(user.redirectUrl, /* logout= */ true);
@@ -115,7 +123,12 @@ function showNextNComments(allComments, startInd, maxNumDisplayed) {
 
       const commentElement = createCommentElement(comment);
       commentElement.appendChild(likeButton);
-      commentElement.appendChild(deleteButton);
+
+      fetchLoginStatus().then((user) => {
+        if (user.userEmail && user.userEmail == comment.email) {
+          commentElement.appendChild(deleteButton);
+        }
+      });
       display.appendChild(commentElement);
     }
 
