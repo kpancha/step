@@ -19,9 +19,9 @@ import com.google.appengine.api.datastore.DatastoreServiceFactory;
 import com.google.appengine.api.datastore.Entity;
 import com.google.gson.Gson;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -40,7 +40,7 @@ public class NewCommentServlet extends HttpServlet {
     String name = request.getParameter("name");
     String email = request.getParameter("email");
     name = name.length() == 0 ? "anonymous" : name;
-    List<String> userLikes = new ArrayList<>();
+    Set<String> userLikes = new HashSet<>();
     Date timestamp = new Date();
 
     Entity commentEntity = new Entity("Comment");

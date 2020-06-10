@@ -24,10 +24,9 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import java.io.IOException;
 import java.lang.reflect.Type;
-import java.util.ArrayList;
-import java.util.Arrays;
+import java.util.HashSet;
 import java.util.logging.Level;
-import java.util.List;
+import java.util.Set;
 import java.util.logging.Logger;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -48,13 +47,13 @@ public class AddLikeServlet extends HttpServlet {
     String userEmail = request.getParameter("user-email");
 
     Key key = KeyFactory.stringToKey(stringifiedKey);
-    Type listType = new TypeToken<List<String>>(){}.getType();
+    Type setType = new TypeToken<Set<String>>(){}.getType();
     try {
       Entity retrievedComment = datastore.get(key);
       int numLikes = (int) (long) retrievedComment.getProperty("numLikes");
-      List<String> userLikes = gson.fromJson((String) retrievedComment.getProperty("userLikes"), listType);
+      Set<String> userLikes = gson.fromJson((String) retrievedComment.getProperty("userLikes"), setType);
       if (userLikes == null) { 
-        userLikes = new ArrayList<String>(); 
+        userLikes = new HashSet<String>(); 
       }
       userLikes.add(userEmail);
       numLikes++;

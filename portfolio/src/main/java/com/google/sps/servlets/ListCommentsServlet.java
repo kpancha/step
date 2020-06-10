@@ -31,6 +31,7 @@ import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Set;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -56,7 +57,7 @@ public class ListCommentsServlet extends HttpServlet {
 
     List<Comment> commentsList = new ArrayList<>();
     Iterable<Entity> resultsIterable = results.asIterable();
-    Type listType = new TypeToken<List<String>>(){}.getType();
+    Type setType = new TypeToken<Set<String>>(){}.getType();
 
     for (Entity entity : resultsIterable) {
       Key key = entity.getKey();
@@ -64,7 +65,7 @@ public class ListCommentsServlet extends HttpServlet {
       String name = (String) entity.getProperty("name");
       String content = (String) entity.getProperty("content");
       int numLikes = (int) (long) entity.getProperty("numLikes");
-      List<String> userLikes = gson.fromJson((String) entity.getProperty("userLikes"), listType);
+      Set<String> userLikes = gson.fromJson((String) entity.getProperty("userLikes"), setType);
       Date timestamp = (Date) entity.getProperty("timestamp");
 
       Comment comment =
