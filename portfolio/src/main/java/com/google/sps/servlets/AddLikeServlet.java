@@ -20,8 +20,14 @@ import com.google.appengine.api.datastore.Entity;
 import com.google.appengine.api.datastore.EntityNotFoundException;
 import com.google.appengine.api.datastore.Key;
 import com.google.appengine.api.datastore.KeyFactory;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import java.io.IOException;
+import java.lang.reflect.Type;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.logging.Level;
+import java.util.List;
 import java.util.logging.Logger;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -34,17 +40,26 @@ public class AddLikeServlet extends HttpServlet {
 
   private final DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
   private static final Logger LOGGER = Logger.getLogger(AddLikeServlet.class.getName());
+  private final Gson gson = new Gson();
 
   @Override
   public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
     String stringifiedKey = request.getParameter("comment-key");
+    String userEmail = request.getParameter("user-email");
 
     Key key = KeyFactory.stringToKey(stringifiedKey);
+    Type listType = new TypeToken<List<String>>(){}.getType();
     try {
       Entity retrievedComment = datastore.get(key);
       int numLikes = (int) (long) retrievedComment.getProperty("numLikes");
+      List<String> userLikes = gson.fromJson((String) retrievedComment.getProperty("userLikes"), listType);
+      if (userLikes == null) { 
+        userLikes = new ArrayList<String>(); 
+      }
+      userLikes.add(userEmail);
       numLikes++;
       retrievedComment.setProperty("numLikes", numLikes);
+      retrievedComment.setProperty("userLikes", gson.toJson(userLikes));
       datastore.put(retrievedComment);
     } catch (EntityNotFoundException e) {
       LOGGER.log(Level.WARNING, "Entity could not be found in datastore: " + e.getMessage());

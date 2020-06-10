@@ -23,9 +23,11 @@ import com.google.appengine.api.datastore.PreparedQuery;
 import com.google.appengine.api.datastore.Query;
 import com.google.appengine.api.datastore.Query.SortDirection;
 import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import com.google.sps.data.Comment;
 import java.io.IOException;
 import java.lang.Iterable;
+import java.lang.reflect.Type; 
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -39,6 +41,7 @@ import javax.servlet.http.HttpServletResponse;
 public class ListCommentsServlet extends HttpServlet {
 
   private final DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
+  private final Gson gson = new Gson();
 
   @Override
   public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
@@ -53,6 +56,7 @@ public class ListCommentsServlet extends HttpServlet {
 
     List<Comment> commentsList = new ArrayList<>();
     Iterable<Entity> resultsIterable = results.asIterable();
+    Type listType = new TypeToken<List<String>>(){}.getType();
 
     for (Entity entity : resultsIterable) {
       Key key = entity.getKey();
@@ -60,14 +64,15 @@ public class ListCommentsServlet extends HttpServlet {
       String name = (String) entity.getProperty("name");
       String content = (String) entity.getProperty("content");
       int numLikes = (int) (long) entity.getProperty("numLikes");
+      List<String> userLikes = gson.fromJson((String) entity.getProperty("userLikes"), listType);
       Date timestamp = (Date) entity.getProperty("timestamp");
 
       Comment comment =
-          new Comment(email, name, content, numLikes, timestamp, KeyFactory.keyToString(key));
+          new Comment(email, name, content, numLikes, userLikes, timestamp, KeyFactory.keyToString(key));
       commentsList.add(comment);
     }
 
-    String jsonComments = new Gson().toJson(commentsList);
+    String jsonComments = gson.toJson(commentsList);
     response.setContentType("application/json;");
     response.getWriter().println(jsonComments);
   }
