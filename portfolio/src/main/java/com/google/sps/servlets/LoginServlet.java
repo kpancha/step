@@ -29,7 +29,7 @@ import javax.servlet.http.HttpServletResponse;
 /** Handles logging in and out. */
 public class LoginServlet extends HttpServlet {
   
-  private Map<String, String> userInfo = new HashMap<>();
+  private final Map<String, String> userInfo = new HashMap<>();
   private final Gson gson = new Gson();
   private final UserService userService = UserServiceFactory.getUserService();
   
@@ -49,6 +49,5 @@ public class LoginServlet extends HttpServlet {
       userInfo.put("redirectUrl", loginUrl);
       response.getWriter().println(gson.toJson(userInfo));
     }
-    //response.sendRedirect("/comments.html");
   }
 }
