@@ -35,7 +35,6 @@ public class NewCommentServlet extends HttpServlet {
     String content = request.getParameter("comment");
     String name = request.getParameter("name");
     String email = request.getParameter("email");
-    System.out.println(email);
     name = name.length() == 0 ? "anonymous" : name;
     Date timestamp = new Date();
 
