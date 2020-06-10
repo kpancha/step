@@ -16,7 +16,10 @@ package com.google.sps.servlets;
 
 import com.google.appengine.api.users.UserService;
 import com.google.appengine.api.users.UserServiceFactory;
+import com.google.gson.Gson;
 import java.io.IOException;
+import java.util.Map;
+import java.util.HashMap;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -26,21 +29,25 @@ import javax.servlet.http.HttpServletResponse;
 /** Handles logging in and out. */
 public class LoginServlet extends HttpServlet {
   
+  private final Map<String, String> userInfo = new HashMap<>();
+  private final Gson gson = new Gson();
   private final UserService userService = UserServiceFactory.getUserService();
   
   @Override
   public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
-    response.setContentType("text/html");
+    response.setContentType("application/json");
 
     if (userService.isUserLoggedIn()) {
       String userEmail = userService.getCurrentUser().getEmail();
-      String logoutUrl = userService.createLogoutURL("/login");
-      response.getWriter().println("<p>Hello " + userEmail + "!</p>");
-      response.getWriter().println("<p>Logout <a href=\"" + logoutUrl + "\">here</a>.</p>");
+      String logoutUrl = userService.createLogoutURL("/comments.html");
+      userInfo.put("userEmail", userEmail);
+      userInfo.put("redirectUrl", logoutUrl);
+      response.getWriter().println(gson.toJson(userInfo));
     } else {
-      String loginUrl = userService.createLoginURL("/login");
-      response.getWriter().println("<p>Hello stranger.</p>");
-      response.getWriter().println("<p>Login <a href=\"" + loginUrl + "\">here</a>.</p>");
+      String loginUrl = userService.createLoginURL("/comments.html");
+      userInfo.put("userEmail", "");
+      userInfo.put("redirectUrl", loginUrl);
+      response.getWriter().println(gson.toJson(userInfo));
     }
   }
 }

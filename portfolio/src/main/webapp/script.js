@@ -61,6 +61,84 @@ function filterCourseDisplay(courseType = 'course') {
 }
 
 /**
+ * Fetch login status from server.
+ */
+function fetchLoginStatus() {
+  fetch('/login').then(response => response.json()).then((user) => {
+    if (user.userEmail) {
+      displayCommentInputField();
+      displayLoginButton(user.redirectUrl, /* logout= */ true);
+    } else {
+      displayLoginButton(user.redirectUrl);
+    }
+  });
+}
+
+/**
+ * Displays a button that redirects to login page.
+ */
+function displayLoginButton(redirectUrl, logout=false) {
+  const loginContainer = document.getElementById('login-container');
+  loginContainer.innerHTML = '';
+  const loginButton = document.createElement('a');
+  loginButton.type = 'button';
+  loginButton.className = 'btn btn-outline-primary';
+  loginButton.innerHTML = logout ? 'Log out' : 'Log in';
+  loginButton.href = redirectUrl;
+  loginContainer.appendChild(loginButton);
+}
+
+/**
+ * Displays text area to leave comment.
+ */
+function displayCommentInputField() {
+  const commentFormContainer = document.getElementById('comment-form');
+  commentFormContainer.innerHTML = '';
+  const breakElement = document.createElement('br');
+
+  const commentForm = document.createElement('form');
+  commentForm.className = 'center';
+  commentForm.action = '/new-comment';
+  commentForm.method = 'POST';
+
+  const commentTextArea = document.createElement('textarea');
+  commentTextArea.id = 'comment-input';
+  commentTextArea.name = 'comment';
+  commentTextArea.rows = 3;
+  commentTextArea.required = true;
+
+  const commentLabel = document.createElement('label');
+  commentLabel.htmlFor = 'comment-input';
+  commentLabel.innerHTML = 'Leave a comment!';
+
+  const nameTextArea = document.createElement('textarea');
+  nameTextArea.id = 'name-input';
+  nameTextArea.name = 'name';
+  nameTextArea.rows = 1;
+  nameTextArea.placeholder = 'Your Name (Optional)';
+
+  const nameLabel = document.createElement('label');
+  nameLabel.htmlFor = 'name-input';
+  nameLabel.hidden = true;
+  nameLabel.innerHTML = 'Your Name (Optional)';
+
+  const submitButton = document.createElement('button');
+  submitButton.type = 'submit';
+  submitButton.innerHTML = 'Post';
+  submitButton.className = 'btn btn-outline-secondary';
+
+  commentForm.appendChild(commentLabel);
+  commentForm.appendChild(breakElement);
+  commentForm.appendChild(commentTextArea);
+  commentForm.appendChild(breakElement.cloneNode(false));
+  commentForm.appendChild(nameLabel);
+  commentForm.appendChild(nameTextArea);
+  commentForm.appendChild(breakElement.cloneNode(false));
+  commentForm.appendChild(submitButton);
+  commentFormContainer.appendChild(commentForm);
+}
+
+/**
  * Fetch comments from server and display on DOM.
  */
 function loadComments() {
