@@ -13,12 +13,10 @@ function getRegionsData() {
   ];
   const regionsKeys = new Map();
   fetch('/map-regions').then(response => response.json()).then((data) => {
-    console.log(data);
     const regions = Object.keys(data);
     for (let region of regions) {
       const currRegionData = [];
       const numVisits = data[region]['numVisits'];
-      console.log(numVisits + ' visits');
       const key = data[region]['key'];
       regionsKeys.set(region, key);
       currRegionData.push(region);
