@@ -20,7 +20,7 @@
     </script>
   </head>
 
-  <body onpageshow="createStaticMap(); createInteractiveMap(); loadGCharts();">
+  <body onload="createStaticMap(); createInteractiveMap(); loadGCharts();">
     <div id="navbar-content"></div>
     <div id="content" class="fade-in center">
       <label for="map">
@@ -41,9 +41,14 @@
       <div id="state-name"></div>
       <div id="interactive-map" class="map"></div>
       <br>
-      <label for="chart-container"><h4>Hello Google Charts :)</h4></label>
+      <label for="chart-container">
+        <h4>Hello Google Charts :)</h4>
+        <p>
+          Now that you've heard about me, I want to know where you've been!
+          Click on all the countries below that you have been to to add to the chart.
+        </p>
+      </label>
       <div id="chart-container"></div>
-      <div id="region-name"></div>
     </div>
   </body>
 </html>
