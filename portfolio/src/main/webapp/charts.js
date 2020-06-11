@@ -22,5 +22,8 @@ function drawChart() {
 
   const chart = new google.visualization.GeoChart(
       document.getElementById('chart-container'));
+  google.visualization.events.addListener(chart, 'regionClick', (event) => {
+    document.getElementById('region-name').innerHTML = event.region;
+  });
   chart.draw(data, options);
 }
