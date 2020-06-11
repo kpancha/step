@@ -1,8 +1,16 @@
 /**
- * Fetch login status from server.
+ * Fetch login status from server and return JSON response.
  */
-function fetchLoginStatus() {
-  fetch('/login').then(response => response.json()).then((user) => {
+async function fetchLoginStatus() {
+  const response = await fetch('/login');
+    return await response.json();
+}
+
+/**
+ * Display login or log out button depending on login status.
+ */
+function getLoginStatusAndButton() {
+  fetchLoginStatus().then((user) => {
     if (user.userEmail) {
       displayCommentInputField(user.userEmail);
       displayLoginButton(user.redirectUrl, /* logout= */ true);
@@ -106,16 +114,21 @@ function showNextNComments(allComments, startInd, maxNumDisplayed) {
     
     for (let i = startInd; i < allComments.length && i < startInd + maxNumDisplayed; i++) {
       const comment = allComments[i];
-
-      const likeButton = createLikeButton();
-      likeButton.addEventListener('click', () => sendLike(comment));
-
-      const deleteButton = createDeleteButton();
-      deleteButton.addEventListener('click', () => deleteComment(comment));
-
       const commentElement = createCommentElement(comment);
-      commentElement.appendChild(likeButton);
-      commentElement.appendChild(deleteButton);
+
+      fetchLoginStatus().then((user) => {
+        if (user.userEmail) {
+          const likeButton = createLikeButton();
+          likeButton.addEventListener('click', () => sendLike(comment));
+          commentElement.appendChild(likeButton);
+          if (user.userEmail == comment.email) {
+            const deleteButton = createDeleteButton();
+            deleteButton.addEventListener('click', () => deleteComment(comment));
+            commentElement.appendChild(deleteButton);
+          }
+        }
+      });
+
       display.appendChild(commentElement);
     }
 
@@ -187,10 +200,11 @@ function createCommentElement(comment) {
 /**
  * Create a like button for a comment.
  */
-function createLikeButton() {
+function createLikeButton(isDisabled=false) {
   const likeButton = document.createElement('button');
   likeButton.innerHTML = 'Like';
   likeButton.className = 'btn btn-success btn-sm';
+  likeButton.disabled = isDisabled;
   return likeButton;
 }
 
