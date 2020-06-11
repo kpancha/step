@@ -79,9 +79,14 @@ function showAlert(alertType, message) {
  * Creates an interactive map.
  */
 function createInteractiveMap(targetCoords=null, stateCoordMap=null, stateInd=0) {
-  const latLngCoords = createLatLng(/* lat= */ 40, /* lng= */ -100);
+  // This sets the view based on what state the user is on. 
+  // If the user is not playing the game, it shows all of the U.S.
+  const lat = targetCoords == null ? 40 : parseFloat(targetCoords['lat'] + Math.random() * 2);
+  const lng = targetCoords == null ? -100 : parseFloat(targetCoords['lng'] + Math.random() * 2);
+  const zoom = targetCoords == null ? 4 : 6;
+  const latLngCoords = createLatLng(lat, lng);
   const mapTypeControlOptions = {mapTypeIds: ['roadmap', 'satellite']};
-  const map = createMap('interactive-map', latLngCoords, /* zoom= */ 4, mapTypeControlOptions);
+  const map = createMap('interactive-map', latLngCoords, zoom, mapTypeControlOptions);
   
   map.addListener('click', (event) => {
     createGameMarker(event.latLng.lat(), event.latLng.lng(), targetCoords, map, stateCoordMap, stateInd);
