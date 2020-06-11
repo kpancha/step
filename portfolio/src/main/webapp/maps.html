@@ -6,8 +6,10 @@
     <link rel="stylesheet" href="bootstrap.min.css">
     <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
     <script src="maps.js"></script>
+    <script src="charts.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script> 
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBBqtlu5Y3Og7lzC1WI9SFHZr2gJ4iDdTc"></script>
+    <script src="https://www.gstatic.com/charts/loader.js"></script>
 
     <script> 
       $(function(){
@@ -18,7 +20,7 @@
     </script>
   </head>
 
-  <body onpageshow="createStaticMap(); createInteractiveMap();">
+  <body onpageshow="createStaticMap(); createInteractiveMap(); loadGCharts();">
     <div id="navbar-content"></div>
     <div id="content" class="fade-in center">
       <label for="map">
@@ -38,6 +40,9 @@
       </label>
       <div id="state-name"></div>
       <div id="interactive-map" class="map"></div>
+      <br>
+      <label for="chart-container"><h4>Hello Google Charts :)</h4></label>
+      <div id="chart-container"></div>
     </div>
   </body>
 </html>
