@@ -25,6 +25,7 @@ function slideShow(imgIndex = 0) {
   }
   
   for (let slide of slides) {
+    slide.hidden = true;
     slide.style.display = 'none';
   }
   
@@ -33,6 +34,7 @@ function slideShow(imgIndex = 0) {
     imgIndex = 0;
   }
   
+  slides[imgIndex].hidden = false;
   slides[imgIndex].style.display = '';
 
   // Delay next function call so image is displayed for 5 seconds.
