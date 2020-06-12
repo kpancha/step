@@ -8,7 +8,7 @@
     <script src="script.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script> 
     <script> 
-      $(function(){
+      $(window).on('load', function(){
         $("#navbar-content").load("navbar.html", function() {
           $('#index').addClass('nav-item active');
         }); 
@@ -16,7 +16,7 @@
     </script>
   </head>
 
-  <body onpageshow="slideShow();">
+  <body onload="slideShow();">
     <!--Display Nav Bar at top of page.-->
     <div id="navbar-content"></div>
 

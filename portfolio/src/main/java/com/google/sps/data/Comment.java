@@ -1,6 +1,7 @@
 package com.google.sps.data;
 
 import java.util.Date;
+import java.util.Set;
 
 /** Class containing information about a comment left on the site. */
 public class Comment {
@@ -9,6 +10,7 @@ public class Comment {
   private final String name;
   private final String content;
   private int numLikes;
+  private final Set<String> userLikes;
   private final Date timestamp;
   private final String key;
 
@@ -21,11 +23,12 @@ public class Comment {
    * @param timestamp time that comment was posted
    * @param key unique identifier for the comment
    */
-  public Comment(String email, String name, String content, int numLikes, Date timestamp, String key) {
+  public Comment(String email, String name, String content, int numLikes, Set<String> userLikes, Date timestamp, String key) {
     this.email = email;
     this.name = name;
     this.content = content;
     this.numLikes = numLikes;
+    this.userLikes = userLikes;
     this.timestamp = timestamp;
     this.key = key;
   }

@@ -17,8 +17,11 @@ package com.google.sps.servlets;
 import com.google.appengine.api.datastore.DatastoreService;
 import com.google.appengine.api.datastore.DatastoreServiceFactory;
 import com.google.appengine.api.datastore.Entity;
+import com.google.gson.Gson;
 import java.io.IOException;
 import java.util.Date;
+import java.util.HashSet;
+import java.util.Set;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -29,6 +32,7 @@ import javax.servlet.http.HttpServletResponse;
 public class NewCommentServlet extends HttpServlet {
 
   private final DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
+  private final Gson gson = new Gson();
 
   @Override
   public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
@@ -36,6 +40,7 @@ public class NewCommentServlet extends HttpServlet {
     String name = request.getParameter("name");
     String email = request.getParameter("email");
     name = name.length() == 0 ? "anonymous" : name;
+    Set<String> userLikes = new HashSet<>();
     Date timestamp = new Date();
 
     Entity commentEntity = new Entity("Comment");
@@ -43,6 +48,7 @@ public class NewCommentServlet extends HttpServlet {
     commentEntity.setProperty("name", name);
     commentEntity.setProperty("content", content);
     commentEntity.setProperty("numLikes", 0);
+    commentEntity.setProperty("userLikes", gson.toJson(userLikes));
     commentEntity.setProperty("timestamp", timestamp);
     datastore.put(commentEntity);
 

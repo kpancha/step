@@ -118,8 +118,9 @@ function showNextNComments(allComments, startInd, maxNumDisplayed) {
 
       fetchLoginStatus().then((user) => {
         if (user.userEmail) {
-          const likeButton = createLikeButton();
-          likeButton.addEventListener('click', () => sendLike(comment));
+          const isDisabled = comment.userLikes && comment.userLikes.includes(user.userEmail);
+          const likeButton = createLikeButton(isDisabled);
+          likeButton.addEventListener('click', () => sendLike(comment, user));
           commentElement.appendChild(likeButton);
           if (user.userEmail == comment.email) {
             const deleteButton = createDeleteButton();
@@ -161,9 +162,10 @@ function deleteComment(comment) {
 /**
  * Sends a post request to increment number of likes on a comment.
  */
-function sendLike(comment) {
+function sendLike(comment, user) {
   const params = new URLSearchParams();
   params.append('comment-key', comment.key);
+  params.append('user-email', user.userEmail);
   fetch('/add-like', {method: 'POST', body: params})
     .then(() => loadComments());
 }
@@ -183,7 +185,7 @@ function createCommentElement(comment) {
   contentElement.innerHTML = comment.content;
 
   const likeElement = document.createElement('p');
-  likeElement.innerHTML = comment.numLikes + ' likes';
+  likeElement.innerHTML = comment.numLikes + ' &#10084;&#65039;';
 
   const timeElement = document.createElement('p');
   timeElement.innerHTML += 'Posted at ' + comment.timestamp;
@@ -213,7 +215,7 @@ function createLikeButton(isDisabled=false) {
  */
 function createDeleteButton() {
   const deleteButton = document.createElement('button');
-  deleteButton.innerHTML = 'Delete';
+  deleteButton.innerHTML = 'Delete my comment';
   deleteButton.className = 'btn btn-danger btn-sm';
   return deleteButton;
 }

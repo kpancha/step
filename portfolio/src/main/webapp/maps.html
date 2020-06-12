@@ -12,7 +12,7 @@
     <script src="https://www.gstatic.com/charts/loader.js"></script>
 
     <script> 
-      $(function(){
+      $(window).on('load', function(){
         $("#navbar-content").load("navbar.html", function() {
           $('#maps').addClass('nav-item active');
         }); 
@@ -20,7 +20,7 @@
     </script>
   </head>
 
-  <body onpageshow="createStaticMap(); createInteractiveMap(); loadGCharts();">
+  <body onload="createStaticMap(); createInteractiveMap(); loadGCharts();">
     <div id="navbar-content"></div>
     <div id="content" class="fade-in center">
       <label for="map">
