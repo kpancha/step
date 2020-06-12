@@ -51,8 +51,8 @@ public class MapRegionsServlet extends HttpServlet {
     int numVisits = 0;
     try {
       if (stringifiedKey != null) {
-      regionEntity = datastore.get(KeyFactory.stringToKey(stringifiedKey));
-      numVisits = (int) (long) regionEntity.getProperty("numVisits");
+        regionEntity = datastore.get(KeyFactory.stringToKey(stringifiedKey));
+        numVisits = (int) (long) regionEntity.getProperty("numVisits");
       }
     } catch (EntityNotFoundException e) {
       LOGGER.log(Level.WARNING, "Entity could not be found in datastore: " + e.getMessage());
@@ -68,6 +68,8 @@ public class MapRegionsServlet extends HttpServlet {
     Query query = new Query("Region");
     PreparedQuery results = datastore.prepare(query);
 
+    // Maps the name of each region to a map containing the number of users who have visited
+    // and the key for that region in the database.
     Map<String, Map<String, String>> regionsMap = new HashMap<>();
     Iterable<Entity> resultsIterable = results.asIterable();
 
