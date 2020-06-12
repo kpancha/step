@@ -98,6 +98,10 @@
   width: 650px;
 }
 
-#map-label {
-  padding-top: 50px;
+.submap-label {
+  padding-top: 100px;
+}
+
+#chart-container {
+  padding-bottom: 100px;
 }
