@@ -28,9 +28,9 @@ function getRegionsData() {
 }
 
 /** Creates a chart and adds it to the page. */
-function drawChart(regionsData, regionsKeys, colorAxis=['OldLace', 'SeaGreen']) {
+function drawChart(regionsData, regionsKeys, colors=['OldLace', 'SeaGreen']) {
   const data = new google.visualization.arrayToDataTable(regionsData);
-  const options = {colorAxis: {colors: colorAxis}};
+  const options = {colorAxis: {colors}};
   const chart = new google.visualization.GeoChart(document.getElementById('chart-container'));
 
   google.visualization.events.addListener(chart, 'regionClick', (event) => {
@@ -43,7 +43,7 @@ function drawChart(regionsData, regionsKeys, colorAxis=['OldLace', 'SeaGreen']) 
     fetch('/map-regions', {method: 'POST', body: params}).then(() => getRegionsData());
   });
   chart.draw(data, options);
-  addColorButton(regionsData, regionsKeys, /* currColor= */ colorAxis[1]);
+  addColorButton(regionsData, regionsKeys, /* currColor= */ colors[1]);
 }
 
 /**
