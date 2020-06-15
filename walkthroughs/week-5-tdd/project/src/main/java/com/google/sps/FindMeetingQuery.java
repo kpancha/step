@@ -24,17 +24,17 @@ import java.util.Set;
 
 public final class FindMeetingQuery {
   public Collection<TimeRange> query(Collection<Event> events, MeetingRequest request) {
-    Set<TimeRange> busyTimesSet = new HashSet<>();
+    Set<TimeRange> busyTimes = new HashSet<>();
     for (Event event : events) {
       if (hasCommonAttendees(event.getAttendees(), request.getAttendees())) {
         TimeRange eventTime = event.getWhen();
-        boolean added = addToBusySet(busyTimesSet, eventTime);
+        boolean added = addToBusySet(busyTimes, eventTime);
         if (!added) {
-          busyTimesSet.add(eventTime);
+          busyTimes.add(eventTime);
         }
       }
     }
-    return findFreeTimes(busyTimesSet, request.getDuration());
+    return findFreeTimes(busyTimes, request.getDuration());
   }
 
   private static boolean hasCommonAttendees(Collection<String> eventAttendees, Collection<String> requestAttendees) {
@@ -43,23 +43,23 @@ public final class FindMeetingQuery {
 
   // Merges a new time range with existing time range in set, if necessary.
   // Returns whether or not the time range was merged.
-  private static boolean addToBusySet(Set<TimeRange> busyTimesSet, TimeRange eventTime) {
-    Iterator iterator = busyTimesSet.iterator();
+  private static boolean addToBusySet(Set<TimeRange> busyTimes, TimeRange eventTime) {
+    Iterator iterator = busyTimes.iterator();
     while (iterator.hasNext()) {
       TimeRange currRange = (TimeRange) iterator.next();
       if (currRange.contains(eventTime)) {
         return true;
       } else if (eventTime.contains(currRange)) {
-        busyTimesSet.remove(currRange);
-        busyTimesSet.add(eventTime);
+        busyTimes.remove(currRange);
+        busyTimes.add(eventTime);
         return true;
       } else if (currRange.overlaps(eventTime)) {
         if (currRange.contains(eventTime.start())) {
-          busyTimesSet.remove(currRange);
-          busyTimesSet.add(TimeRange.fromStartEnd(currRange.start(), eventTime.end(), /* inclusive= */ false));
+          busyTimes.remove(currRange);
+          busyTimes.add(TimeRange.fromStartEnd(currRange.start(), eventTime.end(), /* inclusive= */ false));
         } else {
-          busyTimesSet.remove(currRange);
-          busyTimesSet.add(TimeRange.fromStartEnd(eventTime.start(), currRange.end(), /* inclusive= */ true));
+          busyTimes.remove(currRange);
+          busyTimes.add(TimeRange.fromStartEnd(eventTime.start(), currRange.end(), /* inclusive= */ true));
         }
         return true;
       }
@@ -69,20 +69,20 @@ public final class FindMeetingQuery {
 
   // Takes in a set of busy time ranges to find all free time ranges based on duration of the meeting.
   // Returns all possibilities as a collection.
-  private static Collection<TimeRange> findFreeTimes(Set<TimeRange> busyTimesSet, long duration) {
-    List<TimeRange> busyTimesList = new ArrayList<>(busyTimesSet);
+  private static Collection<TimeRange> findFreeTimes(Set<TimeRange> busyTimes, long meetingDuration) {
+    List<TimeRange> busyTimesList = new ArrayList<>(busyTimes);
     Collections.sort(busyTimesList, TimeRange.ORDER_BY_START);
     Collection<TimeRange> freeTimes = new ArrayList<>();
     int startTime = TimeRange.START_OF_DAY;
     int endTime;
     for (TimeRange busyTime : busyTimesList) {
-      if (busyTime.start() - startTime >= duration) {
+      if (busyTime.start() - startTime >= meetingDuration) {
         endTime = busyTime.start();
         freeTimes.add(TimeRange.fromStartEnd(startTime, endTime, /* inclusive= */ false));
       }
       startTime = busyTime.end();
     }
-    if (TimeRange.END_OF_DAY - startTime >= duration) {
+    if (TimeRange.END_OF_DAY - startTime >= meetingDuration) {
       endTime = TimeRange.END_OF_DAY;
       freeTimes.add(TimeRange.fromStartEnd(startTime, endTime, /* inclusive= */ true));
     }
