@@ -27,14 +27,17 @@ public final class FindMeetingQuery {
     Set<TimeRange> busyTimes = new HashSet<>();
     Set<TimeRange> optionalAttendeeEventTimes = new HashSet<>();
     for (Event event : events) {
+      TimeRange eventTime = event.getWhen();
       if (hasCommonAttendees(event.getAttendees(), request.getAttendees())) {
-        TimeRange eventTime = event.getWhen();
         boolean added = addToBusySet(busyTimes, eventTime);
         if (!added) {
           busyTimes.add(eventTime);
         }
       } else if (hasCommonAttendees(event.getAttendees(), request.getOptionalAttendees())) {
-        optionalAttendeeEventTimes.add(event.getWhen());
+        boolean added = addToBusySet(optionalAttendeeEventTimes, eventTime);
+        if (!added) {
+          optionalAttendeeEventTimes.add(eventTime);
+        }
       }
     }
 
@@ -46,6 +49,18 @@ public final class FindMeetingQuery {
     } else if (request.getOptionalAttendees().size() == 0) {
       return mandatoryFreeTimes;
     }
+
+    Collection<TimeRange> bothFreeTimes = findIntersectionFreeTimes(mandatoryFreeTimes, optionalFreeTimes, request.getDuration());
+    return bothFreeTimes.size() > 0 ? bothFreeTimes : mandatoryFreeTimes;
+  }
+
+  private static boolean hasCommonAttendees(Collection<String> eventAttendees, Collection<String> requestAttendees) {
+    return !Collections.disjoint(eventAttendees, requestAttendees);
+  }
+
+  // Finds all intersections of time ranges that are at least as long as the meeting duration.
+  private static Collection<TimeRange> findIntersectionFreeTimes(
+    List<TimeRange> mandatoryFreeTimes, List<TimeRange> optionalFreeTimes, long meetingDuration) {
     Collection<TimeRange> bothFreeTimes = new ArrayList<>();
     for (TimeRange optionalTime : optionalFreeTimes) {
       Iterator iterator = mandatoryFreeTimes.iterator();
@@ -56,17 +71,13 @@ public final class FindMeetingQuery {
           keepGoing = false;
         } else {
           TimeRange intersection = intersection(optionalTime, mandatoryTime);
-          if (intersection != null && intersection.duration() >= request.getDuration()) {
+          if (intersection != null && intersection.duration() >= meetingDuration) {
             bothFreeTimes.add(intersection);
           }
         }
       }
     }
-    return bothFreeTimes.size() > 0 ? bothFreeTimes : mandatoryFreeTimes;
-  }
-
-  private static boolean hasCommonAttendees(Collection<String> eventAttendees, Collection<String> requestAttendees) {
-    return !Collections.disjoint(eventAttendees, requestAttendees);
+    return bothFreeTimes;
   }
 
   // Merges a new time range with existing time range in set, if necessary.
@@ -118,7 +129,7 @@ public final class FindMeetingQuery {
   }
 
 
-  private TimeRange intersection(TimeRange t1, TimeRange t2) {
+  private static TimeRange intersection(TimeRange t1, TimeRange t2) {
     if (!t1.overlaps(t2)) {
       return null;
     } else if (t1.equals(t2)) {
