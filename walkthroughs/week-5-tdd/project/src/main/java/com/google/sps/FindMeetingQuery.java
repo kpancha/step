@@ -25,6 +25,7 @@ import java.util.Set;
 public final class FindMeetingQuery {
   public Collection<TimeRange> query(Collection<Event> events, MeetingRequest request) {
     Set<TimeRange> busyTimesSet = new HashSet<>();
+    Set<TimeRange> optionalAttendeeEventTimes = new HashSet<>();
     for (Event event : events) {
       if (hasCommonAttendees(event.getAttendees(), request.getAttendees())) {
         TimeRange eventTime = event.getWhen();
@@ -32,11 +33,37 @@ public final class FindMeetingQuery {
         if (!added) {
           busyTimesSet.add(eventTime);
         }
+      } else if (hasCommonAttendees(event.getAttendees(), request.getOptionalAttendees())) {
+        optionalAttendeeEventTimes.add(event.getWhen());
       }
     }
-    return getFreeTimesFromBusySet(busyTimesSet, request.getDuration());
-  }
+    List<TimeRange> optionalFreeTimes = getFreeTimesFromBusySet(optionalAttendeeEventTimes, request.getDuration());
+    List<TimeRange> mandatoryFreeTimes = getFreeTimesFromBusySet(busyTimesSet, request.getDuration());
 
+    if (request.getAttendees().size() == 0) {
+      return optionalFreeTimes;
+    } else if (request.getOptionalAttendees().size() == 0) {
+      return mandatoryFreeTimes;
+    }
+    Collection<TimeRange> bothFreeTimes = new ArrayList<>();
+    for (TimeRange optionalTime : optionalFreeTimes) {
+      Iterator iterator = mandatoryFreeTimes.iterator();
+      boolean keepGoing = true;
+      while (keepGoing && iterator.hasNext()) {
+        TimeRange mandatoryTime = (TimeRange) iterator.next();
+        if (mandatoryTime.end() > optionalTime.end()) {
+          keepGoing = false;
+        } else {
+          TimeRange intersection = intersection(optionalTime, mandatoryTime);
+          if (intersection != null && intersection.duration() >= request.getDuration()) {
+            bothFreeTimes.add(intersection);
+          }
+        }
+      }
+    }
+    return bothFreeTimes.size() > 0 ? bothFreeTimes : mandatoryFreeTimes;
+  }
+  
   private boolean hasCommonAttendees(Collection<String> eventAttendees, Collection<String> requestAttendees) {
     return !Collections.disjoint(eventAttendees, requestAttendees);
   }
@@ -65,10 +92,10 @@ public final class FindMeetingQuery {
     return false;
   }
 
-  private Collection<TimeRange> getFreeTimesFromBusySet(Set<TimeRange> busyTimesSet, long duration) {
+  private List<TimeRange> getFreeTimesFromBusySet(Set<TimeRange> busyTimesSet, long duration) {
     List<TimeRange> busyTimesList = new ArrayList<>(busyTimesSet);
     Collections.sort(busyTimesList, TimeRange.ORDER_BY_START);
-    Collection<TimeRange> freeTimes = new ArrayList<>();
+    List<TimeRange> freeTimes = new ArrayList<>();
     int startTime = TimeRange.START_OF_DAY;
     int endTime;
     for (TimeRange busyTime : busyTimesList) {
@@ -83,5 +110,24 @@ public final class FindMeetingQuery {
       freeTimes.add(TimeRange.fromStartEnd(startTime, endTime, true));
     }
     return freeTimes;
+  }
+
+
+  private TimeRange intersection(TimeRange t1, TimeRange t2) {
+    if (!t1.overlaps(t2)) {
+      return null;
+    } else if (t1.equals(t2)) {
+      return t1;
+    } else if (t1.contains(t2)) {
+      return t2;
+    } else if (t2.contains(t1)) {
+      return t1;
+    } else {
+      if (t1.start() > t2.start()) {
+        return TimeRange.fromStartEnd(t1.start(), t2.end(), true);
+      } else {
+        return TimeRange.fromStartEnd(t2.start(), t1.end(), true);
+      }
+    }
   }
 }
