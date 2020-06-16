@@ -24,34 +24,34 @@ import java.util.Set;
 
 public final class FindMeetingQuery {
   public Collection<TimeRange> query(Collection<Event> events, MeetingRequest request) {
-    Set<TimeRange> busyTimes = new HashSet<>();
-    Set<TimeRange> optionalAttendeeEventTimes = new HashSet<>();
+    Set<TimeRange> mandatoryBusyTimes = new HashSet<>();
+    Set<TimeRange> optionalBusyTimes = new HashSet<>();
     for (Event event : events) {
       TimeRange eventTime = event.getWhen();
       if (hasCommonAttendees(event.getAttendees(), request.getAttendees())) {
-        boolean added = addToBusySet(busyTimes, eventTime);
+        boolean added = addToBusySet(mandatoryBusyTimes, eventTime);
         if (!added) {
-          busyTimes.add(eventTime);
+          mandatoryBusyTimes.add(eventTime);
         }
       } else if (hasCommonAttendees(event.getAttendees(), request.getOptionalAttendees())) {
-        boolean added = addToBusySet(optionalAttendeeEventTimes, eventTime);
+        boolean added = addToBusySet(optionalBusyTimes, eventTime);
         if (!added) {
-          optionalAttendeeEventTimes.add(eventTime);
+          optionalBusyTimes.add(eventTime);
         }
       }
     }
 
-    List<TimeRange> optionalFreeTimes = findFreeTimes(optionalAttendeeEventTimes, request.getDuration());
-    List<TimeRange> mandatoryFreeTimes = findFreeTimes(busyTimes, request.getDuration());
+    List<TimeRange> optionalFreeTimes = findFreeTimes(optionalBusyTimes, request.getDuration());
+    List<TimeRange> mandatoryFreeTimes = findFreeTimes(mandatoryBusyTimes, request.getDuration());
 
-    if (request.getAttendees().size() == 0) {
+    if (request.getAttendees().isEmpty()) {
       return optionalFreeTimes;
-    } else if (request.getOptionalAttendees().size() == 0) {
+    } else if (request.getOptionalAttendees().isEmpty()) {
       return mandatoryFreeTimes;
     }
 
     Collection<TimeRange> bothFreeTimes = findIntersectionFreeTimes(mandatoryFreeTimes, optionalFreeTimes, request.getDuration());
-    return bothFreeTimes.size() > 0 ? bothFreeTimes : mandatoryFreeTimes;
+    return bothFreeTimes.isEmpty() ? mandatoryFreeTimes : bothFreeTimes;
   }
 
   private static boolean hasCommonAttendees(Collection<String> eventAttendees, Collection<String> requestAttendees) {
@@ -70,7 +70,7 @@ public final class FindMeetingQuery {
         if (mandatoryTime.end() > optionalTime.end()) {
           keepGoing = false;
         } else {
-          TimeRange intersection = intersection(optionalTime, mandatoryTime);
+          TimeRange intersection = optionalTime.intersection(mandatoryTime);
           if (intersection != null && intersection.duration() >= meetingDuration) {
             bothFreeTimes.add(intersection);
           }
@@ -107,7 +107,7 @@ public final class FindMeetingQuery {
   }
 
   // Takes in a set of busy time ranges to find all free time ranges based on duration of the meeting.
-  // Returns all possibilities as a collection.
+  // Returns all possibilities as a list.
   private static List<TimeRange> findFreeTimes(Set<TimeRange> busyTimes, long meetingDuration) {
     List<TimeRange> busyTimesList = new ArrayList<>(busyTimes);
     Collections.sort(busyTimesList, TimeRange.ORDER_BY_START);
@@ -126,24 +126,5 @@ public final class FindMeetingQuery {
       freeTimes.add(TimeRange.fromStartEnd(startTime, endTime, /* inclusive= */ true));
     }
     return freeTimes;
-  }
-
-
-  private static TimeRange intersection(TimeRange t1, TimeRange t2) {
-    if (!t1.overlaps(t2)) {
-      return null;
-    } else if (t1.equals(t2)) {
-      return t1;
-    } else if (t1.contains(t2)) {
-      return t2;
-    } else if (t2.contains(t1)) {
-      return t1;
-    } else {
-      if (t1.start() > t2.start()) {
-        return TimeRange.fromStartEnd(t1.start(), t2.end(), /* inclusive= */ true);
-      } else {
-        return TimeRange.fromStartEnd(t2.start(), t1.end(), /* inclusive= */ true);
-      }
-    }
   }
 }
