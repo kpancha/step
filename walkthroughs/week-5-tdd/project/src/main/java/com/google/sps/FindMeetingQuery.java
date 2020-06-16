@@ -140,9 +140,9 @@ public final class FindMeetingQuery {
       return t1;
     } else {
       if (t1.start() > t2.start()) {
-        return TimeRange.fromStartEnd(t1.start(), t2.end(), true);
+        return TimeRange.fromStartEnd(t1.start(), t2.end(), /* inclusive= */ true);
       } else {
-        return TimeRange.fromStartEnd(t2.start(), t1.end(), true);
+        return TimeRange.fromStartEnd(t2.start(), t1.end(), /* inclusive= */ true);
       }
     }
   }
