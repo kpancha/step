@@ -73,10 +73,24 @@ public final class FindMeetingQuery {
     return mandatoryFreeTimes;
   }
 
+  /**
+   * Determines if two collections of attendees have any attendees in common.
+   *
+   * @param eventAttendees    a collection of attendees for a certain event
+   * @param requestAttendees  a collection of the requested attendees for the meeting
+   * @return                  whether or not the two collections have at least one attendee in common
+   */
   private static boolean hasCommonAttendees(Collection<String> eventAttendees, Collection<String> requestAttendees) {
     return !Collections.disjoint(eventAttendees, requestAttendees);
   }
 
+  /**
+   * Finds all common attendees between two collections.
+   *
+   * @param eventAttendees    a collection of attendees for a certain event
+   * @param requestAttendees  a collection of the requested attendees for the meeting
+   * @return                  a collection of all the attendees that are in both collections
+   */
   private static Collection<String> getCommonAttendees(Collection<String> eventAttendees, Collection<String> requestAttendees) {
     Collection<String> commonAttendees = new HashSet<>();
     for (String person : eventAttendees) {
@@ -87,7 +101,14 @@ public final class FindMeetingQuery {
     return commonAttendees;
   }
 
-  // Returns a nested list where the index of each list represents that index + 1 optional attendees can attend those times.
+  /**
+   * Creates a nested list where the index i of each list represents that 
+   * i + 1 optional attendees can attend the times listed at that index.
+   *
+   * @param optionalBusyTimesMap  maps each optional attendee's name to a set of the time ranges when they are busy
+   * @param meetingDuration       length of the requested meeting
+   * @return                      a nested list containing each time range at its corresponding index
+   */
   private static List<List<TimeRange>> makeOptionalFreeTimesList(
       Map<String, Set<TimeRange>> optionalBusyTimesMap, long meetingDuration) {
     List<List<TimeRange>> optionalFreeTimes = new ArrayList<>();
@@ -104,7 +125,14 @@ public final class FindMeetingQuery {
     return optionalFreeTimes;
   }
 
-  // Adds a time range to a nested list at the appropriate index.
+  /**
+   * Adds a free time range to a nested list at the appropriate index.
+   *
+   * @param optionalFreeTimes     nested list to add the time range to
+   * @param freeRange             time range to be added
+   * @param numOptionalAttendees  total number of optional attendees
+   * @param meetingDuration       length of the requested meeting
+   */
   private static void addToFreeTimesList(
       List<List<TimeRange>> optionalFreeTimes, TimeRange freeRange, int numOptionalAttendees, long meetingDuration) {
     for (int i = numOptionalAttendees - 2; i >= 0; i--) {
@@ -120,7 +148,14 @@ public final class FindMeetingQuery {
     }
   }
 
-  // Finds all intersections of time ranges that are at least as long as the meeting duration.
+  /**
+   * Finds all intersections of time ranges that are at least as long as the requested meeting duration.
+   *
+   * @param mandatoryFreeTimes  list of time ranges when all mandatory attendees are free
+   * @param optionalFreeTimes   list of times when optional attendees are free
+   * @param meetingDuration     length of requested meeting
+   * @return                    a list containing the intersections between the two lists
+   */
   private static List<TimeRange> findIntersectionFreeTimes(
       List<TimeRange> mandatoryFreeTimes, List<TimeRange> optionalFreeTimes, long meetingDuration) {
     List<TimeRange> bothFreeTimes = new ArrayList<>();
@@ -141,8 +176,13 @@ public final class FindMeetingQuery {
     return bothFreeTimes;
   }
 
-  // Merges a new time range with existing time range in collection, if necessary.
-  // Returns whether or not the time range was merged.
+  /**
+   * Merges a new time range with an overlapping time range in the collection, if possible.
+   * 
+   * @param busyTimes   collection to be altered that contains time intervals that can be merged
+   * @param eventTime   new time range to be merged
+   * @return            whether or not the time range was merged
+   */
   private static boolean addToBusySet(Collection<TimeRange> busyTimes, TimeRange eventTime) {
     Iterator iterator = busyTimes.iterator();
     while (iterator.hasNext()) {
@@ -167,8 +207,13 @@ public final class FindMeetingQuery {
     return false;
   }
 
-  // Takes in a collection of busy time ranges to find all free time ranges based on duration of the meeting.
-  // Returns all possibilities as a list.
+  /**
+   * Takes in a collection of busy time ranges to find all free time ranges based on duration of the meeting.
+   * 
+   * @param busyTimes        collection of busy time ranges
+   * @param meetingDuration  length of requested meeting
+   * @return                 a list containing all free time ranges for the meeting
+   */
   private static List<TimeRange> findFreeTimes(Collection<TimeRange> busyTimes, long meetingDuration) {
     List<TimeRange> busyTimesList = new ArrayList<>(busyTimes);
     Collections.sort(busyTimesList, TimeRange.ORDER_BY_START);
