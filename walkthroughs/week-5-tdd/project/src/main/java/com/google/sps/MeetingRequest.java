@@ -46,6 +46,9 @@ public final class MeetingRequest {
    * Returns a read-only copy of the people who are optional to attend this meeting.
    */
   public Collection<String> getOptionalAttendees() {
+    if (optional_attendees == null) {
+      return Collections.unmodifiableCollection(new HashSet<>());
+    }
     return Collections.unmodifiableCollection(optional_attendees);
   }
 
