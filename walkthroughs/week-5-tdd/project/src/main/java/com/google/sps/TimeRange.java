@@ -87,9 +87,9 @@ public final class TimeRange {
       return other;
     } else {
       if (this.start() > other.start()) {
-        return TimeRange.fromStartEnd(this.start(), other.end(), /* inclusive= */ true);
+        return TimeRange.fromStartEnd(this.start(), other.end(), /* inclusive= */ false);
       } else {
-        return TimeRange.fromStartEnd(other.start(), this.end(), /* inclusive= */ true);
+        return TimeRange.fromStartEnd(other.start(), this.end(), /* inclusive= */ false);
       }
     }
   }
