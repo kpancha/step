@@ -227,7 +227,6 @@ public final class FindMeetingQueryTest {
 
   @Test
   public void ignoresPeopleNotAttending() {
-    System.out.println("start");
     // Add an event, but make the only attendee someone different from the person looking to book
     // a meeting. This event should not affect the booking.
     Collection<Event> events = Arrays.asList(new Event("Event 1",
@@ -237,7 +236,6 @@ public final class FindMeetingQueryTest {
     Collection<TimeRange> actual = query.query(events, request);
     Collection<TimeRange> expected = Arrays.asList(TimeRange.WHOLE_DAY);
 
-    System.out.println("end");
     Assert.assertEquals(expected, actual);
   }
 
