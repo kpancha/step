@@ -76,25 +76,6 @@ public final class TimeRange {
   }
 
   /**
-   * Returns the intersection of two time ranges and null if there is no intersection.
-   */
-  public TimeRange intersection(TimeRange other) {
-    if (!this.overlaps(other)) {
-      return null;
-    } else if (this.equals(other) || other.contains(this)) {
-      return this;
-    } else if (this.contains(other)) {
-      return other;
-    } else {
-      if (this.start() > other.start()) {
-        return TimeRange.fromStartEnd(this.start(), other.end(), /* inclusive= */ false);
-      } else {
-        return TimeRange.fromStartEnd(other.start(), this.end(), /* inclusive= */ false);
-      }
-    }
-  }
-
-  /**
    * Checks if two ranges overlap. This means that at least some part of one range falls within the
    * bounds of another range.
    */
