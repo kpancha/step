@@ -304,7 +304,7 @@ public final class FindMeetingQueryTest {
 
     Assert.assertEquals(expected, actual);
   }
-/*
+
   @Test
   public void optionalAttendeeIsConsidered() {
     // Have each person have different events. 
@@ -330,7 +330,7 @@ public final class FindMeetingQueryTest {
     Collection<TimeRange> expected =
         Arrays.asList(TimeRange.fromStartEnd(TimeRange.START_OF_DAY, TIME_0800AM, false),
             TimeRange.fromStartEnd(TIME_0930AM, TimeRange.END_OF_DAY, true));
-    
+
     Assert.assertEquals(expected, actual);
   }
 
@@ -476,6 +476,6 @@ public final class FindMeetingQueryTest {
         Arrays.asList(TimeRange.fromStartEnd(TIME_0900AM, TIME_1000AM, false),
             TimeRange.fromStartEnd(TIME_0930AM, TimeRange.END_OF_DAY, true));
     Assert.assertEquals(expected, actual);
-  }*/
+  }
 }
 
